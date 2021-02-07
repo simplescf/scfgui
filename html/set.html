@@ -1,0 +1,2298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>配置</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/uikit.css">
+  <link rel="stylesheet" href="../assets/css/styles.op-app.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/offcanvas.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="../assets/vendor/animate.css">
+  <link rel="stylesheet" href="../assets/vendor/hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" href="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../assets/vendor/slick-carousel/slick/slick.css">
+
+
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="../assets/vendor/cubeportfolio-full/cubeportfolio/css/cubeportfolio.min.css">
+
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/loadcircle.css">
+  <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body id="bbody">
+  <main id="main">
+
+    <div class="w-100 text-center" v-if="isload">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div style="display: none;" v-show="!isload">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5 g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">遵循MIT软件协议</p>
+          </div>
+
+        </div>
+      </div>
+
+      <section id="appScreens" class="g-pos-rel">
+
+        <div class="g-pos-rel" style="display: none; " v-show="!isload"
+          style="background-image: url(../assets/img/bg/pattern5.png);">
+
+          <ul
+            class="g-z-index-9999 list-inline g-brd-bottom--sm g-brd-gray-light-v3 g-px-20 g-pt-20 g-mb-0 g-pos-fix g-top-0 w-100 g-bg-white">
+            <li class="list-inline-item g-py-10 g-pr-10 g-mb-0--sm">
+              <a :class="state.navCate=='persion'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13 "
+                @click="uiSwitchNav('persion')" href="#!">个人项目列表</a>
+            </li>
+            <li class="list-inline-item g-pb-10 g-px-10 g-mb-0--sm">
+              <a :class="state.navCate=='team'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13"
+                @click="uiSwitchNav('team')" href="#!">团队项目列表</a>
+            </li>
+            <li class="list-inline-item g-pb-10 g-pl-10 g-mb-0--sm">
+              <a :class="state.navCate=='add'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13"
+                href="#!" @click="uiSwitchNav('add')">创建项目</a>
+            </li>
+            <li class="list-inline-item g-pb-10 g-pl-10 g-mb-0--sm">
+              <a :class="state.navCate=='desc'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13"
+                href="#!" @click="uiSwitchNav('desc')">使用介绍</a>
+            </li>
+          </ul>
+          <ul class=" list-inline g-brd-bottom--sm g-brd-gray-light-v3 g-px-20 g-pt-20 g-mb-0">
+            <li class="list-inline-item g-py-10 g-pr-10 g-mb-0--sm">
+              <a :class="state.navCate=='single'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13 "
+                @click="uiSwitchNav('single')" href="#!">个人项目列表</a>
+            </li>
+            <li class="list-inline-item g-pb-10 g-px-10 g-mb-0--sm">
+              <a :class="state.navCate=='team'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13"
+                @click="uiSwitchNav('team')" href="#!">团队项目列表</a>
+            </li>
+            <li class="list-inline-item g-pb-10 g-pl-10 g-mb-0--sm">
+              <a :class="state.navCate=='add'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13"
+                href="#!" @click="uiSwitchNav('add')">创建项目</a>
+            </li>
+            <li class="list-inline-item g-pb-10 g-pl-10 g-mb-0--sm">
+              <a :class="state.navCate=='desc'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
+                class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13"
+                href="#!" @click="uiSwitchNav('desc')">使用介绍</a>
+            </li>
+          </ul>
+
+
+          <div class="row g-bg-secondary" v-show="state.navCate=='desc'"
+            style="background-image: url(../assets/include/svg/svg-bg1.svg);">
+
+            <div class="col-12 text-center g-mt-40 g-font-size-20 g-font-weight-600 g-color-black">SCFGUI入门概述</div>
+
+
+            <div class="col-2"></div>
+            <div class=" col-8">
+              <div class="text-center g-color-black g-font-size-15">拒绝晦涩易错命令行模式,一切图形化界面一键搞定,从DOS到Windows的效率提升,轻松用SCF
+              </div>
+
+              <div class="row g-mt-50">
+
+                <!-- <div class="col-4 g-mb-30">
+                  <article class="u-block-hover u-shadow-v29--hover g-bg-main--hover rounded">
+                    <div class="d-flex align-items-center g-brd-bottom g-brd-2 g-brd-primary g-pb-20 g-mb-20">
+                      <span
+                        class="align-middle u-icon-v3 u-icon-size--xs g-color-white ss_main_bg_color rounded-circle mr-2">
+                        <i class="icon-education-102 u-line-icon-pro"></i>
+                      </span>
+                      <h3 class="d-inline-block  g-font-weight-600 g-transition-0_3 mb-0 ss_main_color">安全</h3>
+                    </div>
+
+                    <span
+                      class="d-block g-font-weight-600 g-font-size-12 text-uppercase g-transition-0_3 mb-2">敏感信息RSA加密,密钥自己持有,保证信息安全,还支持部署私有服务器</span>
+                    <a class="u-link-v2" href="#"></a>
+                  </article>
+                  
+                </div>
+
+                <div class="col-4 g-mb-30">
+                  
+                  <article class="u-block-hover u-shadow-v29--hover g-bg-main--hover rounded">
+                    <div class="d-flex align-items-center g-brd-bottom g-brd-2 g-brd-primary g-pb-20 g-mb-20">
+                      <span
+                        class="align-middle u-icon-v3 u-icon-size--xs g-color-white g-bg-primary rounded-circle mr-2">
+                        <i class="icon-education-102 u-line-icon-pro"></i>
+                      </span>
+                      <h3 class="d-inline-block  g-font-weight-600 g-transition-0_3 mb-0 ss_main_color">便捷</h3>
+                    </div>
+                    <span
+                      class="d-block g-font-weight-600 g-font-size-12 text-uppercase g-transition-0_3 mb-2">项目信息云同步,随时随地可用</span>
+                    <a class="u-link-v2" href="#"></a>
+                  </article>
+                  
+                </div>
+
+                <div class="col-4 g-mb-30">
+                  
+                  <article class="u-block-hover u-shadow-v29--hover g-bg-main--hover rounded">
+                    <div class="d-flex align-items-center g-brd-bottom g-brd-2 g-brd-primary g-pb-20 g-mb-20">
+                      <span
+                        class="align-middle u-icon-v3 u-icon-size--xs g-color-white g-bg-primary rounded-circle mr-2">
+                        <i class="icon-education-102 u-line-icon-pro"></i>
+                      </span>
+                      <h3 class="d-inline-block  g-font-weight-600 g-transition-0_3 mb-0">简单</h3>
+                    </div>
+                    <span
+                      class="d-block g-font-weight-600 g-font-size-12 text-uppercase g-transition-0_3 mb-2">各项操作和配置提供GUI工具,简单易用不出错</span>
+                    <a class="u-link-v2" href="#"></a>
+                  </article>
+                  
+                </div>
+
+                <div class="col-4 g-mb-30">
+                  
+                  <article class="u-block-hover u-shadow-v29--hover g-bg-main--hover rounded">
+                    <div class="d-flex align-items-center g-brd-bottom g-brd-2 g-brd-primary g-pb-20 g-mb-20">
+                      <span
+                        class="align-middle u-icon-v3 u-icon-size--xs g-color-white g-bg-primary rounded-circle mr-2">
+                        <i class="icon-education-102 u-line-icon-pro"></i>
+                      </span>
+                      <h3 class="d-inline-block  g-font-weight-600 g-transition-0_3 mb-0">贴心</h3>
+                    </div>
+                    <span
+                      class="d-block g-font-weight-600 g-font-size-12 text-uppercase g-transition-0_3 mb-2">我们对Serverless
+                      Framework二次开发,强化密钥保密,支持函数级权限管理</span>
+                    <a class="u-link-v2" href="#"></a>
+                  </article>
+                  
+                </div>
+
+                <div class="col-4 g-mb-30">
+                  <article class="u-block-hover u-shadow-v29--hover g-bg-main--hover rounded">
+                    <div class="d-flex align-items-center g-brd-bottom g-brd-2 g-brd-primary g-pb-20 g-mb-20">
+                      <span
+                        class="align-middle u-icon-v3 u-icon-size--xs g-color-white g-bg-primary rounded-circle mr-2">
+                        <i class="icon-education-102 u-line-icon-pro"></i>
+                      </span>
+                      <h3 class="d-inline-block  g-font-weight-600 g-transition-0_3 mb-0">透明</h3>
+                    </div>
+                    <span
+                      class="d-block g-font-weight-600 g-font-size-12 text-uppercase g-transition-0_3 mb-2">SCFGUI客户端和服务器全开源,无黑盒</span>
+                    <a class="u-link-v2" href="#"></a>
+                  </article>
+                </div> -->
+
+
+
+                <div class="col-8">
+                  <div class="g-font-weight-600 g-font-size-16 g-color-black">个人项目<small class="g-font-weight-600"> -
+                      不用学习即可玩转SCF开发</small></div>
+                  <div>云自动同步SCF函数配置,项目随人走,随时随地跨系统跨设备使用</div>
+                  <div>单人开发项目使用,让你无需SCF任何知识即可像专家一样玩转腾讯云SCF</div>
+                  <div>提供完整的GUI支持,SCF开发\部署和运维就是这么快捷简单, 支持自动化部署\调试\自动化SCF函数管理\运行分析\运维图表展示等功能</div>
+                </div>
+                <div class="col-1"></div>
+                <img src="./img/per.png" alt="" class="col-3">
+              </div>
+
+              <div class="row g-mt-50">
+                <img src="./img/co.svg" alt="" class="col-4">
+                <div class="col-8">
+                  <div class="g-font-weight-600 g-font-size-16 g-color-black">团队项目<small class="g-font-weight-600"> -
+                      SCF协作就是如此简单高效</small></div>
+                  <div>
+                    完全不同的为SCF定制的团队协作,创建团队类型的项目后,该项目就可以支持多人协作.通过设置的成员邮箱列表,对应的成员自动加入团队项目中.团队人员权限分为"超级管理员","项目管理员","普通成员",不同的权限保护函数配置.
+                    成员之间一键同步最新函数配置,无需担心配置不同步.最新配置自动云保存. 支持预定于SCF函数和接口,并指派给特定的成员</div>
+                </div>
+              </div>
+
+
+              <div class="row g-mt-50">
+                <div class="col-8">
+                  <div class="g-font-weight-600 g-font-size-16 g-color-black">专注<small class="g-font-weight-600"> -
+                      专注腾讯云SCF和小项目</small></div>
+                  <div>SCFGUI只聚焦于腾讯云SCF和小成本开发项目,提供高效\便捷\简单的SCF可视化开发工具,让小项目更方便更低成本.专注让工具更实用,专注使我们更理解产品和客户需求.</div>
+                </div>
+                <img src="./img/focus.svg" alt="" class="col-4">
+              </div>
+
+
+              <div class="row g-mt-50">
+                <img src="./img/safe.svg" alt="" class="col-4">
+                <div class="col-8">
+                  <div class="g-font-weight-600 g-font-size-16 g-color-black">信息安全<small class="g-font-weight-600"> -
+                      不遗余力保障信息安全</small></div>
+                  <div>敏感信息如APPID通过RSA密钥对加密传输和保存.密钥对在客户端直接生成且不传送到云服务器,除了您任何人包括我们都无法解密被加密的信息.</div>
+                  <div>团队项目中,仅超级管理员可以通过公钥更改敏感配置.为支持部署,其他成员仅支持部署时通过私钥解密敏感信息,且关键敏感信息不可见.</div>
+                  <div>我们云服务器完全不接触您的密钥对,丢失后只能全部重置信息,请谨慎保存和发送密钥对信息</div>
+                </div>
+
+              </div>
+
+
+              <div class="row g-mt-50">
+
+                <div class="col-8">
+                  <div class="g-font-weight-600 g-font-size-16 g-color-black">SCF全生命周期支持<small
+                      class="g-font-weight-600"> - 不知不觉提升项目效率</small></div>
+                  <div>为互联网项目而做,SCFGUI工具对个人项目和团队项目全生命周期支持,让每个步骤贯串全周期,快速开发的同时又不降低质量.</div>
+                  <div>项目周期中的协作/设计/开发/调试/部署/运维各步骤,依据实际使用习惯整合到工具中,无缝对您进行支持.贯串整个SCF项目开发周期.</div>
+                </div>
+                <img src="./img/cir.png" alt="" class="col-4">
+              </div>
+
+              <div class="w-100 text-center g-mt-40 g-font-size-20 g-font-weight-600 g-color-black">客户案例</div>
+
+              <div class="row g-mt-20">
+
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/muse.png" alt="Image Description"></div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/museqr.jpg" alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">长沙酒吧娱乐</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB/桌面版</em>
+                      </div>
+                      <div>长沙MUSE\SCHOOL连锁酒吧</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="Electron桌面版">
+                            <i class="fa fa-desktop"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/yigong.png" alt="Image Description">
+                      </div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/yigongqr.jpg"
+                              alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">蚁工网络</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB/IOS
+                          APP/Android APP</em>
+                      </div>
+                      <div>滴滴版的在线家政服务平台</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="IOS APP">
+                            <i class="fa fa-apple"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="Android APP">
+                            <i class="fa fa-android"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/weixiusi.jpg" alt="Image Description">
+                      </div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/weixiusiqr.jpg"
+                              alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">笔记本维修厮</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序</em>
+                      </div>
+                      <div>头条44万粉丝电脑维修网红</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/yidu.png" alt="Image Description"></div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/yiduqr.jpg" alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">亿都房地产</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序</em>
+                      </div>
+                      <div>亿都房地产集团在线售房</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/zoufang.png" alt="Image Description">
+                      </div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/zoufangqr.jpg"
+                              alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">上池走方</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB</em>
+                      </div>
+                      <div>江西中医药大学科技学院</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/shian.png" alt="Image Description"></div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/shianqr.jpg" alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">农特原产地安全食品商城</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB</em>
+                      </div>
+                      <div>江西中医药大学科技学院</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/ads.JPG" alt="Image Description"></div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/adsqr.jpg" alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">小助君广告系统</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB</em>
+                      </div>
+                      <div>小助君一键检测广告违规项</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/scf.png" alt="Image Description"></div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/scf.png" alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">SIMPLE SCF框架</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB</em>
+                      </div>
+                      <div>SCFGUI联动的SCF快速开发框架</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-4 g-mb-30 ">
+
+                  <div class="u-info-v1-2 u-shadow-v1-3 g-bg-white g-pa-20">
+
+                    <figure class="u-block-hover">
+                      <div class="text-center"><img class="w-75" src="./img/co/panzi.png" alt="Image Description"></div>
+                      <figcaption class="u-block-hover__additional--fade">
+                        <div class="u-block-hover__additional--fade u-block-hover__additional--fade-down g-flex-middle">
+                          <div class="text-center"><img class="w-75" src="./img/co/panziqr.jpg" alt="Image Description">
+                          </div>
+                        </div>
+                      </figcaption>
+                    </figure>
+
+                    <div class="g-mt-15">
+                      <div class="g-mb-15">
+                        <h4 class="h5 g-color-black g-mb-5 u-info-v1-2__ite">盘子文娱</h4>
+                        <em
+                          class="d-block u-info-v1-2__item g-font-style-normal g-font-size-11 text-uppercase g-color-primary">小程序/WEB</em>
+                      </div>
+                      <div>"时代影视杂志社"官方小程序</div>
+                      <hr class="g-brd-gray-light-v4 g-my-20">
+                      <ul class="list-inline mb-0 text-center">
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="微信小程序">
+                            <i class="fa fa-wechat"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item g-mx-2">
+                          <a class="u-icon-v2 u-icon-size--sm g-color-main g-bg-gray-light-v5 g-brd-gray-light-v5 g-bg-primary--hover g-color-white--hover rounded-circle"
+                            href="#!" data-toggle="tooltip" data-original-title="WEB网站">
+                            <i class="fa fa-internet-explorer"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+            </div>
+            <div class="col-2"></div>
+          </div>
+
+          <div class="row g-py-40" v-show="state.navCate=='add'">
+            <div class="col-2"></div>
+            <div class="col-8 g-pos-rel">
+
+              <div class="form-group g-mb-20">
+                <label class="g-mb-10" for="inputGroup1_1">项目名称</label>
+                <input v-model="addproject.projectname" class="form-control form-control-md rounded-0" type="text"
+                  placeholder="项目名称">
+                <small class="form-text text-muted g-font-size-default g-color-red" v-show="false">项目名称不能为空</small>
+              </div>
+
+              <div class="form-group g-mb-20">
+                <label class="g-mb-10" for="inputGroup1_1">项目描述</label>
+                <input v-model="addproject.projectdesc" class="form-control form-control-md rounded-0" type="text"
+                  placeholder="项目描述">
+              </div>
+
+
+              <div class="g-pos-rel">
+                <div v-if="!addproject.confirmrsa"
+                  class="g-pos-abs g-top-0 g-left-0 w-100 g-z-index-99 g-bg-black-opacity-0_7 g-height-100x g-color-white text-center justify-content-center">
+                  <i class="fa fa-lock g-font-size-30  g-mt-50"></i>
+                  <div class="g-font-weight-600 g-font-size-20">安全重要事项</div>
+                  <div>通过RSA算法加密来保障敏感信息的安全</div>
+                  <div class="g-font-weight-600">密钥由客户端生成,保存在您的用户数据文件夹,服务器不接触</div>
+                  <div>请自行永久保存密钥,我们不接触您的密钥,更无法帮您找回密钥或解密数据</div>
+                  <label class="form-check-inline u-check g-pl-25">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                      v-model="addproject.allowrsa">
+                    <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                      <i class="fa" data-check-icon=""></i>
+                    </div>
+                    我已知悉,会妥善保存密钥
+                  </label>
+                  <div>
+                    <button :disabled="!addproject.allowrsa||addproject.randrsaing"
+                      class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color" @click="uiRandRsa">
+                      <i class="fa fa-spinner fa-spin"
+                        v-if="addproject.randrsaing"></i>{{addproject.randrsaing?'正在生成密钥':'确定生成密钥'}}</button>
+                  </div>
+                </div>
+
+
+                <div class="" for="inputGroup1_1">公钥</div>
+                <small
+                  class="form-text text-muted g-font-size-default g-mb-10">加密密钥,用以更新关键项目配置,团队项目中请勿发送给非管理员的成员</small>
+                <div class="input-group g-brd-primary--focus g-pos-rel g-mb-20">
+                  <div
+                    class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-py-12">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <textarea class="form-control form-control-md g-resize-none rounded-0" rows="4" placeholder="待生成"
+                    v-model="addproject.publickey"></textarea>
+                </div>
+
+                <div class="" for="inputGroup1_1">私钥</div>
+                <small
+                  class="form-text text-muted g-font-size-default  g-mb-10">解密密钥,用以解密配置信息以便于开发,团队项目中发送给团队成员,解密出的敏感信息不可见</small>
+                <div class="input-group g-brd-primary--focus g-pos-rel g-mb-20">
+                  <div
+                    class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-py-12">
+                    <i class="fa fa-unlock-alt"></i>
+                  </div>
+                  <textarea class="form-control form-control-md g-resize-none rounded-0" rows="4" placeholder="待生成"
+                    v-model="addproject.privatekey"></textarea>
+                </div>
+              </div>
+
+
+              <div class="form-group  g-mb-20 ">
+                <div class="g-mb-10" for="inputGroup1_1">类型</div>
+
+                <div
+                  class="btn-group justified-content g-bg-gray-light-v4 g-pa-2 justify-content-center g-width-200 g-rounded-5">
+                  <label class="u-check g-mb-0">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="projectcate" type="radio"
+                      value="persion" v-model="addproject.projectcate">
+                    <span
+                      class="btn btn- btn-block g-bg-gray-light-v4 g-color-main--checked g-bg-white--checked g-rounded-left-5">个人项目</span>
+                  </label>
+                  <label class="u-check g-mb-0">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="projectcate" value="team"
+                      v-model="addproject.projectcate" type="radio">
+                    <span
+                      class="btn btn- btn-block u-btn-outline-lightgray g-bg-gray-light-v4 g-color-main--checked g-bg-white--checked g-brd-left-none--md g-rounded-right-5">团队项目</span>
+                  </label>
+                </div>
+              </div>
+
+              <div v-show="addproject.projectcate=='team'">
+                <div class="" for="inputGroup1_1">邀请他人加入团队项目<i class="fa fa-question-circle g-ml-10"></i> </div>
+                <div class="g-mb-10" for="inputGroup1_1">邀请后项目组成员收到邀请(若未注册,注册后收到邀请),同意后自动同步项目信息</div>
+
+                <div class="">
+                  <div class="form-group g-mb-0">
+                    <div class="input-group g-brd-primary--focus">
+                      <div
+                        class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                        <i class="fa fa-envelope"></i>
+                      </div>
+                      <input class="form-control form-control-md rounded-0 border-right-0" type="mail"
+                        placeholder="团队成员邮箱" v-model="addproject.memberemail" @keyup.enter="uiJoinTeam">
+                      <a href="#!" @click="uiJoinTeam"
+                        class="nav-link input-group-addon rounded-0 d-flex align-items-center g-bg-white g-color-black">
+                        添加
+                      </a>
+                    </div>
+                  </div>
+                  <div class="g-brd-around g-brd-gray-light-v2 g-brd-top-0">
+                    <table class="w-100">
+                      <tr class=" g-mb-10" v-for="(member,inx) in addproject.members">
+                        <td class="w-100"> <i class="fa fa-user-circle g-ml-20"></i>
+                          {{member.mail}}
+                        </td>
+                        <td class="g-py-5">
+                          <div class="u-shadow-v19">
+                            <button type="button"
+                              class="btn u-btn-black dropdown-toggle h6 align-middle g-brd-none g-color-black g-bg-gray-light-v5 g-bg-gray-light-v4--hover g-font-weight-300 g-font-size-12 g-py-10 g-ma-0"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              普通成员
+                            </button>
+                            <div class="dropdown-menu rounded-0 g-font-size-12">
+                              <a class="dropdown-item g-color-black g-bg-gray-light-v5 g-font-weight-300"
+                                href="#!">超级管理员</a>
+                              <a class="dropdown-item g-color-black g-font-weight-300" href="#!">项目管理员</a>
+                              <a class="dropdown-item g-color-black g-font-weight-300" href="#!">普通成员</a>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="g-px-20"><a href="#!" class="nav-link" @click="uiDelJoin(inx)"><i
+                              class="fa fa-remove"></i></a></td>
+                      </tr>
+                      <tr class="g-mb-10">
+                        <td class="w-100"> <i class="fa fa-user-circle g-ml-20"></i>
+                          创建者
+                        </td>
+                        <td class="g-py-5">
+                          <div class="u-shadow-v19">
+                            <button type="button"
+                              class="btn u-btn-black dropdown-toggle h6 align-middle g-brd-none g-color-black g-bg-gray-light-v5 g-bg-gray-light-v4--hover g-font-weight-300 g-font-size-12 g-py-10 g-ma-0"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              超级管理员
+                            </button>
+                            <div class="dropdown-menu rounded-0 g-font-size-12">
+                              <a class="dropdown-item g-color-black g-bg-gray-light-v5 g-font-weight-300"
+                                href="#!">超级管理员</a>
+                              <a class="dropdown-item g-color-black g-font-weight-300" href="#!">项目管理员</a>
+                              <a class="dropdown-item g-color-black g-font-weight-300" href="#!">普通成员</a>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="g-px-20"></td>
+                      </tr>
+                    </table>
+
+                  </div>
+                </div>
+
+                <div>
+                  <div>超级管理员:拥有全部权限</div>
+                  <div>项目管理员:拥有非敏感信息配置之外的全部权限</div>
+                  <div>普通成员:只能增删改自己的函数,无法删除或修改其他人创建的函数</div>
+                 
+                </div>
+
+              </div>
+
+              <div class="text-right g-mt-20">
+                <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color" @click="uiSaveTeam"
+                  :disabled="state.isaddteaming">
+                  <i class="fa fa-spin fa-spinner" v-if="state.isaddteaming"></i>创建项目</button>
+              </div>
+
+            </div>
+            <div class="col-2"></div>
+          </div>
+
+          <div class="row g-pa-30 g-min-height-80vh" v-show="state.navCate=='persion'||state.navCate=='team'">
+
+            <div class="col-3">
+              <div class="h-100 g-brd-around g-brd-gray-light-v1 g-rounded-4 g-pa-15 g-pa-20--md">
+
+                <section class="text-center g-mb-30">
+                  <div class="d-inline-block g-pos-rel g-mb-20">
+                    <img class="img-fluid rounded-circle w-50"
+                      :class="{load_left_right:state.loadPersion||state.loadTeam}"
+                      :src="state.navCate=='persion'?'./img/persion.svg':'./img/team.svg'">
+                  </div>
+                  <div v-if="state.loadPersion||state.loadTeam">正在查询信息</div>
+                </section>
+
+                <ul class="list-unstyled mb-0">
+
+                  <li class="g-brd-top g-brd-gray-light-v1 mb-0 text-center g-py-20"
+                    v-if="state.navCate=='persion'&&persions.length==0&&!this.state.loadPersion"
+                    @click="uiSwitchNav('add')">
+                    <a href="#!" class="btn ss_main_color">无项目,点击创建</a>
+                  </li>
+
+                  <li class="g-brd-top g-brd-gray-light-v1 mb-0" v-for="team in persions"
+                    v-if="state.navCate=='persion'" @click="uiChangeTeam(team._id, 'persion')">
+                    <a class="d-flex align-items-center u-link-v5 g-parent g-color-black g-py-15 g-color-primary--active"
+                      :class="{active:team.chk}" href="#!">
+                      <span
+                        class="g-font-size-18 g-color-gray-light-v6 g-color-primary--parent-hover g-color-primary--active g-mr-15">
+                        <i class="fa fa-th-large" v-if="!team.load"></i>
+                        <i class="fa fa-spin fa-spinner" v-if="team.load"></i>
+                      </span>
+                      <span class="g-color-primary--parent-hover ">{{team.teamname}}</span>
+                    </a>
+                  </li>
+
+                  <li class="g-brd-top g-brd-gray-light-v1 mb-0 text-center g-py-20"
+                    v-if="state.navCate=='team'&&teams.length==0&&!this.state.loadTeam" @click="uiSwitchNav('add')">
+                    <a href="#!" class="btn ss_main_color">无项目,点击创建</a>
+                  </li>
+
+                  <li class="g-brd-top g-brd-gray-light-v1 mb-0" v-for="team in teams" v-if="state.navCate=='team'"
+                    @click="uiChangeTeam(team._id, 'persion')">
+                    <a class="d-flex align-items-center u-link-v5 g-parent g-color-black g-py-15 g-color-primary--active"
+                      :class="{active:team.chk}" href="#!">
+                      <span
+                        class="g-font-size-18 g-color-gray-light-v6 g-color-primary--parent-hover g-color-primary--active g-mr-15">
+                        <i class="fa fa-pied-piper-pp" v-if="!team.load"></i>
+                        <i class="fa fa-spin fa-spinner" v-if="team.load"></i>
+                      </span>
+                      <span class="g-color-primary--parent-hover ">{{team.teamname}}</span>
+                    </a>
+                  </li>
+
+
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-9 ">
+
+              <div class=" g-brd-around g-brd-gray-light-v1 g-pos-rel h-100">
+
+                <div v-if="state.setStep==0">
+                  <ul class="row list-inline u-info-v9-1 g-mt-50">
+                    <li class="col-md-4 list-inline-item g-mx-0 g-mb-30">
+
+                      <div class="u-block-hover text-center g-px-40">
+                        <div class="g-mb-5"> <span
+                            class="u-icon-v1 g-width-85 g-height-85 g-color-main g-font-size-50 rounded-circle"> <i
+                              class="icon-education-024 u-line-icon-pro"></i> </span> </div>
+                        <div class="g-mb-25"> <span
+                            class="u-icon-v2 u-shadow-v22 g-width-25 g-height-25 g-color-primary g-bg-white g-font-size-9 rounded-circle">
+                            <i class="fa fa-check"></i> </span> </div>
+                        <h3 class="g-color-primary g-font-weight-600 g-font-size-17 text-uppercase mb-3"> <span
+                            class="g-color-main g-font-weight-700">01.</span> 选择项目 </h3>
+
+                        <div>1. 从上方的导航栏中选择"个人项目列表"或"团队项目列表"</div>
+                        <div>2. 从查询出的项目列表中选择要修改或查看的项目</div>
+
+                      </div>
+                    </li>
+                    <li class="col-md-4 list-inline-item g-mx-0 g-mb-30">
+
+                      <div class="u-block-hover text-center g-px-40">
+                        <div class="g-mb-5"> <span
+                            class="u-icon-v1 g-width-85 g-height-85 g-color-main g-font-size-50 rounded-circle"> <i
+                              class="icon-education-073 u-line-icon-pro"></i> </span> </div>
+                        <div class="g-mb-25"> <span
+                            class="u-icon-v2 u-shadow-v22 g-width-25 g-height-25 g-color-white g-bg-primary g-font-size-9 rounded-circle">
+                            <i class="fa fa-check"></i> </span> </div>
+                        <h3 class="g-color-primary g-font-weight-600 g-font-size-17 text-uppercase mb-3"> <span
+                            class="g-color-main g-font-weight-700">02.</span>修改配置</h3>
+                        <div>新项目必须先添加配置,否则会导致项目无法部署</div>
+                        <div>仅拥有合法密钥的管理员可以修改配置,保证项目配置稳定</div>
+                        <p></p>
+                      </div>
+                    </li>
+                    <li class="col-md-4 list-inline-item g-mx-0 g-mb-30">
+
+                      <div class="u-block-hover text-center g-px-40">
+                        <div class="g-mb-5"> <span
+                            class="u-icon-v1 g-width-85 g-height-85 g-color-main g-font-size-50 rounded-circle"> <i
+                              class="icon-communication-180 u-line-icon-pro"></i> </span> </div>
+                        <div class="g-mb-25"> <span
+                            class="u-icon-v2 u-shadow-v22 g-width-25 g-height-25 g-color-primary g-bg-white g-font-size-9 rounded-circle">
+                            <i class="fa fa-check"></i> </span> </div>
+                        <h3 class="g-color-primary g-font-weight-600 g-font-size-17 text-uppercase mb-3"> <span
+                            class="g-color-main g-font-weight-700">03.</span> 享受便利的操作 </h3>
+                        <div class="text-left">
+                          <div>项目信息保存在云上,轻松跨设备使用</div>
+                          <div>团队项目:一人配置,成员轻松同步配置</div>
+                          <div>定制的Serverless Framework实现更安全的密钥和函数级权限管理</div>
+                          <div>重要信息加密保存,无泄漏之忧</div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+
+                  <div class="text-center" v-if="state.loadProject">
+                    <div class="lds-spinner-cir">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div v-if="state.setStep!=0">
+
+
+                  <div class="g-mt-50" v-if="project.isNew">
+                    <ul class="js-pagination u-carousel-indicators-v30  g-pos-rel" role="tablist">
+                      <li :class="{'slick-active slick-current':state.setStep==1}" role="presentation"><i
+                          class="u-dot-line-v1 g-brd-gray-light-v2--before g-brd-gray-light-v2--after g-mb-15--sm"><span
+                            class="u-dot-line-v1__inner g-bg-white g-bg-primary--before g-brd-gray-light-v2 g-brd-primary--hover g-brd-primary--active g-transition--ease-in g-transition-0_2"></span></i><span
+                          class="g-hidden-sm-down g-color-black g-font-size-15">填写密钥</span></li>
+                      <li :class="{'slick-active slick-current':state.setStep==2}" role="presentation"><i
+                          class="u-dot-line-v1 g-brd-gray-light-v2--before g-brd-gray-light-v2--after g-mb-15--sm"><span
+                            class="u-dot-line-v1__inner g-bg-white g-bg-primary--before g-brd-gray-light-v2 g-brd-primary--hover g-brd-primary--active g-transition--ease-in g-transition-0_2"></span></i><span
+                          class="g-hidden-sm-down g-color-black g-font-size-15">选择开发权限</span></li>
+                      <li :class="{'slick-active slick-current':state.setStep==3}" role="presentation"><i
+                          class="u-dot-line-v1 g-brd-gray-light-v2--before g-brd-gray-light-v2--after g-mb-15--sm"><span
+                            class="u-dot-line-v1__inner g-bg-white g-bg-primary--before g-brd-gray-light-v2 g-brd-primary--hover g-brd-primary--active g-transition--ease-in g-transition-0_2"></span></i><span
+                          class="g-hidden-sm-down g-color-black g-font-size-15">项目配置</span></li>
+                    </ul>
+                  </div>
+
+
+                  <div class="">
+
+                    <div class="g-pa-30 text-center" v-if="state.setStep==1">
+                      <i class="fa fa-gears g-font-size-30 g-mb-10"></i>
+                      <h2 class=" g-letter-spacing-3 g-font-weight-700 g-font-size-20 g-color-black g-mb-10">
+                        {{project.name}}
+                      </h2>
+                      <h2 class=" g-letter-spacing-3 g-font-weight-700 g-font-size-20 g-color-black g-mb-10">填写API密钥
+                      </h2>
+                      <div>填写腾讯云的最高权限API密钥,帮您自动配置项目</div>
+                      <div>不会以任何形式存储您这里填写的密钥,仅一次性用作项目所需配置的自动检测</div>
+                      <div class=" w-50 g-mt-20" style="margin-left: 25%;">
+                        <div class="g-brd-primary--focus g-mb-10">
+                          <div class="input-group g-brd-primary--focus form-control rounded-0 g-rounded-top-5">
+                            <input class="form-control form-control-md  g-brd-none g-color-black" type="text"
+                              placeholder="SecretId" v-model="adminSet.id">
+                          </div>
+                          <div
+                            class="input-group g-brd-primary--focus form-control g-brd-top-none rounded-0  g-rounded-bottom-5">
+                            <input class="form-control form-control-md border-right-0 pr-0 g-brd-none g-color-black"
+                              type="text" placeholder="SecretKey" v-model="adminSet.key">
+
+                            <a href="#!" class="btn g-pr-0 g-brd-none" @click="uiValKey">
+                              <div class="input-group-addon g-brd-none "
+                                :class="adminSet.agree?'g-color-black g-color-primary--hover':'g-color-lightblue-v1'">
+                                <i class="fa fa-sign-in g-font-size-20" v-if="!state.loadVal"></i>
+                                <i class="fa fa-spin fa-spinner g-font-size-20" v-if="state.loadVal"></i>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                        <label class="form-check-inline u-check g-pl-25 ss_main_color">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-color-black" type="checkbox"
+                            value="1" v-model="adminSet.agree">
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          我已知悉软件不以任何形式保存此API密钥
+                        </label>
+                        <div>
+                          <a href="https://console.cloud.tencent.com/cam/capi" class="g-color-black g-mt-10"><i
+                              class="fa fa-link"></i>点击查看您的腾讯云"API密钥"</a>
+                        </div>
+
+                        <div class="g-px-50 text-center g-color-red">{{state.ValInfo}}</div>
+                      </div>
+                    </div>
+
+
+                    <div class=" g-bg-white g-pa-20" v-if="state.setStep==2">
+                      <div class=" text-center g-mb-10">
+                        <h2 class=" g-letter-spacing-3 g-font-weight-700 g-font-size-20 g-color-black g-mb-10">选择腾讯云子用户
+                        </h2>
+                        <p class="g-font-size-default g-color-black mb-0">为了安全,不推荐使用上页的最高权限密钥,请在下方选择一个子用户作为开发用户</p>
+                      </div>
+
+                      <table
+                        class="table g-brd-top g-brd-bottom g-brd-gray-light-v4 table-hover u-table--v2 text-center g-col-border-side-0">
+                        <thead>
+                          <tr class=" g-color-white g-col-border-top-0">
+                            <th class="g-color-black">子用户名</th>
+                            <th class="g-color-black">TCB</th>
+                            <th class="g-color-black">VPC</th>
+                            <th class="g-color-black">SCF</th>
+                            <th class="g-color-black">SLS</th>
+                            <th class="g-color-black">SLS Role</th>
+                            <th class="g-color-black">COS</th>
+                            <th class="g-color-black">选择</th>
+                          </tr>
+                        </thead>
+
+                        <tbody class="g-font-size-12 g-color-black">
+
+                          <tr v-if="accounts.length==0&&!state.loadUser">
+                            <td colspan="5">
+                              <div>
+                                <a href="#!" class="ss_main_color g-mr-10 g-mb-15"><i
+                                    class="fa fa-link"></i>去腾讯云手动创建</a>
+                                <a href="#!" class="btn btn-md g-color-white ss_main_bg_color g-mr-10 g-mb-15"
+                                  @click="addScfUser">一键自动创建子用户</a>
+                              </div>
+                              <div>子用户需要以下授权权限才可以正常使用本工具</div>
+                              <div>云开发TCB读写权限-QcloudTCBFullAccess, VPC全读写访问权限-QcloudVPCFullAccess</div>
+                              <div>SCF全读写访问权限-QcloudSCFFullAccess</div>
+                              <div>SLS全读写访问权限-QcloudSLSFullAccess</div>
+                              <div>SLS资源访问权限-QcloudAccessForSLSRole</div>
+                              <div>COS资源管理权限-QcloudCOSFullAccess</div>
+                            </td>
+                          </tr>
+
+                          <tr v-if="state.loadUser">
+                            <td colspan="5"><i class="fa fa-spin fa-spinner"></i></td>
+                          </tr>
+
+                          <tr v-for="account in accounts" class="g-font-size-15">
+                            <th scope="row">{{account.Name}}</th>
+                            <td><i class="fa fa-check" v-if="account.tcb"></i><i class="fa fa-remove g-color-red"
+                                v-if="!account.tcb"></i></td>
+                            <td><i class="fa fa-check" v-if="account.vpc"></i><i class="fa fa-remove g-color-red"
+                                v-if="!account.vpc"></i></td>
+                            <td><i class="fa fa-check" v-if="account.scf"></i><i class="fa fa-remove g-color-red"
+                                v-if="!account.scf"></i></td>
+                            <td><i class="fa fa-check" v-if="account.sls"></i><i class="fa fa-remove g-color-red"
+                                v-if="!account.sls"></i></td>
+                            <td><i class="fa fa-check" v-if="account.slsrole"></i><i class="fa fa-remove g-color-red" v-if="!account.slsrole"></i></td>
+                            <td>
+                              <i class="fa fa-check" v-if="account.cos"></i>
+                              <i class="fa fa-remove g-color-red" v-if="!account.cos"></i>
+                            </td>
+
+                            <td>
+                              <label class="u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio"
+                                  v-model="adminSet.chkuin" :value="account.Uin">
+                                <div class="u-check-icon-font g-absolute-centered--y g-left-0">
+                                  <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                                </div>
+                              </label>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                      <div class="text-right">
+                        <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color" @click="addScfUser"
+                          :disabled="state.addUser"><i class="fa fa-spin fa-spinner"
+                            v-if="state.addUser"></i>一键创建有效子用户</button>
+                        <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color" @click="uiChkUser"
+                          :disabled="adminSet.chkuin==''" :disabled="state.loadKey"><i class="fa fa-spin fa-spinner"
+                            v-if="state.loadKey"></i>确定</button>
+                        <div class="g-color-red">{{state.addUserInfo}}</div>
+                      </div>
+                      <div class="g-color-black">
+                        <div class="row">
+
+                          <div class="col-md-4">
+                            <div class="alert alert-success g-color-black" role="alert">
+                              <strong>TCB</strong>QcloudTCBFullAccess用来管理TCB的云函数和数据库
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="alert alert-success g-color-black" role="alert">
+                              <strong>VPC</strong>QcloudVPCFullAccess查看管理您的内网,协助云函数开发部署
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="alert alert-success g-color-black" role="alert">
+                              <strong>SCF</strong>QcloudSCFFullAccess最重要的权限,用来管理配置SCF函数
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="alert alert-success g-color-black" role="alert">
+                              <strong>SLS</strong>QcloudSLSFullAccess Serverless Framework（SLS）全读写访问权限
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="alert alert-success g-color-black" role="alert">
+                              <strong>Role</strong>QcloudAccessForSLSRole SLS访问其他云服务资源。
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="alert alert-success g-color-black" role="alert">
+                              <strong>COS</strong>QcloudCOSFullAccess用以更新云函数代码.
+                            </div>
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div v-if="state.setStep==3" class="g-pt-20 g-pos-rel">
+
+                    <div class="g-bg-black-opacity-0_8 g-z-index-99 w-100 h-100 g-pos-abs g-left-0 g-top-0 g-pa-100"
+                      v-if="!project.isJoin">
+                      <div class="alert alert-info alert-dismissible fade show" role="alert">
+
+                        <h4 class="h5">
+                          <i class="fa fa-info-circle"></i>
+                          尚未加入
+                        </h4>
+                        <p class="g-mb-10">只有加入了项目组后,才可以配置并开发项目.</p>
+                        <a href="#!" class="btn u-btn-brown  rounded-0 g-px-15 g-py-5 g-mr-20" @click="uiDelSelfJoin">
+                          <i class="fa g-mr-2" :class="state.loadDel?'fa-spin fa-spinner':'fa-close'"></i>
+                          拒绝
+                        </a>
+                        <a href="#!" class="btn u-btn-blue  rounded-0 g-px-15 g-py-5" @click="uiAccJoin">
+                          <i class="fa  g-mr-2" :class="state.loadAcc?'fa-spin fa-spinner':'fa-check'"></i>
+                          加入
+                        </a>
+                      </div>
+                    </div>
+
+                    <h2 class="g-letter-spacing-3 g-font-weight-700 g-font-size-20 g-color-black g-mb-10 text-center">
+                      项目配置
+                    </h2>
+
+                    <div class="g-bg-gray-light-v5 g-pa-20 g-px-50 g-font-size-15">
+
+                      <div class="row">
+                        <div class="g-font-weight-600 g-color-black col-12">RSA密钥</div>
+                        <div class="col-12 g-font-size-14">
+                          <div>本页配置全部使用RSA公钥加密保存</div>
+                          <div>公钥和私钥全部在客户端生成使用,服务器不会访问任何密钥信息,请自行保存</div>
+                        </div>
+
+                        <div class="col-6 g-mt-10">
+                          <figure class="u-shadow-v19 g-bg-white g-rounded-4 g-pa-20">
+                            <div class="media g-mb-5 g-color-black g-brd-bottom g-brd-gray-light-v3 g-pb-5">
+                              <div class="g-mr-20 g-mt-10">
+                                <i class="g-font-size-30 fa fa-lock" v-if="!state.loadpem"></i>
+                                <i class="g-font-size-30 fa fa-cog fa-spin" v-if="state.loadpem"></i>
+                              </div>
+                              <div class="media-body">
+                                <h4 class="h5 g-mb-2">公钥信息</h4>
+
+                                <a href="#!" class="btn text-left g-pa-0 d-block" v-if="project.pem.public.length>0"
+                                  @click="state.showPublic=!state.showPublic">
+                                  <i class="g-color-primary g-font-size-default fa fa-cog"></i>
+                                  <span class="g-color-gray-dark-v4 g-font-size-13">已配置,部署在本地,点击查看</span>
+                                </a>
+
+                                <a class="btn text-left g-pa-0 d-block" v-if="project.pem.public.length==0"
+                                  @click="state.showPublic=!state.showPublic">
+                                  <i class="g-color-red g-font-size-default fa fa-cog"
+                                    :class="{'fa-spin':state.loadpem}"></i>
+                                  <span class="g-color-gray-dark-v4 g-font-size-13">未部署,点击配置</span>
+                                </a>
+
+                              </div>
+                            </div>
+                            <div>用来加密项目敏感信息,持有正确公钥的管理员可以修改信息,管理员持有</div>
+                          </figure>
+                        </div>
+
+                        <div class="col-6 g-mt-10">
+                          <figure class="u-shadow-v19 g-bg-white g-rounded-4 g-pa-20">
+                            <div class="media g-mb-5 g-color-black g-brd-bottom g-brd-gray-light-v3 g-pb-5">
+                              <div class="g-mr-20 g-mt-10">
+                                <i class="g-font-size-30 fa fa-unlock-alt" v-if="!state.loadpem"></i>
+                                <i class="g-font-size-30 fa fa-spin fa-cog" v-if="state.loadpem"></i>
+                              </div>
+                              <div class="media-body">
+                                <h4 class="h5 g-mb-2">私钥信息</h4>
+
+                                <a href="#!" class="btn g-pa-0 text-left d-block" v-if="project.pem.private.length>0"
+                                  @click="state.showPrivate=!state.showPrivate">
+                                  <i class="g-color-primary g-font-size-default fa fa-cog"></i>
+                                  <span class="g-color-gray-dark-v4 g-font-size-13">已配置,部署在本地,点击查看</span>
+                                </a>
+
+                                <a href="#!" class="btn text-left g-pa-0 d-block" v-if="project.pem.private.length==0"
+                                  @click="state.showPrivate=!state.showPrivate">
+                                  <i class="g-color-red g-font-size-default fa fa-cog"></i>
+                                  <span class="g-color-gray-dark-v4 g-font-size-13">未部署,点击配置</span>
+                                </a>
+
+                              </div>
+                            </div>
+                            <div>用来解密项目的敏感信息,私钥不正确项目将无法正常运行,项目组成员谨慎保存</div>
+                          </figure>
+                        </div>
+
+                        <div class="col-12 g-mt-10 g-color-red" v-if="!state.candec">
+
+                          <div class="alert alert-dismissible fade show g-bg-red g-color-white rounded-0" role="alert">
+
+                            <div class="media">
+                              <span class="d-flex g-mr-10 g-mt-5">
+                                <i class="icon-ban g-font-size-25"></i>
+                              </span>
+                              <span class="media-body align-self-center">
+                                <strong v-if="project.isNew&&project.pem.public.length==0">首次配置项目信息,必须配置完整密钥对</strong>
+                                <strong v-else>密钥对无法加解密项目信息,配置有效的密钥后方可配置项目信息</strong>
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-12 g-mt-10" v-if="state.showPublic">
+                          <div class="input-group">
+                            <textarea class="form-control form-control-md g-resize-none rounded-0 g-brd-gray-light-v5"
+                              rows="4" placeholder="公钥内容" :value="project.pem.public.join('\n')"
+                              ref="public"></textarea>
+                            <a href="#!"
+                              class="btn input-group-addon d-flex align-items-center g-color-black g-bg-white rounded-0 g-py-12 g-brd-gray-light-v5"
+                              @click="savePub">
+                              <i class="fa fa-save"></i>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="col-12 g-mt-10" v-if="state.showPrivate">
+                          <div class="input-group">
+                            <textarea class="form-control form-control-md g-resize-none rounded-0 g-brd-gray-light-v5"
+                              rows="4" placeholder="私钥内容" :value="project.pem.private.join('\n')"
+                              ref="private"></textarea>
+                            <a href="#!"
+                              class="btn input-group-addon d-flex align-items-center g-color-black g-bg-white rounded-0 g-py-12 g-brd-gray-light-v5"
+                              @click="savePri">
+                              <i class="fa fa-save"></i>
+                            </a>
+                          </div>
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+
+                    <div class="g-pa-20 g-px-50 g-font-size-15">
+
+                      <div class="g-font-weight-600 g-color-black">子用户API密钥</div>
+                      <div class="g-font-size-14 g-mb-10">
+                        <div>我们通过子用户API密钥访问管理腾讯云资源,此密钥仅管理员可见</div>
+                        <div>我们通过腾讯云使用的serverless framework管理SCF云函数</div>
+                        <div>官方原生工具权限粗放,我们经二次开发,实现了函数级权限</div>
+                      </div>
+
+                      <div class="g-brd-primary--focus" class="g-color-black">
+
+
+                        <div
+                          class="alert alert-dismissible fade show g-bg-teal g-color-white rounded-0 ss_main_bg_color"
+                          role="alert" v-if='!project.isOwn'>
+                          <div class="media">
+                            <span class="d-flex g-mr-10 g-mt-5">
+                              <i class="fa fa-exclamation-triangle g-font-size-25"></i>
+                            </span>
+                            <span class="media-body align-self-center ">
+                              <strong>您无权查看API密钥!</strong> 仅超级管理员可以查看密钥.
+                            </span>
+                          </div>
+                        </div>
+
+                        <div v-if='project.isOwn'>
+
+                          <div class="d-flex">
+                            <select v-model="project.secretId" :disabled="!state.candec"
+                              class="form-control form-control-md form-control-lg rounded-0 custom-select g-font-size-14 g-mr-10 g-color-black">
+                              <option :value="key" v-for="key in adminSet.subKeys">{{key}}</option>
+                            </select>
+
+                            <input class="form-control form-control-md rounded-0 g-color-black" type="text"
+                              :disabled="!state.candec" placeholder="请填写对应的SecretKey" v-model="project.secretKey"
+                              @change="flushProjectUI">
+                          </div>
+
+                          <div class="text-center g-mt-10"><a href="#!" class="ss_main_color" @click="openUser"><i
+                                class="fa fa-link g-mr-5"></i> 点击查看该子用户API密钥的secretKey</a>
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+
+
+                    </div>
+
+
+                    <div class="g-pos-rel">
+
+                      <div class="g-brd-gray-light-v4 g-brd-top  g-pa-20 g-px-50">
+                        <div>
+                          <div class="g-font-weight-600 g-color-black">代码目录</div>
+                          <small class="g-font-size-14">项目代码的本地目录,支持团队成员独立配置,建议统一</small>
+                        </div>
+
+                        <div class="g-color-black">
+                          <div class="input-group g-brd-primary--focus g-color-black" @click="chosecodepath">
+                            <a class="btn input-group-addon d-flex align-items-center g-bg-white rounded-0" href="#!">
+                              <i class="fa fa-plus g-color-gray-dark-v2"></i>
+                            </a>
+                            <input class="form-control form-control-md rounded-0 g-bg-white" type="text"
+                              placeholder="点击左侧加号选择项目根目录" v-model="project.codeUri" disabled>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                      <div class="g-brd-gray-light-v4 g-brd-top  g-pa-20 g-px-50" v-if="project.isteam">
+                        <div>
+                          <div class="g-font-weight-600 g-color-black">团队成员</div>
+                        </div>
+
+                        <div class="g-color-black">
+
+                          <table class="table u-table--v1 mb-0">
+                            <thead>
+                              <tr class="g-col-border-top-0">
+                                <th>#</th>
+                                <th>邮箱</th>
+                                <th>管理员</th>
+                                <th class="hidden-sm text-center">是否已加入</th>
+                                <th>管理</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+
+                              <tr v-for="(tj,inx) in project.joins">
+                                <th scope="row" class="align-middle">{{inx+1}}</th>
+                                <td class="align-middle">{{tj.amail}}</td>
+                                <td>
+                                  <select class="form-control form-control-lg rounded-0 g-font-size-14 g-color-black"
+                                    v-model="tj.right" :disabled="tj.right==0||!project.isOwn">
+                                    <option value="0" disabled>超级管理员</option>
+                                    <option value="1">项目管理员</option>
+                                    <option value="2">普通成员</option>
+                                  </select>
+                                </td>
+                                <td class="align-middle text-center">
+                                  <i class="fa " :class="tj.isjoin?'fa-check':'fa-clock-o'"></i>
+                                </td>
+
+                                <td class="align-middle">
+
+                                  <a href="#!" @click="uiProjectDelJoin(inx)" v-if="project.isAdmin">
+                                    <span class="u-label u-label-danger g-color-white u-label-with-icon">
+                                      <i class="fa fa-trash-o"></i>
+                                      移除
+                                    </span>
+                                  </a>
+
+                                  <a href="#!" @click="uiDelSelfJoin"
+                                    v-if="!project.isAdmin&&loginUser.accountmail==tj.amail">
+                                    <span class="u-label u-label-danger g-color-white u-label-with-icon">
+                                      <i class="fa fa-close"></i>
+                                      退出
+                                    </span>
+                                  </a>
+
+
+                                </td>
+                              </tr>
+
+                              <tr v-if="project.isOwn">
+                                <td colspan="5">
+                                  <div class="form-group g-mb-0">
+                                    <div class="input-group g-brd-primary--focus">
+                                      <div class="input-group-addon d-flex align-items-center g-bg-white rounded-0">
+                                        <i class="fa fa-envelope"></i>
+                                      </div>
+                                      <input class="form-control form-control-md rounded-0 border-right-0" type="mail"
+                                        placeholder="团队成员邮箱" @keyup.enter="uiAddTeam" @input="uiChangeMail"
+                                        v-model="state.addMail" :disabled="!state.candec">
+                                      <button href="#!" @click="uiAddTeam" :disabled="!state.canMail"
+                                        class="btn nav-link input-group-addon rounded-0 d-flex align-items-center g-bg-white  ss_main_color">
+                                        添加
+                                      </button>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+
+                        </div>
+                      </div>
+
+
+                      <div class="g-brd-gray-light-v4 g-brd-top  g-pa-20 g-px-50">
+
+                        <div class="col-form-label g-font-weight-600 g-color-black">区域</div>
+                        <small class="g-font-size-14">您的SCF函数要部署在腾讯云哪个区域</small>
+                        <div class="g-mt-10 g-color-black">
+
+                          <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="area" type="radio"
+                              value="ap-guangzhou" v-model="project.region" @change="flushProjectUI"
+                              :disabled="!state.candec||!project.isOwn">
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18"
+                              :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4':''">
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                            广州
+                          </label>
+
+                          <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="area" type="radio"
+                              value="ap-shanghai" v-model="project.region" @change="flushProjectUI"
+                              :disabled="!state.candec||!project.isOwn">
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18 "
+                              :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4':''">
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                            上海
+                          </label>
+
+                          <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="area" type="radio"
+                              value="ap-beijing" v-model="project.region" @change="flushProjectUI"
+                              :disabled="!state.candec">
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18"
+                              :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4':''">
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                            北京
+                          </label>
+
+                          <label class="form-check-inline u-check g-pl-25 ml-0">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="area" type="radio"
+                              value="ap-chengdu" v-model="project.region" @change="flushProjectUI"
+                              :disabled="!state.candec">
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18"
+                              :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4':''">
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                            成都
+                          </label>
+                        </div>
+
+                      </div>
+
+                      <div class="g-brd-gray-light-v4 g-brd-top  g-pa-20 g-px-50">
+
+                        <div class="col-form-label g-font-weight-600 g-color-black">命名空间</div>
+
+
+                        <div class="row no-gutters">
+                          <div class="col-6">
+                            <small class="g-font-size-14">成员仅可以部署在指定的命名空间</small>
+                            <div class="d-flex g-mb-5 g-mt-20">
+                              <select
+                                class="form-control form-control-lg rounded-0 g-font-size-14 g-color-black g-brd-gray-light-v2"
+                                ref="namespace">
+                                <option :value="ns.Name" v-for="ns in adminSet.namespaces">{{ns.Name}}</option>
+                              </select>
+
+                              <a href="#!" class="btn input-group-addon d-flex align-items-center g-bg-white rounded-0"
+                                @click="addNamespace">
+                                <i class="fa fa-plus"></i>
+                              </a>
+                            </div>
+
+                            <div>
+
+                              <a class="btn  rounded-0 ss_main_color w-100 text-center " href="#!"
+                                @click="state.showns=true">
+                                <i class="fa fa-link g-mr-3"></i>新增命名空间
+                              </a>
+
+                              <div v-if="state.showns">
+                                <div class="input-group g-brd-primary--focus">
+
+                                  <input
+                                    class="form-control form-control-md border-right-0 rounded-0 pr-0 g-brd-gray-light-v2"
+                                    type="text" placeholder="命名空间名称" v-model="adminSet.addns"
+                                    @keyup.enter="uiAppendNamespace">
+                                  <div
+                                    class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-brd-gray-light-v2"
+                                    @click="uiAppendNamespace">
+
+                                    <i class="fa fa-spin fa-spinner"
+                                      :class="adminSet.addns!=''?'g-color-gray-dark-v2':''" v-if="state.submitns"></i>
+                                    <i class="fa fa-check" :class="adminSet.addns!=''?'g-color-gray-dark-v2':''"
+                                      v-else></i>
+                                  </div>
+                                </div>
+                                <small>只能包含字母、数字、下划线、连字符，以字母开头，以数字或字母结尾，2~60个字符</small>
+                              </div>
+
+
+                            </div>
+
+
+                          </div>
+                          <div class="col-6">
+                            <table class="table u-table--v1 mb-0 g-ml-20">
+                              <thead>
+                                <tr class="g-col-border-top-0">
+                                  <th>已配置</th>
+                                  <th>管理</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr v-for="ns in project.namespaces">
+                                  <td>{{ns}}</td>
+                                  <td><i class="fa fa-trash-o g-color-red"></i></td>
+                                </tr>
+                                <tr v-if="project.namespaces.length==0">
+                                  <td colspan="2">尚未配置命名空间</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+
+
+
+
+                      <div class="g-brd-gray-light-v3 g-brd-top g-pa-20 g-px-50">
+                        <div class="col-form-label g-font-weight-600 g-color-black">网络管理
+                          <a class="btn fa fa-question-circle-o g-ml-10 g-font-size-16 ss_main_color" href="#!"
+                            @click="state.showVpcHelp=true"></a>
+                        </div>
+                        <div class="w-100">
+                          <div class="d-flex">
+                            <div class="g-mb-20 g-color-black">
+
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" name="internet"
+                                  :disabled="!state.candec||!project.isOwn" v-model="project.canInternet">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4':''">
+                                  <i class="fa" data-check-icon=""
+                                    :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                允许开启外网
+                              </label>
+
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.canVpc" name="vpc" @change="uiClickVpc"
+                                  :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4':''">
+                                  <i class="fa" data-check-icon=""
+                                    :class="(!state.candec||!project.isOwn)?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                允许开启内网
+                              </label>
+
+                            </div>
+                          </div>
+
+                          <div v-if="project.canVpc">
+
+                            <div class="table-responsive w-75">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th class="text-center g-brd-bottom-none g-valign-middle g-font-weight-600">VPC</th>
+                                    <th class="text-center g-brd-bottom-none g-valign-middle g-font-weight-600 ">
+                                      子网
+                                    </th>
+                                    <th class="text-center g-brd-bottom-none g-valign-middle g-font-weight-600">
+                                      操作
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr v-if="adminSet.showVpcs.length==0">
+                                    <td colspan="3" class="text-center">您未选择任何内网配置</td>
+                                  </tr>
+                                  <tr v-for="(vpc,inx) in adminSet.showVpcs" class="g-color-black">
+                                    <td class="text-center">{{vpc.VpcName}}</td>
+                                    <td class="text-center">
+                                      {{vpc.SubnetName}}
+                                    </td>
+
+                                    <td class="text-center align-middle" :rowspan="adminSet.showVpcs.length"
+                                      v-if="!project.isOwn&&inx==0">
+                                      仅超级管理员可修改
+                                    </td>
+
+                                    <td class="text-center" v-if="project.isOwn">
+                                      <i class="fa fa-trash-o g-color-red" @click="uiDelVpc(vpc.SubnetId)"></i>
+                                    </td>
+
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div class="" v-if="project.isOwn">
+                              <div class="d-flex">
+                                <div v-if="state.loadVpc">
+                                  <i class="fa fa-spinner fa-spin g-mr-10"></i>
+                                </div>
+
+                                <select class="custom-select rounded-0 g-width-150" v-model="adminSet.chkvpc"
+                                  @change="changeVpc(adminSet.chkvpc)" :disabled="adminSet.vpcs.length==0">
+                                  <option value='' disabled selected style='display:none;' v-if="state.loadVpc">正在加载
+                                  </option>
+                                  <option value='' disabled selected style='display:none;' v-if="!state.loadVpc">请选择私有网络
+                                  </option>
+                                  <option :value="vpc.VpcId" v-for="vpc in adminSet.vpcs">{{vpc.VpcName}}</option>
+                                </select>
+
+                                <select class="custom-select rounded-0 g-mx-10 g-width-150" v-model="adminSet.chksubnet"
+                                  :disabled="adminSet.subnets.length==0">
+                                  <option value='' disabled selected style='display:none;' v-if="state.loadSubnet">正在加载
+                                  </option>
+                                  <option value='' disabled selected style='display:none;' v-if="!state.loadSubnet">
+                                    请先选择左侧
+                                  </option>
+                                  <option :value="sub.SubnetId" v-for="sub in adminSet.subnets">{{sub.SubnetName}}
+                                  </option>
+                                </select>
+
+                                <button @click="uiAddVpc" class="btn  rounded-0 g-ml-30 ss_main_bg_color g-color-white"
+                                  :disabled="adminSet.chksubnet==''">
+                                  <i class="fa fa-plus g-mr-3"></i>添加到项目配置
+                                </button>
+
+                                <a class="btn  rounded-0 g-ml-30 ss_main_color"
+                                  href="https://console.cloud.tencent.com/vpc">
+                                  <i class="fa fa-link g-mr-3"></i>新建子网
+                                </a>
+
+                              </div>
+
+                              <div class="g-color-red">{{state.vpcErrInfo}}</div>
+
+                            </div>
+                          </div>
+
+                          <div class="alert alert-info alert-dismissible fade  g-mt-10 show " role="alert"
+                            v-if="state.showVpcHelp">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                              @click="state.showVpcHelp=false">
+                              <span aria-hidden="true">×</span>
+                            </button>
+
+                            <h4 class="h5">
+                              <i class="fa fa-info-circle"></i>
+                              网络状态说明:
+                            </h4>
+                            <ul class="u-alert-list g-mt-10">
+                              <li>全关闭:适用于单纯计算,此时SCF不能访问外网，不能通过内部网络访问CDB数据库等需要内网的腾讯云资源</li>
+                              <li>开启内网:内网访问腾讯云其他资源，速度快且无流量费。需要先在腾讯云后台配置私有网络,并将要访问的资源统一部署在此私有网络,内网配置方法见腾讯云文档或腾讯云提交工单寻求帮助,
+                                <a class="ss_main_color" href="https://console.cloud.tencent.com/vpc">去配置</a>
+                              </li>
+                              <li>TCB数据库访问无需配置内网</li>
+                            </ul>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="g-brd-gray-light-v3 g-brd-top g-pa-20 g-px-50">
+                        <div class="col-form-label">
+                          <div class="g-font-weight-600 g-color-black">API网关
+                            <a class="btn" class="g-ml-10" @click="state.showApiHelp=true">
+                              <i class=" fa fa-question-circle-o  g-font-size-16 ss_main_color"></i>
+                            </a>
+                          </div>
+                          <small class="g-font-size-14">开启API网关,可以开启URL调用SCF函数</small>
+                        </div>
+                        <div class="">
+                          <div class="alert alert-info alert-dismissible fade  g-mt-10 show " role="alert"
+                            v-if="state.showApiHelp">
+                            <a type="button" class="close btn" data-dismiss="alert" aria-label="Close"
+                              @click="state.showApiHelp=false">
+                              <span aria-hidden="true">×</span>
+                            </a>
+
+                            <h4 class="h5">
+                              <i class="fa fa-info-circle"></i>
+                              API网关重要性说明:
+                            </h4>
+                            <ul class="u-alert-list g-mt-10">
+                              <li>作为网站、APP、小程序服务器必须开启的功能</li>
+                              <li>开启后即开启对外提供服务,支持通过URL调用，从而实现POST/GET等网络调用</li>
+                              <li>不开启API网关，则只能通过SDK或特殊事件触发，无法通过域名URL调用</li>
+                              <li>API网关免费提供一个默认的访问域名，因此无需购买、备案域名，创建即可使用</li>
+                              <li>API网关支持绑定自定义域名，实现自定义域名访问</li>
+                            </ul>
+
+                          </div>
+
+                          <div class="g-color-red g-font-size-14">{{state.apiWarnInfo}}</div>
+
+                          <div class=" ">
+
+                            <table class="table w-100 g-mb-25">
+                              <thead class="g-hidden-sm-down g-color-gray-dark-v6">
+                                <tr>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15 g-pl-25">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      服务ID
+                                    </div>
+                                  </th>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      服务名称
+                                    </div>
+                                  </th>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      支持协议
+                                    </div>
+                                  </th>
+
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      网络类型
+                                    </div>
+                                  </th>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15">
+                                    <div class="align-items-center">
+                                      启用
+                                    </div>
+                                  </th>
+
+                                </tr>
+
+                              </thead>
+                              <tr v-if="state.loadApiGateWay" class="g-color-black">
+                                <td class="text-center" colspan="5">
+                                  <i class="fa fa-spinner fa-spin"></i>
+                                </td>
+                              </tr>
+                              <tr v-if="project.region==''" class="g-color-black">
+                                <td class="text-center g-color-red" colspan="5">
+                                  API网关依据区域查询, 请先选择区域
+                                </td>
+                              </tr>
+
+                              <tr v-for="(gate,inx) in adminSet.apiGateways" v-if="project.region!=''"
+                                class="g-color-black">
+                                <td colspan="5" class="g-bg-lightblue" v-if="gate.isUrl&&gate.isShow&&gate.isInner">
+                                  内网URL:
+                                  {{gate.domain}}</td>
+                                <td colspan="5" class="g-bg-lightblue" v-if="gate.isUrl&&gate.isShow&&gate.isOuter">
+                                  外网URL:
+                                  {{gate.domain}}</td>
+                                <td v-if="!gate.isUrl" @click="uiShowApiUrl(inx)">{{gate.ServiceId}}</td>
+                                <td v-if="!gate.isUrl" @click="uiShowApiUrl(inx)">{{gate.ServiceName}}</td>
+                                <td v-if="!gate.isUrl" @click="uiShowApiUrl(inx)">{{gate.Protocol}}</td>
+                                <td v-if="!gate.isUrl" @click="uiShowApiUrl(inx)">{{gate.NetTypes}}</td>
+                                <td v-if="!gate.isUrl">
+                                  <label class="form-check-inline u-check g-mr-20 mx-0 mb-0">
+                                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" :value="gate.ServiceId"
+                                      type="checkbox" v-model="project.apiGateways" :disabled="!project.isOwn">
+                                    <div class="u-check-icon-radio-v7"
+                                      :class="project.isOwn?'':'g-bg-gray-light-v1 g-color-gray-dark-v1 g-brd-gray-light-v4'">
+                                      <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                                    </div>
+                                  </label>
+                                </td>
+                              </tr>
+
+                              <tr v-if="project.isOwn">
+                                <td colspan="6" class="text-center">
+                                  <a class="btn ss_main_color g-brd-none rounded-0"
+                                    href="https://console.cloud.tencent.com/apigateway/service">
+                                    <i class="fa fa-plus g-mr-3"></i>新建API网关
+                                  </a>
+                                </td>
+                              </tr>
+
+                            </table>
+
+
+                          </div>
+
+
+
+                        </div>
+                      </div>
+
+                      <div class="g-brd-gray-light-v3 g-brd-top g-pa-20 g-px-50">
+                        <div>
+                          <div class="g-font-weight-600 g-color-black">编程语言</div>
+                          <small class="g-font-size-14">项目组成员只能发布指定的编程语言函数</small>
+                        </div>
+
+                        <div class="g-mb-15 g-mt-10 g-color-black">
+
+                          <div class="d-flex justify-content-between">
+
+                            <div class="">
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Php7" :disabled="!state.candec||!project.isOwn"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                PHP7
+                              </label>
+
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Php5" :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                PHP5
+                              </label>
+                            </div>
+
+                            <div class="">
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Python3.6" :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Python3.6
+                              </label>
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Python2.7" :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Python2.7
+                              </label>
+                            </div>
+                            <div class="">
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Java8" :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Java8
+                              </label>
+
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Go1" :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Golang1
+                              </label>
+                            </div>
+                            <div class="">
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Nodejs6.10"
+                                  :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Nodejs6.10
+                              </label>
+
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Nodejs8.9" :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Nodejs8.9
+                              </label>
+                            </div>
+                            <div class="">
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Nodejs10.15"
+                                  :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Nodejs10.15
+                              </label>
+                              <label class="form-check-inline u-check g-pl-25">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"
+                                  v-model="project.runtime" value="Nodejs12.16"
+                                  :disabled="!state.candec||!project.isOwn">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0"
+                                  :class="{'g-bg-gray-light-v5':!project.isOwn}">
+                                  <i class="fa" data-check-icon=""
+                                    :class="!project.isOwn?'g-bg-gray-light-v4 g-color-gray-dark-v4 g-brd-gray-light-v4':''"></i>
+                                </div>
+                                Nodejs12.16
+                              </label>
+                            </div>
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+
+                      <div class="g-brd-gray-light-v3 g-brd-top g-pa-20 g-px-50">
+                        <div class="col-form-label">
+                          <div class="g-font-weight-600 g-color-black">业务功能模块
+                            <a class="btn" class="g-ml-10" @click="state.showModelHelp=true">
+                              <i class=" fa fa-question-circle-o  g-font-size-16 ss_main_color"></i>
+                            </a>
+                          </div>
+                          <small class="g-font-size-14">配置功能模块后,项目即支持以模块为单位管理函数</small>
+                        </div>
+                        <div class="">
+                          <div class="alert alert-info alert-dismissible fade  g-mt-10 show " role="alert"
+                            v-if="state.showModelHelp">
+                            <a type="button" class="close btn" data-dismiss="alert" aria-label="Close"
+                              @click="state.showModelHelp=false">
+                              <span aria-hidden="true">×</span>
+                            </a>
+
+                            <h4 class="h5">
+                              <i class="fa fa-info-circle"></i>
+                              模块功能说明:
+                            </h4>
+                            <ul class="u-alert-list g-mt-10">
+                              <li>腾讯云SCF官方并不直接支持模块功能</li>
+                              <li>函数发布的时候,可以直接发布到对应模块内</li>
+                              <li>查询罗列函数的时候, 支持以模块为单位展示和查询</li>
+                              <li>日志查询和运维图标功能等功能都支持模块为单位处理</li>
+                            </ul>
+
+                          </div>
+
+
+                          <div class=" ">
+
+                            <table class="table w-100 g-mb-25">
+                              <thead class="g-hidden-sm-down g-color-gray-dark-v6">
+                                <tr>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15 g-pl-25">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      模块名称
+                                    </div>
+                                  </th>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      模块代码
+                                    </div>
+                                  </th>
+                                  <th
+                                    class="g-bg-gray-light-v5 g-font-weight-400 g-valign-middle g-brd-bottom-none g-py-15">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      处理
+                                    </div>
+                                  </th>
+
+                                </tr>
+
+                              </thead>
+
+
+                              <tr v-for="(tag,inx) in project.tags">
+                                <td>{{tag.name}}</td>
+                                <td>{{tag.code}}</td>
+                                <td>
+                                  <a href="#!" class="btn" @click='uiDelTag(inx)' v-if="project.isOwn">
+                                    <i class="fa fa-trash-o g-color-red"></i>
+                                  </a>
+                                </td>
+                              </tr>
+
+                            </table>
+
+                            <div class="">
+                              <div>添加业务功能模块</div>
+
+                              <div class="row no-gutters">
+
+                                <div class="g-width-250 g-mr-5">
+                                  <div class="g-color-gray-dark-v2">
+                                    模块中文名称
+                                  </div>
+                                  <input class="form-control form-control-md rounded-0 g-brd-gray-light-v1" type="text"
+                                    placeholder="中英文的模块名称" v-model="adminSet.tag.name">
+                                </div>
+
+                                <div class="g-width-250 g-mr-5">
+                                  <div class="g-color-gray-dark-v2">
+                                    模块英文名称
+                                  </div>
+                                  <input class="form-control form-control-md  rounded-0 g-brd-gray-light-v1" type="text"
+                                    placeholder="请填写英文或数字" v-model="adminSet.tag.code">
+                                </div>
+
+                                <button @click="uiAddTag" class="btn rounded-0 ss_main_bg_color g-color-white"
+                                  :disabled="adminSet.tag.name==''||adminSet.tag.code==''">
+                                  <i class="fa fa-plus g-mr-3"></i>添加模块
+                                </button>
+
+                              </div>
+
+
+                            </div>
+
+
+                          </div>
+
+
+
+                        </div>
+                      </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+                    <div class="g-brd-gray-light-v3 g-brd-top g-pa-20 g-px-50">
+                      <label class="g-font-weight-600 g-color-black">打包排除目录</label>
+                      <div class="">
+                        <div class="input-group g-color-black">
+                          <a href="#!" @click="uiAddexclude" v-if="project.isOwn"
+                            class="btn input-group-addon d-flex align-items-center g-bg-white rounded-0 g-py-12 g-color-gray-dark-v5"
+                            :class="{'ss_main_color':project.isOwn}">
+                            <i class="fa fa-plus"></i>
+                          </a>
+                          <div class="w-100 g-brd-gray-light-v2 g-brd-top">
+                            <div class="input-group" v-for="(dir, inx) in project.exclude">
+                              <div disabled class="form-control form-control-md rounded-0 g-brd-top-none" type="text"
+                                placeholder="点击左侧添加目录" :value="dir">{{dir}}</div>
+
+                              <a class="btn input-group-addon d-flex align-items-center g-bg-white ss_main_color rounded-0 g-brd-top-none"
+                                @click="openfolder(dir)" v-if="project.isOwn">
+                                <i class="fa fa-folder-open-o"></i>
+                              </a>
+
+                              <a class="btn input-group-addon d-flex align-items-center g-bg-white ss_main_color rounded-0 g-brd-top-none"
+                                @click="delexclude(inx)" v-if="project.isOwn">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </div>
+
+                            <div class="input-group" v-if="project.exclude.length==0">
+                              <input disabled class="form-control form-control-md rounded-0 g-brd-top-none" type="text"
+                                placeholder="点击左侧添加目录">
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div>1. "排除目录"必须是"代码目录"的一级子目录,否则设置不生效</div>
+                        <div>2. 推荐将不经常变更的静态文件或代码依赖库设置到"层",在"排除目录"中排除这些目录</div>
+                        <div>3. 可以在"层"中使用SCFGUI提供的自动绑定功能,绑定到全部函数</div>
+                        <div>遵循以上三步,灵活使用"层"和"排除目录"可以实现函数秒级部署和更新</div>
+                      </div>
+                    </div>
+
+
+                    <div class="g-pos-fix g-right-40 g-bottom-20 g-z-index-9999">
+                      <button href="#!" class="btn btn-md u-btn-red g-mb-20 g-width-150 ss_main_bg_color "
+                        @click="uiSubmitProject" :disabled="state.submitadd||!project.isOwn">
+                        <i class="fa fa-spin fa-spinner" v-if="state.submitadd"></i>
+                        {{project.isOwn?'提交':'仅超级管理员可修改'}}
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+
+  <script>
+    //     const { dialog, shell } = require('electron').remote
+
+    // const tencentcloud = require("tencentcloud-sdk-nodejs");
+    // var fs = require("fs");
+    // var config = require("../config");
+    // var Vpc = require("../qcloud/vpc.js");
+
+
+    // const Vue = require("../vue");
+  </script>
+
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="../assets/vendor/bootstrap/offcanvas.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="../assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="../assets/js/hs.core.js"></script>
+
+  <script src="../assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="../assets/js/components/hs.dropdown.js"></script>
+  
+  <script src="../assets/js/components/hs.popup.js"></script>
+  <script src="../assets/js/components/hs.carousel.js"></script>
+  <script src="../assets/js/components/hs.go-to.js"></script>
+
+  <script src="../assets/vendor/chosen/chosen.jquery.js"></script>
+
+  <script src="../vue.js"></script>
+  <script src="../assets/js/components/hs.header-side.js"></script>
+  <script src="../assets/js/helpers/hs.focus-state.js"></script>
+
+  <script src="../assets/js/components/hs.slider.js"></script>
+  <script src="../assets/js/components/hs.select.js"></script>
+
+
+
+
+  <script src="./js/set.js"></script>
+  <script src="./js/model.js"></script>
+
+  <script>
+    const { shell } = require('electron')
+
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+    $(window).on('load', function () {
+      $.HSCore.helpers.HSFocusState.init();
+
+
+      // $.HSCore.helpers.HSFocusState.init();
+
+      // initialization of header
+      // $.HSCore.components.HSHeader.init($('#js-header'));
+    });
+  </script>
+
+</body>
+
+</html>

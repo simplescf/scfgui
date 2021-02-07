@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>日志列表</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/uikit.css">
+
+
+  <link rel="stylesheet" href="../assets/css/styles.op-app.css">
+
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/offcanvas.css">
+
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="../assets/vendor/animate.css">
+  <link rel="stylesheet" href="../assets/vendor/custombox/custombox.min.css">
+
+  <link rel="stylesheet" href="../assets/vendor/hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" href="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../assets/vendor/slick-carousel/slick/slick.css">
+
+
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="../assets/vendor/cubeportfolio-full/cubeportfolio/css/cubeportfolio.min.css">
+
+  <link rel="stylesheet" href="./css/jquery.jsonview.css" />
+
+
+  <link rel="stylesheet" href="../assets/jquery/jquery-ui.css">
+  <link rel="stylesheet" href="../assets/jquery/style.css">
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/loadline.css">
+  <link rel="stylesheet" href="./css/common.css">
+
+
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body id="bbody" class="g-bg-secondary u-body--header-side-static-left">
+
+
+
+
+  <main id="main" class="g-color-black g-height-100vh">
+
+
+
+    <div class="w-100 text-center" v-if="loading">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+
+    <div style="display: none;" v-show="!loading">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5 g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">遵循MIT软件协议</p>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+      <section id="appScreens" class="">
+
+        <!-- <div v-if="!showQuery">
+          <a href="#!" class="btn w-100 text-center g-bg-white g-py-10" @click="showCon">
+            <i class="fa fa-chevron-down g-font-size-20"></i>
+          </a>
+        </div> -->
+        <div>
+          <div class="d-flex g-px-20 g-pt-20 g-bg-white g-pb-10">
+
+            <div>
+              <div class="g-color-gray-dark-v1">项目类型</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200 rounded-0"
+                @change="changeProjectCate" :disabled="refreshTeam||queryCon.loading" v-model="projectCate">
+                <option value="persion">个人项目</option>
+                <option value="team">团队项目</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="g-color-gray-dark-v2">项目列表</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200 rounded-0"
+                v-model="chkTeamId" :disabled="refreshTeam||queryCon.loading" @change="uiChangeTeam">
+                <option :value="team._id" v-for="(team,inx) in teams">{{team.teamname}}</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="ss_color_trans">刷新</div>
+              <a href="#!" class="btn btn-md g-mr-10 g-color-gray-dark-v3" @click="uiRefreshTeam">
+                <i class="fa fa-refresh" :class="{'fa-spin':refreshTeam}"></i>
+              </a>
+            </div>
+
+          </div>
+
+
+
+          <div class="d-flex g-brd-gray-light-v4 g-brd-bottom g-pt-10 g-brd-top g-brd-gray-light-v1 g-bg-white g-px-20">
+
+            <div class="form-group g-mr-5">
+              <div>执行类型</div>
+              <div>
+                <select class="custom-select  form-control-lg rounded-0 g-font-size-15 g-brd-gray-light-v2"
+                  v-model="queryCon.retCode" :disabled="queryCon.functionRequestId!=''||!canEdit||queryCon.loading">
+                  <option value="">全部</option>
+                  <option value="not0">失败</option>
+                  <option value="is0">成功</option>
+                  <option value="TimeLimitExceeded">超时</option>
+                  <option value="ResourceLimitExceeded">资源超限</option>
+                  <option value="UserCodeException">代码异常</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group g-mr-5 g-width-200">
+              <div>命名空间<i class="fa fa-spin fa-spinner" v-if="loadNS"></i></div>
+
+              <select class="custom-select form-control-lg rounded-0  g-font-size-15 g-brd-gray-light-v2 w-100"
+                v-model="queryCon.namespace" @change="changeNamespace"
+                :disabled="queryCon.functionRequestId!=''||!canEdit||queryCon.loading">
+                <option value="" v-if="loadNS">加载中</option>
+                <option :value="ns.Name" v-for="ns in namespaces">{{ns.Name}}</option>
+
+              </select>
+            </div>
+
+            <div class="form-group g-mr-5">
+              <div>SCF函数<i class="fa fa-spin fa-spinner" v-if="loadFN"></i></div>
+
+              <div>
+                <select class="custom-select  form-control-lg rounded-0 g-width-180 g-font-size-15 g-brd-gray-light-v2"
+                  v-model="queryCon.functionName"
+                  :disabled="queryCon.functionRequestId!=''||!canEdit||queryCon.loading">
+                  <option value="" selected>全部</option>
+                  <option :value="ns.FunctionName" v-for="ns in functions">{{ns.FunctionName}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group g-mr-5">
+              <div>起始时间</div>
+              <input class="form-control rounded-0 form-control-md" type="datetime-local" v-model="queryCon.startTime"
+                :disabled="queryCon.functionRequestId!=''||queryCon.loading" :min="queryCon.lastTime"
+                @change="changeStartTime">
+              <!-- <small>SCF日志仅保留1个自然月</small> -->
+            </div>
+
+            <div class="form-group g-mr-5">
+              <div>终止时间</div>
+              <input class="form-control rounded-0 form-control-md" type="datetime-local" v-model="queryCon.endTime"
+                :disabled="queryCon.functionRequestId!=''||!canEdit||queryCon.loading" @change="changeEndTime">
+              <!-- <small>日期间隔只能为一天</small> -->
+            </div>
+
+            <div class="form-group g-mr-5">
+              <div>检索关键词</div>
+              <input id="inputGroup1_1" class="form-control u-form-control-lg rounded-0 g-font-size-15"
+                placeholder="关键字" v-model="queryCon.keyword"
+                :disabled="queryCon.functionRequestId!=''||queryCon.loading">
+            </div>
+
+            <div class="form-group g-mr-5">
+              <div>RequestId</div>
+              <input id="inputGroup1_1" class="form-control u-form-control-lg rounded-0 g-font-size-15"
+                placeholder="请求id" v-model="queryCon.functionRequestId" :disabled="!canEdit||queryCon.loading">
+            </div>
+
+            <div class="form-group">
+              <div class="g-color-transparent" style="color: transparent">1</div>
+
+              <button class="btn btn-lg u-btn-primary  rounded-0 g-px-20" @click="queryLog"
+                :disabled="!canEdit||queryCon.loading||loadNS">
+                <i class="fa fa-spin fa-spinner" v-if="queryCon.loading"></i>
+                <i class="fa fa-search" v-if="!queryCon.loading"></i>
+                查询</button>
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+        <div class="g-pos-rel  g-px-30 g-overflow-y-auto">
+
+          <div class="w-100 text-center" v-if="loadNS">
+            <div class="lds-roller g-mt-140">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div v-if="loadNS">加载命名空间信息</div>
+            <!-- <div v-if="queryCon.loading">加载命名空间信息</div> -->
+          </div>
+
+          <div class="row " v-if="!queryCon.loading&&!loadNS">
+            <div class="col-3 g-pt-50  g-brd-right g-brd-gray-light-v4">
+              <h5 class="mb-4">日志列表</h5>
+
+              <div class="w-100 text-center g-color-gray-dark-v1" v-if="queryCon.totalCount==0">
+
+                <div v-if="queryCon.loading">
+                  <i class="fa fa-spin fa-spinner g-font-size-30"></i>
+                </div>
+                <div v-if="!queryCon.loading">
+                  <i class="fa fa-podcast g-font-size-30"></i>
+                  <div>无日志记录</div>
+                </div>
+
+              </div>
+
+
+
+
+              <!-- Links List -->
+              <ul class="list-unstyled mb-5">
+
+                <li class="py-1" v-for="(log,inx) in scfLogs" @click="getRequestLog(inx)">
+                  <a class="d-block u-link-v5 u-shadow-v35--active g-color-text-light-v1 g-color-main--hover g-color-primary--active g-bg-white--hover g-bg-white--active g-font-size-15 g-rounded-20 g-px-20 g-py-8 g-color-black g-bg-white justify-content-between d-flex"
+                    :class="{'active':log.show}" href="#">
+                    <span>
+                      <i class="align-middle mr-1 fa fa-check" v-if="log.RetCode==0"></i>
+                      <i class="align-middle mr-1 fa fa-close" v-if="log.RetCode!=0"></i>{{log.StartTime}}
+                    </span>
+                    <span>{{log.FunctionName}}</span>
+                    <!-- <span v-if="log.RetCode==0">成功</span> -->
+                    <!-- <span v-if="log.RetCode!=0">失败</span> -->
+                  </a>
+                </li>
+
+                <li class="py-1" v-if="queryCon.totalCount>scfLogs.length">
+                  <a class="d-block u-link-v5 u-shadow-v35--active g-color-text-light-v1 g-color-main--hover g-color-primary--active g-bg-white--hover g-bg-white--active g-font-size-15 g-rounded-20 g-px-20 g-py-8 g-color-black g-bg-white text-center"
+                    @click="queryLog" href="#">
+                    <i class="align-middle mr-1 fa "
+                      :class="queryCon.loading?'fa-spinner fa-spin':'fa-download'"></i>加载更多
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+
+            <div class="col-9 g-pt-50">
+              <h5 class="mb-4">运行日志</h5>
+
+              <ul class="nav u-nav-v1-1 g-mb-20" role="tablist" data-target="nav-1-1-default-hor-left"
+                data-tabs-mobile-type="slide-up-down"
+                data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-lightgray g-mb-20">
+                <li class="nav-item" @click="changeEChart(true)">
+                  <a class="nav-link" :class="{active:showChart}" data-toggle="tab" href="#nav-1-1-default-hor-left--1"
+                    role="tab">总图表分析</a>
+                </li>
+                <li class="nav-item" @click="changeEChart(false)">
+                  <a class="nav-link" :class="{active:!showChart}" data-toggle="tab" href="#nav-1-1-default-hor-left--2"
+                    role="tab">单次运行日志</a>
+                </li>
+              </ul>
+              <!-- End Nav tabs -->
+
+              <!-- Tab panes -->
+              <div id="nav-1-1-default-hor-left w-100" class="tab-content">
+
+                <div class="tab-pane fade " :class="{'show active':showChart}" id="nav-1-1-default-hor-left--1"
+                  role="tabpanel">
+                  <div id="areabar" class="w-100 g-pos-rel" style="height:400px;"></div>
+                  <div id="membar" class="w-100" style="height:400px;"></div>
+                </div>
+
+                <div class="tab-pane fade w-100" :class="{'show active':!showChart}" id="nav-1-1-default-hor-left--2"
+                  role="tabpanel">
+                  <div v-if="showLog.length==0">点击左侧查看详细日志</div>
+                  <div class="g-bg-white g-pa-20 g-mb-10" v-for="item in showLog">{{item}}</div>
+                  <div id="showjson" class="g-bg-white  g-pa-20 w-100"></div>
+                </div>
+
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+
+
+    </div>
+
+
+  </main>
+
+
+  <script>
+    // const { dialog, shell } = require('electron').remote
+
+    // window.nodeRequire = require;
+    // delete window.require;
+    // delete window.exports;
+    // delete window.module;
+
+
+
+  </script>
+
+  <!-- <script src="../assets/vendor/jquery/jquery.min.js"></script> -->
+  <script>window.jQuery = window.$ = require('jquery')</script>
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <!-- <script src="../assets/vendor/bootstrap/offcanvas.js"></script> -->
+
+
+  <!-- <script src="../assets/vendor/dzsparallaxer/dzsparallaxer.js"></script> -->
+  <!-- <script src="../assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script> -->
+  <!-- <script src="../assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script> -->
+  <!-- <script src="../assets/vendor/masonry/dist/masonry.pkgd.min.js"></script> -->
+  <!-- <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script> -->
+  <!-- <script src="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script> -->
+  <script src="../assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="../assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+  <script src="../assets/js/hs.core.js"></script>
+  <script src="../assets/js/components/hs.header.js"></script>
+  <script src="../assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="../assets/js/components/hs.dropdown.js"></script>
+  <!-- <script src="../assets/js/components/hs.scrollbar.js"></script> -->
+  <script src="../assets/js/components/hs.popup.js"></script>
+  <script src="../assets/js/components/hs.carousel.js"></script>
+  <script src="../assets/js/components/hs.go-to.js"></script>
+  <script src="../assets/vendor/custombox/custombox.min.js"></script>
+  <script src="../assets/js/components/hs.modal-window.js"></script>
+
+
+  <script src="../vue.js"></script>
+  <!-- <script src="../assets/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.min.js"></script> -->
+  <script src="../assets/js/components/hs.cubeportfolio.js"></script>
+
+  <script src="../assets/jquery/jquery-ui.js"></script>
+
+  <script src="../assets/vendor/jquery-ui/ui/widgets/datepicker.js"></script>
+  <script src="../assets/js/components/hs.datepicker.js"></script>
+
+  <script src="../assets/js/components/hs.header-side.js"></script>
+
+
+  <script type="text/javascript" src="./js/jquery.jsonview.js"></script>
+  <script src="./js/echarts.min.js"></script>
+
+  <script src="./js/listlog.js"></script>
+  <script src="./js/uikit.js"></script>
+
+
+  <script>
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+
+    $(window).on('load', function () {
+
+    });
+  </script>
+
+</body>
+
+</html>

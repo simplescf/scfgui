@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+
+
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- <link rel="stylesheet" href="./css/zzsc.css"> -->
+
+
+</head>
+
+<body id="bbody" class="g-bg-gray-light-v4">
+  <main id="main">
+
+    <div v-show="showlogin" style="display: none;">
+      <div class="g-width-485 g-bg-white g-mt-100" :style="'margin-left:'+left+'px'" >
+        <div class="w-100">
+
+          <div class="text-center">
+            <img src="./img/logoblue.png" alt="" class="g-width-150 run2" style="margin-top: -50px;">
+          </div>
+
+          <div class="g-pa-40">
+            <div class="d-flex justify-content-between">
+              <h2 class="h5 g-color-black mb-4 ">账号登陆</h2>
+              <div class=" text-right">
+                <a href="#!" class="ss_main_color" @click="uiSwitchShow('reg')">注册账号</a>
+              </div>
+            </div>
+
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-10" for="inputGroup1_1">您的邮箱</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-envelope-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="text" placeholder="" v-model="account.accountmail">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-10" for="inputGroup1_1">密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 ">
+                  <i class="fa fa-lock g-font-size-20"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder="" v-model="account.accountpw" @keyup.enter="uiLogin">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+
+              <div class="form-group">
+                <label class="d-flex align-items-center justify-content-between">
+
+                  <div class="u-check g-mr-10">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" checked type="checkbox">
+                    <div class="u-check-icon-radio-v8">
+                      <i class="fa" data-check-icon=""></i>
+                    </div>
+                  </div>
+                  <span>保持登陆</span>
+                </label>
+              </div>
+
+
+              <div>忘记密码</div>
+            </div>
+
+            <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color w-100 g-mt-20"  @click="uiLogin" :disabled="state.islogin">
+              <i class="fa fa-spin fa-spinner g-mr-10" v-show="state.islogin"></i>
+              {{state.isjump?'登陆成功,正在跳转':'登陆'}}
+              </button>
+
+            <div class="g-color-black text-center"><i class="fa fa-lock"></i>采用RSA算法加密您的项目敏感数据</div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div v-show="showreg" style="display: none;">
+      <div class="g-width-780 g-bg-white d-flex g-mt-100" :style="'margin-left:'+regleft+'px'" >
+        <div class="w-50  text-center" style="background-image: url('./img/bg.png');background-size: 100%;">
+          <div class="d-flex">
+            <img src="./img/logowhite.png" class="g-width-50 g-height-50" alt="">
+            <h2 class="h5 g-color-black mb-4">SCFGUI</h2>
+          </div>
+          <div class="text-center">
+            <h2 class="h5 g-color-black mb-4 g-color-white g-font-weight-600">注册账号</h2>
+            <div class="text-left g-px-40">
+              <ul>
+                <li>基于腾讯云SCF</li>
+                <li>图形化SCF一键自动化配置部署,更新代码,轻松调试,便捷图形运维</li>
+                <li>SCF函数图形化分析解读,便捷直观</li>
+                <li>云存储项目信息,随时随地使用,轻松跨设备</li>
+                <li>在您的私有COS存储代码随时可用又不泄露</li>
+                <li>敏感数据RAS非对称加密,只有你自己可用解密,安全可靠</li>
+                <li>以上功能全免费</li>
+              </ul>
+            </div>
+
+            <h2 class="h5 g-color-black mb-4 g-color-white g-font-weight-600">团队功能</h2>
+            <div class="text-left g-px-40">
+              <ul>
+                <li>多人协作自动同步部署配置</li>
+                <li>管理员管理成员配置,项目敏感信息保密</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="w-50">
+
+          <div class="g-pa-40">
+
+            <div class="d-flex justify-content-between">
+              <DIV class="mb-4">
+                <h2 class="h5 g-color-black mb-0 ">创建您的SCFGUI云账号</h2>
+              <small>自动云同步您的配置信息,敏感信息RSA加密</small>
+              </DIV>
+              
+              <div class=" text-right">
+                <a href="#!" class="ss_main_color" @click="uiSwitchShow('login')">登陆</a>
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">您的邮箱<small>--同时用于团队项目邀请</small></label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-envelope-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="email" placeholder="" v-model="account.accountmail">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">您的昵称 <small>--团队项目中显示的您的称呼</small></label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-user-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="text" placeholder="" v-model="account.accountname">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">您的密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-lock g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder="" v-model="account.accountpw">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">确认密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-lock g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder="" v-model="account.repw">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="d-flex align-items-center">
+
+                <div class="u-check g-mr-10">
+                  <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" type="checkbox">
+                  <div class="u-check-icon-radio-v8">
+                    <i class="fa" data-check-icon=""></i>
+                  </div>
+                </div>
+                <span>发布版本,更新功能EMAIL通知我</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="d-flex align-items-center">
+
+                <div class="u-check g-mr-10">
+                  <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" checked type="checkbox">
+                  <div class="u-check-icon-radio-v8">
+                    <i class="fa" data-check-icon=""></i>
+                  </div>
+                </div>
+                <span>保持登陆</span>
+              </label>
+            </div>
+
+            <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color w-100 g-mt-20" @click="uiReg" :disabled="state.isreging">
+              <i class="fa fa-spin fa-spinner" v-if="state.isreging"></i>注册
+            </button>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+        <img src="./img/logowhite.png" class="g-height-200 g-width-200" alt="" srcset="">
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // const Vue = require("../vue");
+
+  </script>
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+  <script src="../vue.js"></script>
+
+  <script src="./js/login.js"></script>
+
+  <script>
+    
+   
+  </script>
+
+</body>
+
+</html>

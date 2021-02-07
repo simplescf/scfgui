@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>增加函数1</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+
+  <link rel="stylesheet" href="../assets/css/styles.op-app.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/common.css">
+
+
+  <style>
+    input {
+      color: black !important;
+      font-weight: bold;
+    }
+
+    select {
+      color: black !important;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body id="bbody" class="u-body--header-side-static-left">
+  <main id="main" class="g-color-black g-height-100x g-pos-rel">
+
+    <div class="w-100 text-center" v-if="istotalload">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div style="display: none;" v-show="!istotalload">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5 g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">遵循MIT软件协议</p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <section id="appScreens" class="g-py-50 g-px-30">
+
+        <div class="text-center g-mb-40 g-pos-rel">
+
+          <div class="g-pos-abs g-left-0 g-top-0">
+            <div class="text-left">切换项目</div>
+
+            <div class="d-flex">
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200"
+                v-model="projectCate" @change="uiCleanAndChangeProjectCate" :disabled="refreshTeam">
+                <option value="persion">个人项目</option>
+                <option value="team">团队项目</option>
+              </select>
+
+              <select
+                class="form-control form-control-lg g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus"
+                @change="uiChangeTeam" ref="chkteam" :disabled="refreshTeam">
+                <option :value="team._id" v-for="(team,inx) in teams" :selected="team._id==chkTeam._id">{{team.teamname}}</option>
+              </select>
+
+              <a href="#!" class="btn btn-md g-mr-10 g-mb-15 g-color-gray-dark-v3" @click="uiRefreshTeam">
+                <i class="fa fa-refresh" :class="{'fa-spin':refreshTeam}"></i>
+              </a>
+
+            </div>
+
+          </div>
+
+          <ul class="nav justify-content-center u-nav-v1-1 u-nav-dark g-pt-20" role="tablist"
+            data-target="nav-1-1-dark-hor-right" data-tabs-mobile-type="slide-up-down"
+            data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-darkgray">
+            <li class="nav-item g-bg-black-opacity-0_1" @click="isSimpleMode(true)">
+              <a class="nav-link active" data-toggle="tab" href="#nav-1-1-dark-hor-right--1" role="tab">精简配置模式</a>
+            </li>
+            <li class="nav-item g-bg-black-opacity-0_1" @click="isSimpleMode(false)">
+              <a class="nav-link" data-toggle="tab" href="#nav-1-1-dark-hor-right--2" role="tab">完整配置模式</a>
+            </li>
+          </ul>
+
+          <div></div>
+
+        </div>
+
+
+        <div class="row no-gutters g-brd-around g-brd-gray-light-v4 u-shadow-v1-5">
+
+          <div class="col-6 g-brd-right g-brd-gray-light-v4 u-shadow-v1-3">
+            <div class="w-100 g-brd-bottom g-brd-gray-light-v3  g-py-15 g-pl-20 g-bg-gray-light-v5">开发配置</div>
+            <div class="row g-px-25 g-py-10 g-pb-20">
+              <div class="form-group g-mb-15 col-12">
+                <label for="example-text-input" class="col-form-label">代码目录</label>
+                <div class="input-group g-brd-primary--focus">
+                  <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                    <i class="fa fa-folder-open-o"></i>
+                  </div>
+                  <input class="form-control form-control-md rounded-0 g-brd-gray-light-v1" type="text"
+                    placeholder="点击左侧加号选择项目根目录" v-model="fun.inputs.src.src" readonly>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <label for="example-text-input" class="col-form-label">编程语言</label>
+                <div class="input-group g-brd-primary--focus">
+                  <select
+                    class="w-100 u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-brd-gray-light-v1"
+                    v-model="fun.inputs.runtime" :disabled="!canEdit">
+                    <option :value="run" v-for="run in chkTeam.project.runtime">{{run}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <label class="col-form-label col-12">请选择接口文件</label>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="chkapifile" :disabled="!canEdit">
+                  <option value="">请选择文件</option>
+                  <option :value="file.name" v-for="file in apifiles">{{file.file}}</option>
+                </select>
+              </div>
+
+              <div class="col-4">
+                <label class="col-form-label col-12">请选择接口函数</label>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="fun.inputs.name" :disabled="!canEdit" @change="flushApiGatewaySet">
+                  <option value="">请选择函数</option>
+                  <option :value="fun" v-for="fun in apifunctions">{{fun}}</option>
+                </select>
+              </div>
+
+              <div class="col-12 g-mb-15">
+                <small class="g-color-gray-dark-v4">脚本语言自动检索接口函数</small>
+              </div>
+
+
+
+
+              <div class="form-group col-4 g-mb-15">
+                <label for="example-text-input" class="col-form-label">归属业务模块</label>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  :disabled="chkTeam.project.tags.length==0" v-model="modelCode">
+                  <option value="">不指定模块</option>
+                  <option :value="tag.code" v-for="tag in chkTeam.project.tags">{{tag.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-8 g-mb-15">
+                <label for="example-text-input" class="col-form-label">函数描述</label>
+                <input type="text" class="form-control rounded-0 form-control-md g-brd-gray-light-v1"
+                  v-model="fun.inputs.description" @input="changeDesc" placeholder="请输入函数描述" :disabled="!canEdit">
+              </div>
+
+              <div class="col-12">
+                <label for="example-text-input" class="col-form-label">打包排除目录</label>
+                <div class="input-group ">
+                  <a href="#!" @click="addexclude"
+                    class="btn input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-py-12">
+                    <i class="fa fa-plus"></i>
+                  </a>
+                  <!-- <textarea class="form-control form-control-md g-resize-none rounded-0" rows="4"
+                  placeholder="点击左侧按钮可以添加不被上传到SCF的目录"></textarea> -->
+                  <div class="w-100 g-brd-gray-light-v2 g-brd-top">
+                    <div class="input-group" v-for="(dir, inx) in fun.inputs.src.exclude">
+                      <div disabled class="form-control form-control-md rounded-0 g-brd-top-none" type="text"
+                        placeholder="点击左侧添加目录" :value="dir">{{dir}}</div>
+
+                      <a class="btn input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-brd-top-none"
+                        @click="openfolder(dir)">
+                        <i class="fa fa-folder-open-o"></i>
+                      </a>
+
+                      <a class="btn input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-brd-top-none"
+                        @click="delexclude(inx)">
+                        <i class="fa fa-remove"></i>
+                      </a>
+                    </div>
+
+                    <div class="input-group" v-if="fun.inputs.src.exclude.length==0">
+                      <input disabled class="form-control form-control-md rounded-0 g-brd-top-none g-brd-gray-light-v1"
+                        type="text" placeholder="点击左侧添加目录">
+                    </div>
+
+                  </div>
+
+                </div>
+                <small>上传到SCF服务器的代码将排除上述目录,如GIT node_model目录</small>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="col-6 u-shadow-v1-3 g-pos-rel">
+
+            <div class="w-100 g-brd-bottom g-brd-gray-light-v3  g-py-15 g-pl-20 g-bg-gray-light-v5">云执行配置</div>
+            <div class="row g-px-25 g-py-10 g-pb-20">
+              <div class="col-6">
+                <div for="example-text-input" class="col-form-label">请选择命名空间<i class="fa fa-spinner fa-spin"
+                    v-if="loadnamespace"></i></div>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="fun.inputs.namespace" :disabled="!canEdit">
+                  <option :value="ns" v-for="ns in chkTeam.project.namespaces">{{ns}}</option>
+                </select>
+              </div>
+
+              <div class="col-6 g-mb-10">
+                <div class="form-group ">
+                  <label for="example-text-input" class="col-form-label">超时秒数</label>
+                  <input type="number" v-model="fun.inputs.timeout" min="1" max="900" step="1"
+                    class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="请输入API的超时秒数"
+                    :disabled="!canEdit">
+                  <small class="g-color-gray-dark-v4">相当于计费最长时间</small>
+                </div>
+              </div>
+
+              <div class="col-6 g-mb-10">
+                <div class="form-group ">
+                  <label for="example-text-input" class="col-form-label">初始化超时秒数</label>
+                  <input type="number" v-model="fun.inputs.initTimeout" min="1" max="30" step="1"
+                    class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="请输入API的超时秒数"
+                    :disabled="!canEdit">
+                  <small class="g-color-gray-dark-v4">相当于计费最长时间</small>
+                </div>
+              </div>
+
+              <div class="col-6 g-mb-10">
+                <div for="example-text-input" class="col-form-label">运行内存</div>
+                <select
+                  class="w-100 u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-brd-gray-light-v1"
+                  v-model="fun.inputs.memorySize" :disabled="!canEdit">
+                  <option value="64">64M</option>
+                  <option value="128">128M</option>
+                  <option value="256">256M</option>
+                  <option value="384">384M</option>
+                  <option value="512">512M</option>
+                  <option value="640">640M</option>
+                  <option value="768">768M</option>
+                  <option value="896">896M</option>
+                  <option value="1024">1,024M</option>
+                  <option value="1152">1,152M</option>
+                  <option value="1280">1,280M</option>
+                  <option value="1408">1,408M</option>
+                  <option value="1536">1,536M</option>
+                  <option value="1664">1,664M</option>
+                  <option value="1792">1,792M</option>
+                  <option value="1920">1,920M</option>
+                  <option value="2048">2,048M</option>
+                </select>
+                <small class="g-color-gray-dark-v4">够用就好,越大费用越高</small>
+              </div>
+
+              <div class="col-12 g-mb-10">
+                <label for="example-text-input" class="col-form-label">
+                  开启内网VPC
+                </label>
+                <div class="d-flex w-100 justify-content-between">
+                  <select
+                    class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-width-150 g-brd-gray-light-v1"
+                    v-model="showvpc" :disabled="!canEdit||!chkTeam.project.canVpc" @change="uiChangeVpcSet">
+                    <option value="open">开启</option>
+                    <option value="close">关闭</option>
+                  </select>
+
+
+                  <select
+                    class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-mx-10 w-100 g-brd-gray-light-v1"
+                    :disabled="showvpc!='open'" @change="uiChanegVpc" v-model="fun.inputs.vpcConfig.vpcId">
+                    <option :value="vpc.VpcId" v-for="vpc in chkTeam.project.vpcs">{{vpc.VpcName}}</option>
+                  </select>
+
+                  <select
+                    class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-mx-10 w-100 g-brd-gray-light-v1"
+                    :disabled="showvpc!='open'" v-model="fun.inputs.vpcConfig.subnetId">
+                    <option :value="sb.SubnetId" v-for="sb in subnets">{{sb.SubnetName}}</option>
+                  </select>
+
+
+
+                </div>
+                <small class="g-color-gray-dark-v4">VPC就是腾讯云内网访问权限</small>
+              </div>
+
+              <div class="col-6 g-mb-10">
+                <label class="d-flex align-items-center justify-content-between">
+                  <div>开启外网</div>
+                  <div class="u-check">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" value="TRUE" type="checkbox"
+                      v-model="fun.inputs.publicAccess">
+                    <div class="u-check-icon-radio-v8">
+                      <i class="fa" data-check-icon=""></i>
+                    </div>
+                  </div>
+                </label>
+                <small class="g-color-gray-dark-v4">默认函数无权限访问外网</small>
+              </div>
+
+              <div class="col-6 g-mb-10">
+                <label class="d-flex align-items-center justify-content-between">
+                  <div>开启固定外网IP</div>
+                  <div class="u-check">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" value="TRUE" type="checkbox"
+                      v-model="fun.inputs.eip">
+                    <div class="u-check-icon-radio-v8">
+                      <i class="fa" data-check-icon=""></i>
+                    </div>
+                  </div>
+                </label>
+                <small class="g-color-gray-dark-v4">默认IP会变动,特殊需求(如微信支付的IP白名单)请开启固定IP</small>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-6 g-brd-right g-brd-gray-light-v4 u-shadow-v1-3 g-pos-rel">
+
+            <!-- <div v-if="simpleMode" class="g-z-index-99 g-pos-abs g-left-0 g-top-0 w-100 h-100 g-bg-black-opacity-0_8">
+              <div class="text-center g-mt-50 g-color-white ">
+                <i class="fa fa-cog g-font-size-30"></i>
+                <div class="g-font-size-15">完整模式下可配置</div>
+              </div>
+            </div> -->
+
+            <div class="w-100 g-brd-bottom g-brd-gray-light-v3  g-py-15 g-pl-20 g-bg-gray-light-v5">开发配置</div>
+            <div class="row g-px-25 g-py-10 g-pb-20">
+              <div class="col-12 g-mb-25">
+                <div class="col-form-label w-100">绑定层</div>
+                <div class="w-100 g-brd-around g-brd-gray-light-v3 g-rounded-5 g-brd-1 g-py-20">
+
+                  <div class="col-12 row g-mb-10 ">
+                    <div class="col-5">层名称</div>
+                    <div class="col-5">层版本</div>
+                    <div class="col-2"></div>
+                  </div>
+
+                  <div class="col-12 row g-mb-10" v-for="(lay, index) in fun.inputs.layers">
+
+                    <div class="col-5">
+                      <select
+                        class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                        @change="uiListLayerVersions(index)" v-model="fun.inputs.layers[index].name">
+                        <option value="">不绑定</option>
+                        <option :value="layer.LayerName" v-for="layer in layers">{{layer.LayerName}}</option>
+                      </select>
+                    </div>
+
+                    <div class="col-5">
+                      <select
+                        class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                        v-model="fun.inputs.layers[index].version">
+                        <option :value="ver.LayerVersion" v-for="ver in chkLayers[index].vers">{{ver.LayerVersion}}
+                        </option>
+                      </select>
+                    </div>
+
+
+                    <div class="col-2 d-flex">
+                      <a href="#!" class="btn btn-lg g-color-gray-dark-v4  g-brd-none" @click="delenv(index)">
+                        <i class="fa fa-minus"></i>
+                      </a>
+                      <a href="#!" class="btn btn-lg g-color-gray-dark-v4  g-brd-none" @click="addLayer"
+                        v-if="index==fun.inputs.layers.length-1">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="col-12 g-mb-25">
+                <div class="col-form-label w-100">环境变量</div>
+
+                <div class="w-100 g-brd-around g-brd-gray-light-v3 g-rounded-5 g-brd-1 g-py-20">
+                  <div class="row col-12">
+                    <div class="col-12 row g-mb-10">
+                      <div class="col-5">key</div>
+                      <div class="col-5">value</div>
+                      <div class="col-2"></div>
+                    </div>
+
+                    <div class="col-12 row g-mb-10" v-for="(item, index) in environment">
+                      <div class="col-5">
+                        <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="变量名"
+                          v-model="environment[index].name">
+                      </div>
+
+                      <div class="col-5">
+                        <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="变量值"
+                          v-model="environment[index].val">
+                      </div>
+
+                      <div class="col-2 d-flex">
+                        <a href="#!" class="btn btn-lg g-color-gray-dark-v4 g-mr-10  g-brd-none" @click="delenv(index)">
+                          <i class="fa fa-minus"></i>
+                        </a>
+                        <a href="#!" class="btn btn-lg g-color-gray-dark-v4  g-brd-none" @click="addenv"
+                          v-if="index==environment.length-1">
+                          <i class="fa fa-plus"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-12  g-mb-25">
+                <div class="w-100 col-form-label">函数标签</div>
+                <div class="w-100 g-brd-around g-brd-gray-light-v3 g-rounded-5 g-brd-1 g-py-20">
+                  <div class="col-12 row">
+                    <div class="col-12 row g-mb-10 ">
+                      <div class="col-5">key</div>
+                      <div class="col-5">value</div>
+                      <div class="col-2"></div>
+                    </div>
+
+                    <div class="col-12 g-mb-10 row" v-for="(item, index) in tags">
+                      <div class="col-5">
+                        <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="标签名"
+                          v-model="tags[index].name">
+                      </div>
+
+                      <div class="col-5">
+                        <input type="email" class="form-control rounded-0 form-control-md g-brd-gray-light-v1"
+                          placeholder="标签值" v-model="tags[index].val">
+                      </div>
+
+                      <div class="col-2 d-flex">
+                        <a href="#!" class="btn btn-lg g-color-gray-dark-v4 g-mr-10  g-brd-none" @click="deltag(index)">
+                          <i class="fa fa-minus"></i>
+                        </a>
+                        <a href="#!" class="btn btn-lg g-color-gray-dark-v4 g-brd-none" @click="addtag"
+                          v-if="index==tags.length-1">
+                          <i class="fa fa-plus"></i>
+                        </a>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-6 g-brd-gray-light-v4 u-shadow-v1-3">
+            <div class="w-100 g-brd-bottom g-brd-gray-light-v3  g-py-15 g-pl-20 g-bg-gray-light-v5">触发器配置</div>
+            <div class="row g-px-25 g-py-10 g-pb-20">
+
+              <div class="col-12 d-flex g-py-20 g-brd-bottom g-brd-gray-light-v4">
+                <label class="col-form-label g-mr-10">触发器类型</label>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-width-200 g-brd-gray-light-v1"
+                  v-model="event" @change="changeevent" :disabled="!canEdit">
+                  <option value="">选择触发器</option>
+                  <option value="api">API网关</option>
+                  <option value="timer">定时/循环触发</option>
+                  <!-- <option value="cos">COS触发</option> -->
+                </select>
+                <a href="#!" class="btn btn-md u-btn-primary g-ml-10 rounded-0" @click="flushApiGatewaySet">一键智能填写</a>
+              </div>
+
+              <div class="row g-mt-20 g-pa-20  g-font-size-12" v-show="event=='timer'">
+
+                <div class="col-6 g-mb-20">
+                  <div class="col-form-label">定时任务名称<i class="g-ml-10 fa fa-question-circle-o" rel="drevil"
+                      data-content="一个函数不能设置同名的定时任务" data-container="body" data-toggle="popover"
+                      data-placement="bottom"></i></div>
+                  <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="定时任务名称"
+                    v-model="fun.inputs.events.timer.parameters.name">
+                </div>
+
+                <div class="col-6  g-mb-20">
+                  <div class="col-form-label">触发规则</div>
+                  <select
+                    class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                    v-model="timergw.type">
+                    <option value="fix">指定时间触发</option>
+                    <option value="cir">循环触发</option>
+                    <option value="cus">自定义时间规则</option>
+                  </select>
+                </div>
+
+                <div class="col-12" v-if="timergw.type=='cus'">
+                  <label for="example-text-input" class="col-form-label">自定义规则</label>
+                  <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="cron表达式"
+                    v-model="timergw.rule">
+                  <a href="http://cloud.tencent.com/document/product/583/9708">点击查看规则详细说明</a>
+                </div>
+
+                <div class="col-12 row" v-show="timergw.type=='fix'">
+
+                  <div class="col-3 g-mb-20">
+                    <div>触发周期</div>
+                    <select
+                      class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-width-200 g-brd-gray-light-v1"
+                      v-model="apigwtype">
+                      <option value="day">每日触发</option>
+                      <option value="week">每周触发</option>
+                      <option value="month">每月触发</option>
+                    </select>
+                  </div>
+
+                  <div class="col-9 g-mb-20" v-show="apigwtype=='week'">
+                    <div>具体日期</div>
+                    <div>
+
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="0"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周日
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="1"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周一
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="2"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周二
+                      </label>
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="3"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周三
+                      </label>
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="4"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周四
+                      </label>
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="5"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周五
+                      </label>
+                      <label class="form-check-inline u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0 g-brd-gray-light-v1" value="6"
+                          type="checkbox" checked="" v-model="timergw.week">
+                        <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        周六
+                      </label>
+
+                    </div>
+                  </div>
+
+                  <div class="col-9 g-mb-20" v-show="apigwtype=='month'">
+                    <div class="form-group g-mb-40">
+                      <label class="g-mb-10">
+                        每月具体日期(1-31号)
+                        <span class="g-color-primary">(
+                          <span id="rangeSliderAmount2">0</span>
+                          )
+                        </span>
+                      </label>
+
+                      <div id="rangeSlider2" class="u-slider-v1" data-range="true"
+                        data-result-container="rangeSliderAmount2" data-default="1, 31" data-min="1" data-max="31">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <div>触发具体时间(hh:mm:ss)</div>
+                    <input type="time" v-model="apigwtime"
+                      class="form-control rounded-0 form-control-md g-brd-gray-light-v1" />
+                  </div>
+
+                </div>
+
+                <div class="col-12" v-show="timergw.type=='cir'">
+                  <div class="input-group">
+                    <div class="input-group-btn">
+                      <button type="button"
+                        class="btn btn-md btn-secondary dropdown-toggle dropdown-toggle-split rounded-0"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{timergw.cir.txt==''?'请选择循环时间':timergw.cir.txt}}
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#!" @click="changeCir('day')">天</a>
+                        <a class="dropdown-item" href="#!" @click="changeCir('hour')">小时</a>
+                        <a class="dropdown-item" href="#!" @click="changeCir('min')">分</a>
+                        <a class="dropdown-item" href="#!" @click="changeCir('sec')">秒</a>
+                      </div>
+                    </div>
+                    <input type="number" class="form-control rounded-0 form-control-md g-brd-gray-light-v1" max="59"
+                      v-model="timergw.cir.cirNumber">
+                  </div>
+                </div>
+
+
+
+
+              </div>
+
+              <div class="row g-brd-around g-brd-gray-light-v2 g-mt-20 g-pa-20  g-font-size-12" v-show="event=='cos'">
+
+                <div class="col-12 row">
+                  <div class="col-form-label col-12">COS Bucket<i class="g-ml-10 fa fa-question-circle-o" rel="drevil"
+                      data-content="选择用作事件源的 COS 存储桶，该存储桶必须位于函数所在地域 <a  href='http://console.cloud.tencent.com/cos'>打开腾讯COS管理页</a>"
+                      data-container="body" data-toggle="popover" data-placement="bottom"></i></div>
+                  <div class="col-4">
+                    <select
+                      class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                      v-model="cosgw.bucket">
+                      <option :value="cos.Name" v-for="cos in buckets">{{cos.Name}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 row">
+                  <div class=" col-form-label col-12">事件类型</div>
+                  <div class="col-4">
+                    <select
+                      class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg  g-brd-gray-light-v1"
+                      v-model="cosgw.events">
+                      <option value="cos:ObjectCreated:Put">使用 Put Object 接口创建文件时触发</option>
+                      <option value="cos:ObjectCreated:Post">使用 Post Object 接口创建文件时触发</option>
+                      <option value="cos:ObjectCreated:Copy">使用 Put Object - Copy 接口创建文件时触发</option>
+                      <option value="cos:ObjectCreated:CompleteMultipartUpload">使用 CompleteMultipartUpload 接口创建文件时触发
+                      </option>
+                      <option value="cos:ObjectCreated:Origin">发生 CDN 回源时触发</option>
+                      <option value="cos:ObjectCreated:Replication">通过跨区域复制创建对象时触发</option>
+                      <option value="cos:ObjectRemove:*">以下提到的所有删除事件均可触发</option>
+                      <option value="cos:ObjectRemove:Delete">在未开启版本管理的 Bucket 下使用 Delete Object 接口删除的 Object，或者使用
+                        versionid 删除指定版本的 Object 时触发</option>
+                      <option value="cos:ObjectRemove:DeleteMarkerCreated">在开启或者暂停版本管理的 Bucket 下使用 Delete Object
+                        接口删除的
+                        Object 时触发</option>
+                      <option value="cos:ObjectRestore:Post">创建了归档恢复的任务时触发</option>
+                      <option value="cos:ObjectRestore:Completed">完成归档恢复任务时触发</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 row">
+                  <div class="col-form-label col-12">前缀过滤<i class=" g-ml-10 fa fa-question-circle-o" rel="drevil"
+                      data-content="前缀过滤通常用于过滤指定目录下的文件事件，例如前缀过滤为test/，则仅 test/ 目录下的文件事件才可以触发函数，hello/目录下的文件事件不应该触发函数。更详细的规则请参考<a  href='https://cloud.tencent.com/document/product/583/9707'>文档</a>"
+                      data-container="body" data-toggle="popover" data-placement="bottom"></i> </div>
+                  <div class="col-4"><input class="form-control rounded-0 form-control-md" placeholder="前缀过滤"
+                      v-model="cosgw.prefix"></div>
+                </div>
+
+                <div class="col-12 row">
+                  <div class="col-12 col-form-label ">后缀过滤 <i class="g-ml-10 fa fa-question-circle-o" rel="drevil"
+                      data-content="后缀过滤通常用于过滤指定类型或后缀的文件事件，例如后缀过滤为.jpg，则仅 .jpg 结尾的文件的事件才可以触发函数，.png结尾的文件不应该触发函数。更详细的规则请参考<a  href='https://cloud.tencent.com/document/product/583/9707'>文档</a>"
+                      data-container="body" data-toggle="popover" data-placement="bottom"></i>
+                  </div>
+                  <div class="col-4">
+                    <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="后缀过滤"
+                      v-model="cosgw.suffix">
+                  </div>
+                </div>
+
+              </div>
+
+              <div v-show="event=='api'" class="row g-pa-20">
+
+                <div class="form-group col-6 g-mb-20">
+
+                  <label for="example-text-input" class="col-form-label">API网关名称 <a href="#!"><i
+                        class="fa fa-question-circle-o g-color-gray-dark-v3"
+                        @click="showHelp.api=!showHelp.api"></i></a></label>
+                  <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1"
+                    v-model="fun.inputs.events.apigw.parameters.endpoints[0].apiName">
+                  <small v-show="showHelp.api">仅用来标识API(请输入英文数字)</small>
+                </div>
+
+                <div class="form-group col-6  g-mb-20">
+                  <label for="example-text-input" class="col-form-label">API网关备注</label>
+                  <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="备注"
+                    v-model="fun.inputs.events.apigw.parameters.endpoints[0].description">
+                </div>
+
+                <div class="col-6  g-mb-20">
+                  <div for="example-text-input" class="col-form-label">动态路径支持 <a href="#!"><i
+                        class="fa fa-question-circle-o g-color-gray-dark-v3"
+                        @click="showHelp.path=!showHelp.path"></i></a>
+                  </div>
+                  <div>
+
+                    <label class="d-flex align-items-center justify-content-between g-mt-10">
+                      <div class="g-color-gray-dark-v3">追加动态路径</div>
+                      <div class="u-check">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" type="checkbox" v-model="isShowDyPara"
+                          @change="changeApiType">
+                        <div class="u-check-icon-radio-v8">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                      </div>
+                    </label>
+
+                  </div>
+                  <small v-show="showHelp.path">动态路径支持在路径中包含动态参数</small>
+                </div>
+
+                <div class="form-group col-6  g-mb-20">
+                  <label for="example-text-input" class="col-form-label">固定路径部分 <a href="#!"><i
+                        class="fa fa-question-circle-o g-color-gray-dark-v3"
+                        @click="showHelp.fix=!showHelp.fix"></i></a></label>
+                  <input class="form-control rounded-0 form-control-md g-brd-gray-light-v1" placeholder="固定路径部分"
+                    v-model="fun.inputs.events.apigw.parameters.endpoints[0].path">
+                  <small v-show="showHelp.fix">访问的URL路径,支持“/”、“=/”、“^~/”开头，大小写字母、数字、和$-_.+!*'(),/%等符合URL规则的符号<br>
+                    默认是: /命名空间/文件名/函数名
+                  </small>
+                </div>
+
+
+
+                <div class="form-group g-mb-20 col-12  g-brd-around g-brd-gray-light-v2 g-pa-10" v-if="isShowDyPara">
+                  <div for="example-text-input" class="g-brd-bottom g-brd-gray-light-v5 g-pb-10 g-mb-10">
+                    自定义PATH路径参数</div>
+
+                  <div
+                    class="w-100 d-flex g-py-20 g-pl-10 g-bg-gray-light-v5 g-brd-gray-light-v4 g-brd-bottom g-pb-10 justify-content-between"
+                    v-for="(para, inx) in fun.inputs.events.apigw.parameters.endpoints[0].param">
+                    <div class="g-width-80">
+                      <div>动态参数</div>
+                      <input class="form-control rounded-0 g-brd-gray-light-v1"
+                        v-model="fun.inputs.events.apigw.parameters.endpoints[0].param[inx].name" placeholder="参数名">
+                    </div>
+
+                    <div>
+                      <div>是否必须</div>
+                      <div>
+                        <label class="d-flex align-items-center justify-content-between g-mt-10">
+                          <div class="u-check">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" type="checkbox"
+                              v-model="fun.inputs.events.apigw.parameters.endpoints[0].param[inx].required">
+                            <div class="u-check-icon-radio-v8">
+                              <i class="fa" data-check-icon=""></i>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="g-width-80">
+                      <div>默认值</div>
+                      <input class="form-control rounded-0  g-brd-gray-light-v1"
+                        v-model="fun.inputs.events.apigw.parameters.endpoints[0].param[inx].defaultValue"
+                        placeholder="默认值" :disabled="para.required=='FALSE'">
+                    </div>
+
+                    <div class="g-width-80">
+                      <div>类型</div>
+                      <div>
+                        <select class="u-select-v1 g-color-black custom-select rounded-0 w-100 g-brd-gray-light-v1"
+                          v-model="fun.inputs.events.apigw.parameters.endpoints[0].param[inx].type">
+                          <option value="Int">int</option>
+                          <option value="String">String</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="g-width-80">
+                      <div class="g-color-white">1</div>
+                      <div class="d-flex justify-content-center">
+                        <a href="#!" class="btn btn-sm u-btn-outline-darkgray g-mr-10  g-brd-none"
+                          @click="delApigwPara(inx)">
+                          <i class="fa fa-minus"></i>
+                        </a>
+                        <a href="#!" class="btn btn-sm u-btn-outline-darkgray g-mr-10 g-brd-none"
+                          v-if="inx==fun.inputs.events.apigw.parameters.endpoints[0].param.length-1"
+                          @click="addApigwPara">
+                          <i class="fa fa-plus"></i>
+                        </a>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="form-group  g-mb-20 col-6">
+                  <div class="w-100">
+
+                    <label class="d-flex align-items-center justify-content-between">
+                      <span>CORS支持 <a href="#!"><i class="fa fa-question-circle-o g-color-gray-dark-v3"
+                            @click="showHelp.cos=!showHelp.cos"></i></a>
+                      </span>
+                      <div class="u-check">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" type="checkbox"
+                          v-model="fun.inputs.events.apigw.parameters.endpoints[0].enableCORS">
+                        <div class="u-check-icon-radio-v8">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                      </div>
+                    </label>
+
+                  </div>
+                  <small v-if="showHelp.cos">通过WEB的AJAX访问需要CORS支持</small>
+                </div>
+
+                <div class="form-group  g-mb-20 col-6">
+                  <div class="w-100">
+                    <label class="d-flex align-items-center justify-content-between">
+
+                      <span>集成响应 <a href="#!"><i class="fa fa-question-circle-o g-color-gray-dark-v3"
+                            @click="showHelp.intres=!showHelp.intres"></i></a>
+                      </span>
+
+                      <div class="u-check">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" type="checkbox"
+                          v-model="fun.inputs.events.apigw.parameters.endpoints[0].function.isIntegratedResponse">
+                        <div class="u-check-icon-radio-v8">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                      </div>
+                    </label>
+
+                  </div>
+                  <small v-if="showHelp.intres">最常见是微信支付回传通知</small>
+                </div>
+
+                <div class="form-group  g-mb-20 col-4">
+                  <label for="example-text-input" class="col-form-label">前端请求类型</label>
+
+                  <div class="w-100">
+
+                    <label class="form-check-inline u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="http"
+                        v-model="fun.inputs.events.apigw.parameters.protocols">
+                      <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      http
+                    </label>
+
+                    <label class="form-check-inline u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="https"
+                        v-model="fun.inputs.events.apigw.parameters.protocols">
+                      <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      https
+                    </label>
+
+
+                  </div>
+                </div>
+
+                <div class="form-group  g-mb-20 col-4">
+                  <label for="example-text-input" class="col-form-label">请求方法</label>
+                  <div class="w-100">
+                    <select
+                      class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                      v-model="fun.inputs.events.apigw.parameters.endpoints[0].method">
+                      <option value="GET">GET</option>
+                      <option value="POST">POST</option>
+                      <option value="PUT">PUT</option>
+                      <option value="DELETE">DELETE</option>
+                      <option value="HEAD">HEAD</option>
+                      <option value="ANY">ANY</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group  g-mb-20 col-4">
+                  <label for="example-text-input" class="col-form-label">返回类型</label>
+                  <div class="w-100">
+                    <select
+                      class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                      v-model="fun.inputs.events.apigw.parameters.endpoints[0].responseType">
+                      <option value="JSON">JSON</option>
+                      <option value="HTML">HTML</option>
+                      <option value="TEXT">TEXT</option>
+                      <option value="BINARY">BINARY</option>
+                      <option value="XML">XML</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group  g-mb-20 col-4">
+                  <label for="example-text-input" class="col-form-label">API网关服务</label>
+
+                  <select
+                    class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                    v-model="fun.inputs.events.apigw.parameters.serviceId">
+                    <option :value="gate.ServiceId" v-for="(gate, ainx) in chkTeam.project.apiGateways">
+                      {{gate.ServiceName}}</option>
+                  </select>
+                </div>
+
+
+
+
+                <div class="form-group  g-mb-20 col-4">
+                  <label for="example-text-input" class="col-form-label">发布环境</label>
+                  <select
+                    class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                    v-model="fun.inputs.events.apigw.parameters.environment">
+                    <option value="test">测试</option>
+                    <option value="prepub">预发布</option>
+                    <option value="release">发布</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div v-show="event==''" class="row g-pa-20">
+
+                <div class="col-6 g-mb-40">
+                  <span class="d-block g-font-size-20 g-font-weight-500 ss_main_color g-mb-10">00.</span>
+                  <div class="g-mb-10 g-font-weight-500 g-color-black">无触发器</div>
+                  <p class="mb-0">不配置触发器,则只能通过腾讯云的SDK进行调用.</p>
+                </div>
+
+                <div class="col-6 g-mb-40">
+                  <span class="d-block g-font-size-20 g-font-weight-500 ss_main_color g-mb-10">01.</span>
+                  <div class="g-mb-10 g-font-weight-500 g-color-black">API网关触发器</div>
+                  <p class="mb-0">配置API网关后,可以通过URL进行远程调用,使函数可以作为APP/小程序/WEB的服务器.</p>
+                </div>
+
+                <div class="col-6">
+                  <span class="d-block g-font-size-20 g-font-weight-500 ss_main_color g-mb-10">02.</span>
+                  <div class="g-mb-10 g-font-weight-500 g-color-black">定时循环触发器</div>
+                  <p class="mb-0">指定时间自动执行函数, 使函数可以作为守护线程使用.</p>
+                </div>
+
+                <div class="col-6">
+                  <span class="d-block g-font-size-20 g-font-weight-500 ss_main_color g-mb-10">03.</span>
+                  <div class="g-mb-10 g-font-weight-500 g-color-black">COS触发触发器</div>
+                  <p class="mb-0">腾讯云COS的特定时间触发函数,使函数可以作为文件自动处理功能使用.</p>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <button href="#!" class="btn btn-md u-btn-darkgray g-pos-fix g-right-40 g-bottom-40 u-shadow-v1-3" @click="addscf"
+            :disabled="!canEdit||isSubmitCloud">
+            <i class="fa fa-spin fa-spinner" v-if="isSubmitCloud"></i>新增SCF函数</button>
+
+      </section>
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // const tencentcloud = require("tencentcloud-sdk-nodejs");
+    // var fs = require("fs");
+    // var Vpc = require("../qcloud/vpc.js");
+    // window.nodeRequire = require;
+    // delete window.require;
+    // delete window.exports;
+    // delete window.module;
+  </script>
+
+
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="../assets/js/bootstrap-select.min.js"></script>
+
+  <script src="../assets/js/hs.core.js"></script>
+
+  <script src="../assets/js/components/hs.header-side.js"></script>
+  <script src="../vue.js"></script>
+
+
+  <script src="./js/addfunction.js"></script>
+
+
+
+  <script src="../assets/vendor/jquery-ui/ui/widget.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/version.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/keycode.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/position.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/unique-id.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/safe-active-element.js"></script>
+
+  <!-- jQuery UI Helpers -->
+  <script src="../assets/vendor/jquery-ui/ui/widgets/menu.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/widgets/mouse.js"></script>
+  <!-- jQuery UI Widgets -->
+  <script src="../assets/vendor/jquery-ui/ui/widgets/slider.js"></script>
+  <!-- JS Unify -->
+  <script src="../assets/js/components/hs.slider.js"></script>
+
+
+  <script>
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+
+
+    $(window).on('load', function () {
+
+      // initialization of header
+      // $.HSCore.components.HSHeader.init($('#js-header'));
+    });
+  </script>
+
+</body>
+
+</html>

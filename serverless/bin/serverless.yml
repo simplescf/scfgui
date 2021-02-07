@@ -1,0 +1,42 @@
+org: simplescf
+stage: dev
+component: scf
+name: testscf
+inputs:
+  name: testscf
+  namespace: default
+  src:
+    src: /Users/zhangtao/Documents/project/scfgui/scfgui-server
+    exclude:
+      - unittest/**
+      - vendor/**
+  layers:
+    - name: scfgui-vendor
+      version: 13
+  handler: project.testscf
+  runtime: Php7
+  region: ap-guangzhou
+  description: ""
+  memorySize: 64
+  timeout: 20
+  initTimeout: 3
+  publicAccess: false
+  eip: false
+  events:
+    - apigw:
+        parameters:
+          serviceName: scfgui
+          serviceId: service-n1nmux9g
+          protocols:
+            - https
+          environment: release
+          endpoints:
+            - path: /default/project/testscf
+              apiName: testscf
+              method: POST
+              description: ""
+              enableCORS: false
+              responseType: JSON
+              serviceTimeout: 15
+              function:
+                isIntegratedResponse: false

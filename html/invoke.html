@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>函数调用测试</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="../assets/css/styles.op-app.css"> -->
+  <link rel="stylesheet" href="./css/uikit.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/offcanvas.css">
+
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="../assets/vendor/animate.css">
+  <link rel="stylesheet" href="../assets/vendor/hamburgers/hamburgers.min.css">
+  <!-- <link rel="stylesheet" href="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css"> -->
+  <link rel="stylesheet" href="../assets/vendor/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="../assets/vendor/fancybox/jquery.fancybox.css">
+
+  <link rel="stylesheet" href="../assets/vendor/hs-megamenu/src/hs.megamenu.css">
+
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="../assets/vendor/cubeportfolio-full/cubeportfolio/css/cubeportfolio.min.css">
+
+
+  <link rel="stylesheet" href="../assets/jquery/style.css">
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/jquery/jquery-ui.css">
+
+  <link rel="stylesheet" href="./css/jquery.jsonview.css" />
+
+
+  <link rel="stylesheet" href="./codemirror-5.56.0/lib/codemirror.css">
+  <link rel="stylesheet" href="./codemirror-5.56.0/addon/hint/show-hint.css">
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/loadline.css">
+  <link rel="stylesheet" href="./css/common.css">
+
+
+  <style>
+    .CodeMirror {
+      border: 1px solid #eee;
+    }
+
+    .load {
+      transition: 0.5s;
+      transform-origin: 50% 50%;
+      animation: rotate 2s linear infinite;
+    }
+
+    @keyframes rotate {
+      from {
+        -webkit-transform: rotateY(0deg);
+      }
+
+      to {
+        -webkit-transform: rotateY(360deg);
+      }
+    }
+
+    .loading {
+      width: 150px;
+      height: 15px;
+      margin: 0 auto;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .loading span {
+      display: inline-block;
+      width: 15px;
+      height: 100%;
+      margin-right: 5px;
+      background: #006eff;
+      animation: load 1.04s ease infinite;
+      border-radius: 50%;
+    }
+
+    .loading span:last-child {
+      margin-right: 0px;
+    }
+
+    @keyframes load {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .loading span:nth-child(1) {
+      animation-delay: 0.13s;
+    }
+
+    .loading span:nth-child(2) {
+      animation-delay: 0.26s;
+    }
+
+    .loading span:nth-child(3) {
+      animation-delay: 0.39s;
+    }
+
+    .loading span:nth-child(4) {
+      animation-delay: 0.52s;
+    }
+
+    .loading span:nth-child(5) {
+      animation-delay: 0.65s;
+    }
+
+
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+
+</head>
+
+<body id="bbody" class="g-bg-secondary ">
+  <main id="main" class="g-color-black">
+
+    <div class="w-100 text-center g-height-100x" v-if="!finload">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div style="display: none; height: 100%;" v-show="finload">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5 g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">遵循MIT软件协议</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="g-pos-rel g-height-100vh d-flex">
+
+        <div class="g-brd-right g-brd-2 g-brd-white u-headere">
+          <div class="u-header__sections-container g-bg-white g-brd-right--lg g-brd-gray-light-v5">
+
+            <div class="u-header__section u-header__section--light g-pos-rel ">
+
+              
+
+              <div class="d-flex justify-content-between g-pt-20 g-pl-20">
+                <select
+                  class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200 rounded-0"
+                  v-model="projectCate" @change="changeProjectCate" :disabled="refreshTeam||loadfun">
+                  <option value="persion">个人项目</option>
+                  <option value="team">团队项目</option>
+                </select>  
+                <select
+                  class="form-control form-control-lg g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0"
+                  @change="uiChangeTeam" ref="chkteam" :disabled="refreshTeam||loadfun">
+                  <option :value="team._id" v-for="(team,inx) in teams" :selected="team._id==chkTeam._id">{{team.teamname}}</option>
+                  <option value="" v-if="teams.length==0">无项目</option>
+                </select>  
+                <a href="#!" class="btn btn-md g-mr-10 g-mb-15 g-color-gray-dark-v3" @click="uiRefreshTeam">
+                  <i class="fa fa-refresh" :class="{'fa-spin':refreshTeam||loadfun}"></i>
+                </a>  
+              </div>
+
+              <div class="g-px-20 g-bg-white g-pb-20">
+                <div class="input-group g-brd-primary--focus">
+                  <input id="tags" class="form-control form-control-md border-right-0 rounded-0 pr-0" type="text"
+                    placeholder="请输入函数名" ref="search" @keyup.enter="searchFunction">
+                  <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                    <i class="fa fa-search"></i>
+                  </div>
+                </div>
+              </div>
+              
+
+              <ul class="nav nav-justified u-nav-v5-1 u-nav-primary g-brd-bottom--md g-brd-gray-light-v4 g-bg-secondary"
+                role="tablist" data-target="nav-5-1-primary-hor-justified-border-bottom"
+                data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block u-btn-outline-primary">
+                <li class="nav-item ">
+                  <a class="nav-link active" data-toggle="tab" href="#!" role="tab">已部署函数</a>
+                </li>
+
+                <!-- <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#!" role="tab">调用记录</a>
+                </li> -->
+
+              </ul>
+
+
+              <nav class="navbar navbar-expand-lg g-px-0 w-100">
+                <div class="js-mega-menu w-100">
+
+                  <div id="accordion-10"
+                    class="w-100 u-accordion u-accordion-color-primary u-accordion-brd-primary w-100 g-overflow-y-auto g-height-680"
+                    role="tablist" aria-multiselectable="true">
+
+                    <div class="text-center g-py-20" v-if="noChkTeam">
+                      <i class="fa fa-blind g-font-size-30"></i>
+                      <div>请先选择有效项目</div>
+                    </div>
+
+                    <img src="./img/load.gif" alt="" v-if="loadfun&&!noChkTeam">
+
+                    <div class="g-mx-10" v-if="!loadfun&&namespaces.length==0">
+                      <div class="u-shadow-v11 text-center">
+                        <div class="g-bg-white g-pa-20">
+                          <span class="d-block g-font-weight-500 g-font-size-13">{{namespacewarn}}</span>
+                        </div>
+                        <!-- <a class="btn btn-md w-100 u-btn-red g-color-white--hover g-bg-secondary-dark-light-v1--hover  text-uppercase rounded-0"
+                          href="./set.html">
+                          去修改配置信息
+                        </a> -->
+                        <div>无函数信息</div>
+                      </div>
+                      <!-- End Listing - Agents -->
+                    </div>
+
+
+                    <div class="card rounded-0 g-brd-none" v-for="(ns,inx) in namespaces">
+
+                      <div :id="'accordion-10-heading-'+inx" class="u-accordion__header g-py-0 g-px-10" role="tab">
+                        <h5 class="mb-0 g-font-weight-600 g-font-size-default">
+                          <a class=" d-block g-color-main g-text-underline--none--hover g-brd-bottom g-brd-gray-light-v4 g-pa-15-0"
+                            :href="'#accordion-10-body-'+inx" :class="{collapsed:!ns.show}" data-toggle="collapse"
+                            data-parent="#accordion-10" :aria-expanded="ns.show?'true':'false'"
+                            :aria-controls="'accordion-10-body-'+inx">
+                            <i class="icon-list g-valign-middle g-font-size-18 mr-3"></i>
+                            <span class="float-right u-accordion__control-icon g-ml-10">
+                              <i class="fa fa-angle-right"></i>
+                              <i class="fa fa-angle-down"></i>
+                            </span>
+                            <span class="g-valign-middle">{{ns.Name}}</span>
+                          </a>
+                        </h5>
+                      </div>
+
+                      <div :id="'accordion-10-body-'+inx" class="collapse" :class="{'show':ns.show}" role="tabpanel"
+                        :aria-labelledby="'accordion-10-heading-'+inx">
+                        <div class="text-center g-pa-20" v-if="ns.functions.length==0">无函数</div>
+
+                        <a href="#!" class="g-text-underline--none--hover" v-for="(fun, funinx) in ns.functions"
+                          @click="setScfUrl(inx, funinx)">
+                          <div class="u-accordion__body g-bg-gray-light-v5--hover g-px-10 d-flex" :class="fun.cls">
+                            <!-- <div class="g-width-60 text-center g-color-blue">{{fun.localtype}}</div> -->
+                            <div class="g-color-gray-dark-v3 g-pl-25">{{fun.FunctionName}}</div>
+                          </div>
+                        </a>
+
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+
+
+        <section id="appScreens" class="g-pt-20 g-bg-white w-100">
+
+          <ul class="nav u-nav-v4-1 u-nav-primary g-px-20 g-brd-bottom g-brd-gray-light-v4" role="tablist"
+            data-target="nav-4-1-default-hor-left" data-tabs-mobile-type="slide-up-down"
+            data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-lightgray">
+
+            <li class=" nav-item g-bg-secondary g-mr-5 g-width-150 text-center  g-brd-bottom g-brd-gray-light-v4"
+              @click="showDash">
+              <a class="nav-link" :class="{active:showdash}" data-toggle="tab" href="#nav-4-1-default-hor-left--00"
+                role="tab">
+                概览
+              </a>
+            </li>
+
+            <li
+              class="nav-item g-bg-secondary g-mr-5  g-width-150 text-center  g-brd-bottom g-brd-gray-light-v4 g-pos-rel"
+              v-for="(tab, inx) in tabparas" @click="changeActiveSCF(inx)">
+              <a class="nav-link " :class="{active:tab.active}" data-toggle="tab"
+                :href="'#nav-4-1-default-hor-left--'+inx" role="tab">
+                {{tab.scfname}}
+              </a>
+              <a href="#!" @click="closeTab(inx)">
+                <i class="fa fa-close g-color-red g-pos-abs g-right-10 g-top-35x g-z-index-9999"></i></a>
+            </li>
+
+          </ul>
+          <!-- End Nav tabs -->
+
+          <!-- Tab panes -->
+          <div id="nav-4-1-default-hor-left" class="tab-content g-pt-20 g-bg-secondary">
+            <div class="tab-pane fade" :class="{'show active':showdash}" id="nav-4-1-default-hor-left--00"
+              role="tabpanel">
+              <div class="g-pa-20">
+
+
+
+                <div class="g-font-size-20">欢迎使用SCF GUI</div>
+                <div class="g-mb-20">专门为腾讯云SCF打造的调试工具,用来帮你轻松简单的调试调用线上SCF函数</div>
+
+                <div class="row g-mr-20">
+
+                  <div class="col-6">
+
+
+                    <div class="d-flex g-bg-white g-pa-20">
+                      <img src="./img/s1.svg" alt=""
+                        class="g-width-50 g-height-50 g-rounded-50x g-bg-red-opacity-0_1 g-pa-5">
+                      <div class="g-ml-20">
+                        <div class="g-font-size-15">左侧函数层级说明</div>
+                        <div class="g-font-size-12 g-color-gray-dark-v4">一级层级为SCF的命名空间,二级层级为该命名空间下的函数列表</div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex g-bg-white g-pa-20 g-mt-20">
+                      <img src="./img/fx.svg" alt=""
+                        class="g-width-50 g-height-50 g-rounded-50x g-bg-green-opacity-0_1 g-pa-5">
+                      <div class="g-ml-20">
+                        <div class="g-font-size-15">函数列表说明</div>
+                        <div class="g-font-size-12 g-color-gray-dark-v4">左侧函数是从腾讯云服务端读取下来的,因此可能包含本地配置文件不存在的函数</div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex g-bg-white g-pa-20 g-mt-20">
+                      <img src="./img/api-c.svg" alt=""
+                        class="g-width-50 g-height-50 g-rounded-50x g-bg-aqua-opacity-0_1 g-pa-5">
+                      <div class="g-ml-20">
+                        <div class="g-font-size-15">API网关调用</div>
+                        <div class="g-font-size-12 g-color-gray-dark-v4">通过URL发送POST/GET请求调用云函数,仅支持免鉴权模式.
+                          线上云函数和本地配置文件进行匹配,自动提取对应的API地址</div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex g-bg-white g-pa-20 g-mt-20">
+                      <img src="./img/qcd.png" alt=""
+                        class="g-width-50 g-height-50 g-rounded-50x g-bg-red-opacity-0_1 g-pa-5">
+                      <div class="g-ml-20">
+                        <div class="g-font-size-15">直接调用</div>
+                        <div class="g-font-size-12 g-color-gray-dark-v4">通过SCF的SDK直接调用云函数,无需API网关</div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-6 g-brd-around g-brd-gray-light-v3 text-center">
+                    <img src="./img/desc.svg" alt="" class="g-width-30x" style="margin-top: 20%;">
+                    <div>腾讯云SCF函数远程调用测试</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="tab-pane fade" :class="{'show active':tab.active}" :id="'nav-4-1-default-hor-left--'+inx"
+              role="tabpanel" v-for="(tab, inx) in tabparas">
+
+              <div class="input-group g-px-20">
+                <div class="input-group-btn">
+                  <button type="button"
+                    class="btn btn-md btn-secondary dropdown-toggle dropdown-toggle-split g-rounded-left-5 d-flex g-width-150"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div v-if="tab.invodeType==''">选择调用方式</div>
+                    <div v-if="tab.invodeType=='apigw'">{{tab.chkTrigger.TriggerDesc.api.requestConfig.method}}</div>
+                    <div v-if="tab.invodeType=='dx'">直接调用</div>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item g-py-10" href="#!" @click="changeInvokeType('dx')">直接调用SCF</a>
+                    <div role="separator" class="dropdown-divider"></div>
+                    
+                    <a class="dropdown-item text-uppercase g-py-10" href="#!" @click="changeInvokeType(tri)" 
+                        v-for="tri in tab.triggers" v-if="tri.TriggerDesc.service.subDomain!=''">{{tri.desc}}</a>
+
+                  </div>
+                </div>
+                <input type="text" class="form-control rounded-0 form-control-md g-rounded-right-5"
+                  placeholder="请输入该函数的调用URL" v-model="tab.apigateway" :disabled="tab.disabledurl">
+
+                <span class="input-group-btn g-ml-20 rounded-10">
+                  <button class="btn btn-md u-btn-primary g-rounded-5 g-px-30" type="button" @click="invokeFunction"
+                    :disabled="tab.issending">
+                    <i class="fa fa-spin fa-spinner" v-if="tab.issending"></i>
+                    调用
+                  </button>
+                </span>
+
+                <span class="input-group-btn g-ml-20 rounded-10">
+                  <button class="btn btn-md u-btn-black g-rounded-5 " type="button" @click="saveInvoke">保存</button>
+                </span>
+
+              </div>
+
+              <div class="loading" v-if="tab.issending">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+
+              <ul class="nav u-nav-v5-2 g-brd-bottom--md g-brd-gray-light-v4 g-brd-top g-mt-10 g-pt-10 g-bg-secondary"
+                role="tablist" data-target="nav-5-2-default-hor-left-border-bottom"
+                data-tabs-mobile-type="slide-up-down"
+                data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-lightgray">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#" role="tab">参数</a>
+                </li>
+              </ul>
+
+              <div class="g-bg-white g-py-15 g-px-20">
+
+                <div class="g-pt-10">
+
+                  <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" :name="'radInline1_'+inx"
+                      value="application/json" type="radio" v-model="tab.contentType">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    application/json
+                  </label>
+
+                  <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" :name="'radInline1_'+inx"
+                      value="application/x-www-form-urlencoded" type="radio" v-model="tab.contentType">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    application/x-www-form-urlencoded
+                  </label>
+
+                </div>
+              </div>
+
+
+              <div class="table-responsive g-bg-white">
+                <table class="table table-bordered u-table--v2">
+                  <thead class=" g-letter-spacing-1">
+                    <tr>
+                      <th class="g-font-weight-300 g-color-black"></th>
+                      <th class="g-font-weight-300 g-color-black">key</th>
+                      <th class="g-font-weight-300 g-color-black g-min-width-200">value</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr v-for="(para,inx) in tab.paras">
+                      <td class="g-pa-0 text-center g-valign-middle">
+                        <a href="#!" @click="addpara" v-if="inx==paras.length-1"><i class="fa fa-plus"></i></a>
+                      </td>
+                      <td class="align-middle text-nowrap g-pa-0">
+                        <input type="text" class="form-control rounded-0 form-control-md g-brd-none" v-model="para.key">
+                      </td>
+                      <td class="align-middle g-pa-0">
+                        <input type="text" class="form-control rounded-0 form-control-md g-brd-none"
+                          v-model="para.value">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+
+
+
+              <ul class="nav u-nav-v5-2 g-brd-bottom--md g-brd-gray-light-v4 g-brd-top g-pt-10 g-bg-secondary"
+                role="tablist" data-target="nav-5-2-default-hor-left-border-bottom"
+                data-tabs-mobile-type="slide-up-down"
+                data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-lightgray">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#nav-5-2-default-hor-left-border-bottom--1"
+                    role="tab">调用返回值</a>
+                </li>
+              </ul>
+
+              <div class="return text-center g-bg-white g-color-gray-dark-v5 g-pt-20 g-pb-20">
+
+                <div v-show="tab.isshowres">
+
+                  <div class="resnav d-flex g-ml-20 g-color-gray-dark-v3">
+
+                    <div class="btn-group g-mx-10" v-show="tab.resshowcate=='format'">
+                      <button type="button" class="btn g-bg-gray-light-v3 dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        {{tab.resshowtype}}
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#!" @click="switchResShowType('JSON')">JSON</a>
+                        <a class="dropdown-item" href="#!" @click="switchResShowType('XML')">XML</a>
+                        <a class="dropdown-item" href="#!" @click="switchResShowType('HTML')">HTML</a>
+                        <a class="dropdown-item" href="#!" @click="switchResShowType('TEXT')">TEXT</a>
+                      </div>
+                    </div>
+
+                    <div class="g-px-20 text-center g-bg-gray-light-v3 g-py-5 g-rounded-left-4"
+                      :class="{'g-color-black':tab.resshowcate=='format'}" @click="changeShowFormat('format')">格式信息显示
+                    </div>
+
+                    <div class="g-px-20 text-center g-bg-gray-light-v3 g-py-5 g-rounded-right-4"
+                      :class="{'g-color-black':tab.resshowcate=='text'}" @click="changeShowFormat('text')">文本信息显示</div>
+
+
+                    <div class="g-px-20 text-center g-bg-gray-light-v3 g-py-5 g-rounded-4 g-ml-10"
+                      :class="{'g-color-black':tab.resshowcate=='scflog'}" @click="changeShowFormat('scflog')">
+                      <i class="fa fa-spinner fa-spin" v-if="tab.loadscflog"></i>
+                      查看执行日志
+                    </div>
+
+                    
+
+                  </div>
+
+                  <form class="text-left w-100 g-pa-20"
+                    v-show="tab.resshowtype=='XML'||tab.resshowtype=='HTML'||tab.resshowtype=='TEXT'">
+                    <textarea readonly :id="'code'+inx" name="code"></textarea>
+                  </form>
+
+
+                  <div class="text-left w-100 g-pa-20" v-show="tab.resshowtype=='JSON'||tab.resshowtype=='SCFLOG'">
+                    <div :id="'json'+inx" class=" g-brd-around g-pa-20 g-brd-gray-light-v4"></div>
+                  </div>
+                </div>
+
+
+
+                <div v-show="!tab.isshowres">
+                  <img src="./img/API.svg" alt="" class="g-width-100 g-mt-100" :class="{load:tab.issending}">
+
+                  <div v-if="tab.issending">
+                    <div class="g-color-black">正在调用</div>
+                  </div>
+
+                  <div v-else class="g-mb-100">
+                    <div>尚未调用</div>
+                    <div>点击左侧函数进行调用调试</div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+          </div>
+
+
+        </section>
+      </div>
+    </div>
+
+  </main>
+
+
+  <script>
+    // const {shell } = require('electron')
+    // const tencentcloud = require("tencentcloud-sdk-nodejs");
+    // var fs = require("fs");
+
+    // window.nodeRequire = require;
+    // delete window.require;
+    // delete window.exports;
+    // delete window.module;
+
+
+  </script>
+
+
+  <!-- <script src="../assets/vendor/jquery/jquery.min.js"></script> -->
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <script src="../assets/vendor/bootstrap/offcanvas.js"></script>
+  <script src="../assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+
+
+  <!-- <script src="../assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+  <script src="../assets/vendor/masonry/dist/masonry.pkgd.min.js"></script>
+  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script> -->
+  <!-- <script src="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script> -->
+  <script src="../assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="../assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+  <script src="../assets/js/hs.core.js"></script>
+  <script src="../assets/js/components/hs.header.js"></script>
+  <script src="../assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="../assets/js/components/hs.dropdown.js"></script>
+  <!-- <script src="../assets/js/components/hs.scrollbar.js"></script> -->
+  <!-- <script src="../assets/js/components/hs.popup.js"></script>
+  <script src="../assets/js/components/hs.carousel.js"></script>
+  <script src="../assets/js/components/hs.go-to.js"></script> -->
+  <script src="../vue.js"></script>
+  <script src="../assets/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+  <script src="../assets/js/components/hs.cubeportfolio.js"></script>
+  <script src="../assets/js/components/hs.header-side.js"></script>
+
+  <script src="../assets/jquery/jquery-ui.js"></script>
+  <script src="./js/uikit.js"></script>
+
+  <script type="text/javascript" src="./js/jquery.jsonview.js"></script>
+
+  <script src="./codemirror-5.56.0/lib/codemirror.js"></script>
+  <script src="./codemirror-5.56.0/addon/hint/show-hint.js"></script>
+  <script src="./codemirror-5.56.0/addon/hint/xml-hint.js"></script>
+  <script src="./codemirror-5.56.0/mode/xml/xml.js"></script>
+  <script src="./codemirror-5.56.0/addon/mode/simple.js"></script>
+
+
+
+
+  <script src="./js/invoke.js"></script>
+
+
+  <script>
+
+    // var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    //   mode: "simplemode",
+    //   lineNumbers: true
+    // });
+
+    // var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    //   mode: "xml",
+    //   lineNumbers: true
+    // });
+
+    // editor.setOption("readOnly", true)
+
+
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+
+
+    $(window).on('load', function () {
+      // $('.js-select').selectpicker();
+
+
+
+      $.HSCore.components.HSHeader.init($('#headertop'));
+
+      $('.js-mega-menu').HSMegaMenu({
+        event: 'hover',
+        direction: 'vertical',
+        breakpoint: 991
+      });
+
+
+    });
+  </script>
+
+</body>
+
+</html>

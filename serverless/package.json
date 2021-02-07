@@ -1,0 +1,254 @@
+{
+  "_from": "serverless@2.20.1",
+  "_id": "serverless@2.20.1",
+  "_inBundle": false,
+  "_integrity": "sha1-WuvSReV9zTDTF+KI1B1W8X59exo=",
+  "_location": "/serverless",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "serverless@2.20.1",
+    "name": "serverless",
+    "escapedName": "serverless",
+    "rawSpec": "2.20.1",
+    "saveSpec": null,
+    "fetchSpec": "2.20.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/serverless/download/serverless-2.20.1.tgz",
+  "_shasum": "5aebd245e57dcd30d317e288d41d56f17e7d7b1a",
+  "_spec": "serverless@2.20.1",
+  "_where": "/Users/zhangtao",
+  "author": {
+    "name": "serverless.com"
+  },
+  "bin": {
+    "serverless": "bin/serverless.js",
+    "sls": "bin/serverless.js"
+  },
+  "bugs": {
+    "url": "https://github.com/serverless/serverless/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@serverless/cli": "^1.5.2",
+    "@serverless/components": "^3.5.1",
+    "@serverless/enterprise-plugin": "^4.4.2",
+    "@serverless/utils": "^2.2.0",
+    "ajv": "^6.12.6",
+    "ajv-keywords": "^3.5.2",
+    "archiver": "^5.2.0",
+    "aws-sdk": "^2.830.0",
+    "bluebird": "^3.7.2",
+    "boxen": "^5.0.0",
+    "cachedir": "^2.3.0",
+    "chalk": "^4.1.0",
+    "child-process-ext": "^2.1.1",
+    "d": "^1.0.1",
+    "dayjs": "^1.10.3",
+    "decompress": "^4.2.1",
+    "dotenv": "^8.2.0",
+    "download": "^8.0.0",
+    "essentials": "^1.1.1",
+    "fastest-levenshtein": "^1.0.12",
+    "filesize": "^6.1.0",
+    "fs-extra": "^9.1.0",
+    "get-stdin": "^8.0.0",
+    "globby": "^11.0.2",
+    "got": "^11.8.1",
+    "graceful-fs": "^4.2.4",
+    "https-proxy-agent": "^5.0.0",
+    "is-docker": "^2.1.1",
+    "is-wsl": "^2.2.0",
+    "js-yaml": "^4.0.0",
+    "json-cycle": "^1.3.0",
+    "json-refs": "^3.0.15",
+    "lodash": "^4.17.20",
+    "memoizee": "^0.4.15",
+    "micromatch": "^4.0.2",
+    "ncjsm": "^4.1.0",
+    "node-fetch": "^2.6.1",
+    "object-hash": "^2.1.1",
+    "p-limit": "^3.1.0",
+    "promise-queue": "^2.2.5",
+    "replaceall": "^0.1.6",
+    "semver": "^7.3.4",
+    "tabtab": "^3.0.2",
+    "tar": "^6.1.0",
+    "timers-ext": "^0.1.7",
+    "type": "^2.1.0",
+    "untildify": "^4.0.0",
+    "uuid": "^8.3.2",
+    "yaml-ast-parser": "0.0.43",
+    "yargs-parser": "^20.2.4"
+  },
+  "deprecated": false,
+  "description": "Serverless Framework - Build web, mobile and IoT applications with serverless architectures using AWS Lambda, Azure Functions, Google CloudFunctions & more",
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@serverless/eslint-config": "^3.0.0",
+    "@serverless/test": "^7.3.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cos-nodejs-sdk-v5": "^2.9.0",
+    "eslint": "^7.18.0",
+    "eslint-plugin-import": "^2.22.1",
+    "git-list-updated": "^1.2.1",
+    "github-release-from-cc-changelog": "^2.2.0",
+    "husky": "^4.3.8",
+    "jszip": "^3.5.0",
+    "lint-staged": "^10.5.3",
+    "log": "^6.0.0",
+    "log-node": "^7.0.0",
+    "mocha": "^8.2.1",
+    "mock-require": "^3.0.3",
+    "nyc": "^15.1.0",
+    "pkg": "^4.4.9",
+    "prettier": "^2.2.1",
+    "process-utils": "^4.0.0",
+    "proxyquire": "^2.1.3",
+    "semver-regex": "^3.1.2",
+    "sinon": "^9.2.3",
+    "sinon-chai": "^3.5.0",
+    "standard-version": "^9.1.0",
+    "strip-ansi": "^6.0.0",
+    "ws": "^7.4.2",
+    "xml2js": "^0.4.23"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
+  "eslintConfig": {
+    "extends": "@serverless/eslint-config/node",
+    "root": true,
+    "overrides": [
+      {
+        "files": [
+          "test/fixtures/**"
+        ],
+        "rules": {
+          "no-console": "off"
+        }
+      }
+    ]
+  },
+  "eslintIgnore": [
+    "!/.github",
+    "/lib/plugins/create/templates/**",
+    "/lib/plugins/aws/customResources/node_modules/**"
+  ],
+  "homepage": "https://serverless.com/framework/docs/",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [
+    "serverless",
+    "lambda",
+    "aws",
+    "amazon",
+    "azure",
+    "google-cloud",
+    "apache-open-whisk",
+    "iot"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ],
+    "*.{css,html,js,json,md,yaml,yml}": [
+      "prettier -c"
+    ]
+  },
+  "main": "lib/Serverless.js",
+  "mocha": {
+    "require": [
+      "./test/mochaPatch",
+      "@serverless/test/setup/log",
+      "@serverless/test/setup/mock-homedir",
+      "@serverless/test/setup/mock-cwd",
+      "@serverless/test/setup/restore-env"
+    ],
+    "timeout": 30000
+  },
+  "name": "serverless",
+  "nyc": {
+    "all": true,
+    "exclude": [
+      "**/*.test.js",
+      ".github",
+      "bin/**",
+      "coverage/**",
+      "dist/**",
+      "scripts/**",
+      "test/**",
+      "tmp/**",
+      "prettier.config.js"
+    ],
+    "reporter": [
+      "lcov",
+      "html",
+      "text-summary"
+    ]
+  },
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serverless/serverless.git"
+  },
+  "scripts": {
+    "commitlint": "commitlint -f HEAD@{15}",
+    "coverage": "nyc npm test",
+    "integration-test-cleanup": "node test/utils/awsCleanup.js",
+    "integration-test-run-all": "mocha-isolated --pass-through-aws-creds --skip-fs-cleanup-check --max-workers=20 \"test/integration/**/*.test.js\"",
+    "integration-test-run-basic": "mocha test/integrationBasic.test.js",
+    "integration-test-run-package": "mocha-isolated --skip-fs-cleanup-check test/integrationPackage/**/*.tests.js",
+    "integration-test-setup": "node ./scripts/test/integration-setup/index.js",
+    "integration-test-teardown": "node ./scripts/test/integration-teardown.js",
+    "lint": "eslint .",
+    "lint:updated": "pipe-git-updated --ext=js -- eslint",
+    "pkg:build": "node ./scripts/pkg/build.js",
+    "pkg:generate-choco-package": "node ./scripts/pkg/generate-choco-package.js",
+    "pkg:upload": "node ./scripts/pkg/upload/index.js",
+    "postinstall": "node ./scripts/postinstall.js",
+    "prepare-release": "standard-version && prettier --write CHANGELOG.md",
+    "prettier-check": "prettier -c \"**/*.{css,html,js,json,md,yaml,yml}\"",
+    "prettier-check:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
+    "prettify": "prettier --write \"**/*.{css,html,js,json,md,yaml,yml}\"",
+    "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier --write",
+    "test": "mocha \"test/unit/**/*.test.js\"",
+    "test:ci": "npm run prettier-check:updated && npm run lint:updated && npm run test:isolated",
+    "test:isolated": "mocha-isolated \"test/unit/**/*.test.js\""
+  },
+  "standard-version": {
+    "skip": {
+      "commit": true,
+      "tag": true
+    },
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "perf",
+        "section": "Performance Improvements"
+      },
+      {
+        "type": "refactor",
+        "section": "Maintenance Improvements"
+      }
+    ]
+  },
+  "version": "2.20.1"
+}

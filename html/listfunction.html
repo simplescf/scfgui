@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>云函数列表</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/uikit.css">
+
+
+  <link rel="stylesheet" href="../assets/css/styles.op-app.css">
+
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="../assets/vendor/animate.css">
+  <link rel="stylesheet" href="../assets/vendor/custombox/custombox.min.css">
+
+  <link rel="stylesheet" href="../assets/vendor/hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" href="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../assets/vendor/slick-carousel/slick/slick.css">
+
+
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="../assets/vendor/cubeportfolio-full/cubeportfolio/css/cubeportfolio.min.css">
+
+
+  <link rel="stylesheet" href="../assets/jquery/jquery-ui.css">
+  <link rel="stylesheet" href="../assets/jquery/style.css">
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/loadline.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+
+    
+  </style>
+</head>
+
+<body id="bbody" class="g-bg-secondary u-body--header-side-static-left">
+
+  <main id="main" class="g-color-black g-height-100x g-pos-rel">
+
+    <div class="w-100 text-center" v-if="loading">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+
+    <div style="display: none;" v-show="!loading" class="g-pos-rel">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5 g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">遵循MIT软件协议</p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="g-pos-fix g-top-0 g-right-0 g-z-index-4 w-50 g-height-100vh 
+      g-brd-left g-brd-gray-light-v1 g-bg-white u-shadow-v1-3 g-z-index-9999 g-overflow-y-auto" v-if="showDeploy">
+
+        <div class="g-brd-gray-light-v4 g-brd-bottom g-pa-20 g-pos-rel d-flex justify-content-between">
+          <h4 class="text-uppercase g-font-size-default g-letter-spacing-0_5 g-mr-20 g-mb-0">自动化部署</h4>
+          <a href="#!" class="btn btn-md g-pa-0 g-mr-30" v-if="!uploadCodeStep.isfin" @click="showDeploy=false">
+            <i class="fa fa-close"></i>
+          </a>
+
+        </div>
+
+        <div class="w-100 text-center" v-if="delopyLog.log.length==0">
+          <div class="lds-roller g-mt-140">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+
+        <section class="g-pa-20 g-font-size-default ">
+
+          <div v-for="log in delopyLog.log">
+            {{log}}
+          </div>
+
+          <div class="u-divider u-divider-db-dashed u-divider-center g-brd-gray-light-v2 g-my-10"
+            v-if="delopyLog.yml.length>0"></div>
+
+          <div v-for="log in delopyLog.yml" class="">
+            <span v-html="log"></span>
+          </div>
+
+        </section>
+
+        <div class="g-pl-20 ss_main_color g-font-weight-600">{{delopyLog.fin}}</div>
+
+        <div class="text-center">
+          <a href="#!" class="btn btn-md g-pa-0 g-mr-30" v-if="delopyLog.fin!=''" @click="showDeploy=false">
+            <i class="fa fa-close"></i>
+          </a>
+        </div>
+
+        <div class="w-100 g-height-50 g-mt-20" id="deploybot"></div>
+
+      </div>
+
+      <div v-show="uploadCodeStep.showui" class="g-pos-fix g-top-0 g-right-0 g-z-index-4 g-width-300 g-width-400--sm g-height-100vh 
+        g-brd-left g-brd-gray-light-v1 g-bg-white u-shadow-v1-3 g-z-index-9999">
+        <div class=" g-brd-gray-light-v4 g-brd-bottom g-pa-20 g-pos-rel d-flex justify-content-between">
+          <h4 class="text-uppercase g-font-size-default g-letter-spacing-0_5 g-mr-20 g-mb-0">更新函数代码</h4>
+          <i class="fa fa-close" v-if="!uploadCodeStep.isfin"></i>
+        </div>
+
+        <!-- Activity Transactions -->
+        <section class="g-pa-20 g-font-size-default">
+
+          <div class="row">
+
+            <div class="col-12  g-mb-10" v-for="group in chkFunsGroup" v-if="!group.isUp">
+              <article class="text-center g-bg-gray-light-v5 g-rounded-10 g-overflow-hidden g-py-20">
+                <div class="g-font-weight-700 g-letter-spacing-3">批量更新分组</div>
+
+                <ul class="list-unstyled g-mb-0">
+                  <li class="" v-for="g in group.funs">{{g.FunctionName}}</li>
+                </ul>
+              </article>
+            </div>
+
+
+
+          </div>
+
+          <h5 class="g-font-size-default g-mb-10">函数:
+            <div v-for="fun in chkFuns">{{fun.FunctionName}}</div>
+          </h5>
+
+
+          <!-- Transaction Item -->
+          <div class="g-brd-bottom g-brd-gray-light-v4 g-py-20">
+            <div class="media g-pos-rel">
+              <div class="d-flex align-self-start g-pt-3 g-mr-12">
+                <i class="fa fa-spinner fa-spin" v-if="uploadCodeStep.stepzipbegin"></i>
+                <i class="icon-check" v-if="uploadCodeStep.stepzipend"></i>
+                <i class="hs-admin-time icon-clock" v-if="!uploadCodeStep.stepzipbegin&&!uploadCodeStep.stepzipend"></i>
+              </div>
+
+              <div class="media-body align-self-start">
+                <strong class="d-block g-font-weight-400 g-line-height-1">第一步</strong>
+                <p class="mb-0 g-mt-5 g-color-gray-dark-v5">打包项目文件</p>
+              </div>
+
+            </div>
+          </div>
+          <!-- End Transaction Item -->
+
+          <!-- Transaction Item -->
+          <div class="g-brd-bottom g-brd-gray-light-v4 g-py-20">
+            <div class="media g-pos-rel">
+              <div class="d-flex align-self-start g-pt-3 g-mr-12">
+                <i class="fa fa-spinner fa-spin" v-if="uploadCodeStep.stepcosbegin"></i>
+                <i class="icon-check" v-if="uploadCodeStep.stepcosend"></i>
+                <i class="icon-clock g-color-gray-dark-v5"
+                  v-if="!uploadCodeStep.stepcosbegin&&!uploadCodeStep.stepcosend"></i>
+              </div>
+
+              <div class="media-body align-self-start">
+                <strong class="d-block g-font-weight-400 g-line-height-1"
+                  :class="(!uploadCodeStep.stepcosbegin&&!uploadCodeStep.stepcosend)?'g-color-gray-dark-v5':''">第二步</strong>
+                <p class="mb-0 g-mt-5 g-color-gray-dark-v5">上传代码文件到COS</p>
+                <small>{{uploadCodeStep.stepcosinfo}}</small>
+              </div>
+
+            </div>
+          </div>
+          <!-- End Transaction Item -->
+
+          <!-- Transaction Item -->
+          <div class="g-brd-bottom g-brd-gray-light-v4 g-py-20">
+            <div class="media g-pos-rel">
+              <div class="d-flex align-self-start g-pt-3 g-mr-12">
+                <i class="fa fa-spinner fa-spin" v-if="uploadCodeStep.stepcodebegin"></i>
+                <i class="icon-check" v-if="uploadCodeStep.stepcodeend"></i>
+                <i class="icon-clock g-color-gray-dark-v5"
+                  v-if="!uploadCodeStep.stepcodebegin&&!uploadCodeStep.stepcodeend"></i>
+              </div>
+
+              <div class="media-body align-self-start">
+                <strong class="d-block g-font-weight-400 g-line-height-1"
+                  :class="(!uploadCodeStep.stepcodebegin&&!uploadCodeStep.stepcodeend)?'g-color-gray-dark-v5':''">第三步</strong>
+                <p class="mb-0 g-mt-5 g-color-gray-dark-v5">更新函数代码</p>
+                <div v-for="cur in chkFuns">
+                  <i class="fa fa-spinner fa-spin" v-if="cur.isflush"></i>
+                  <i class="fa fa-check" v-if="cur.isflushfin"></i>
+                  {{cur.FunctionName}}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="g-font-size-12 g-mt-20 g-color-red g-font-weight-600">{{uploadCodeStep.warninfo}}</div>
+
+          <a href="#!" class="btn btn-md g-color-gray-dark-v1 w-100" @click="closeZipUI">
+            <i class="fa fa-refresh fa-spin" v-if="!uploadCodeStep.isfin"></i>
+            <i class="fa fa-angle-double-right" v-if="uploadCodeStep.isfin"></i>
+            <span class="sr-only">Loading...</span>
+          </a>
+
+          <!-- End Transaction Item -->
+
+        </section>
+        <!-- End Activity Transactions -->
+      </div>
+
+      <div v-show="showdeployui"
+        class="g-pos-fix g-top-0 g-right-0 g-z-index-4 g-width-40x g-height-100vh g-bg-white u-shadow-v1-3 g-z-index-9999 g-overflow-y-auto">
+        <div class="deployhead g-brd-gray-light-v4 g-brd-bottom g-pa-20 text-center">
+          <h4 class="text-uppercase g-font-size-default g-letter-spacing-0_5 g-mr-20 g-mb-0 g-pos-rel">同步到云
+            <i class="fa fa-close g-pos-abs g-right-0" @click='closedeployui'></i>
+          </h4>
+        </div>
+
+        <!-- Activity Transactions -->
+        <section class="g-pa-20 g-font-size-default">
+
+          <div v-for="txt in deploytxts">{{txt}}</div>
+
+          <div class="w-100 text-center" id='deployload'>
+            <a href="#!" class="btn btn-md g-bg-transparent g-color-black w-75 g-mb-15" @click='closedeployui'>
+              <i class="fa fa-spinner fa-spin" v-show="isdeploying"></i>
+              <i class="fa fa-close" v-show="!isdeploying"></i>
+            </a>
+          </div>
+
+          <!-- End Transaction Item -->
+
+        </section>
+        <!-- End Activity Transactions -->
+      </div>
+
+
+
+      <section id="appScreens" class="g-py-20 g-px-30 ">
+
+
+        <div class="d-flex justify-content-between g-mb-10 g-mt-20">
+
+          <div class="d-flex">
+
+            <div>
+              <div class="g-color-gray-dark-v1">项目类型</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200 rounded-0"
+                @change="changeProjectCate" :disabled="refreshTeam||isLoadFuns" v-model="projectCate">
+                <option value="persion">个人项目</option>
+                <option value="team">团队项目</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="g-color-gray-dark-v2">项目列表</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200 rounded-0"
+                ref="chkteam" v-model="chkTeamId" :disabled="refreshTeam||isLoadFuns" @change="uiChangeTeam">
+                <option :value="team._id" v-for="(team,inx) in teams">{{team.teamname}}</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="ss_color_trans">刷新</div>
+              <a href="#!" class="btn btn-md g-mr-10 g-color-gray-dark-v3" @click="uiRefreshTeam">
+                <i class="fa fa-refresh" :class="{'fa-spin':refreshTeam}"></i>
+              </a>
+            </div>
+
+          </div>
+
+          <div class="d-flex">
+
+            <div class=" g-mr-10">
+              <div class="g-color-gray-dark-v2">部署类型</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0"
+                v-model="chkCate" @change="getCloudYml" :disabled="refreshTeam||isLoadFuns">
+                <option value="all">全部</option>
+                <option value="deploy">已部署</option>
+                <option value="undeploy">未部署</option>
+
+              </select>
+            </div>
+
+
+            <div class=" g-mr-10">
+              <div class="g-color-gray-dark-v2">业务模块</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0"
+                v-model="chkModelCode" @change="getCloudYml" :disabled="refreshTeam||isLoadFuns">
+                <option :value="model.code" v-for="model in models">{{model.name}}</option>
+              </select>
+            </div>
+
+            <div class=" g-mr-10">
+              <div class="g-color-gray-dark-v2">命名空间</div>
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0"
+                v-model="chknamespace" @change="getCloudYml" :disabled="refreshTeam||isLoadFuns">
+                <option :value="ns" v-for="ns in namespaces">{{ns}}</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="g-color-gray-dark-v2">检索</div>
+              <div class="ui-widget d-flex">
+                <div class="input-group  g-brd-gray-light-v3 ">
+                  <input id="tags"
+                    class="form-control form-control-md border-right-0 rounded-0 pr-0 g-brd-gray-light-v1" type="text"
+                    placeholder="请输入函数名" @keyup.enter="searchFun" ref="searchKey" :disabled="refreshTeam||isLoadFuns">
+                  <b class="tooltip tooltip-top-right u-tooltip--v1">搜索函数名</b>
+                  <div
+                    class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-brd-gray-light-v1">
+                    <i class="fa fa-search"></i>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div v-show="!showConf">
+          <div class="table-responsive g-pos-rel">
+            <table class="table table-bordered u-table--v2 g-bg-white">
+              <thead class="text-uppercase g-letter-spacing-1">
+                <tr>
+                  <th class="g-font-weight-300 g-color-black text-center">
+                    #</th>
+                  <th class="g-font-weight-300 g-color-black">函数名</th>
+                  <th class="g-font-weight-300 g-color-black">业务模块</th>
+                  <th class="g-font-weight-300 g-color-black">描述</th>
+                  <th class="g-font-weight-300 g-color-black text-center g-width-120">更新时间</th>
+                  <th class="g-font-weight-300 g-color-black">绑定层</th>
+                  <th class="g-font-weight-300 g-color-black g-width-100">函数状态</th>
+                  <th class="g-font-weight-300 g-color-black text-center">操作</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                <tr v-if="!isLoadFuns&&showFunctions.length==0" class="text-center">
+                  <td colspan="8">无函数信息</td>
+                </tr>
+
+                <tr v-if="isLoadFuns" class="text-center">
+                  <td colspan="8">
+                    <i class="fa fa-spin fa-spinner g-mr-10"></i>{{loadFunsInfo}}
+                  </td>
+                </tr>
+
+
+                <tr v-for="(fun,inx) in showFunctions">
+
+                  <td class="align-middle text-center">
+                    <label class="form-check-inline u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" :value="fun.FunctionId"
+                        v-model="checkList">
+                      <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      {{fun.inx}}
+                    </label>
+                  </td>
+
+                  <td class="align-middle text-nowrap">
+                    {{fun.FunctionName}}
+                  </td>
+                  <td class="align-middle">{{fun.modelName}}</td>
+                  <td class="align-middle">{{fun.Description}}</td>
+                  <td class="align-middle text-center">
+                    <div v-for="t in fun.ModTime">{{t}}</div>
+                  </td>
+                  <td class="align-middle text-center">
+                    <div v-for="lay in fun.Layers">{{lay.LayerName}} {{lay.LayerVersion}}</div>
+                  </td>
+
+                  <td class="align-middle text-center">
+
+                    <div class="g-font-size-12" href="#!" v-if="fun.isDeploy">
+                      <i class="fa fa-spin fa-spinner g-mr-5 g-font-size-15" v-if='fun.ing'></i>
+                      <i class="fa fa-cloud-upload g-mr-5 g-font-size-15" v-else></i>
+                      {{fun.ing?fun.inginfo:'已部署'}}
+                    </div>
+                    <div class="g-font-size-12 g-color-red" href="#!" v-else>
+                      <i class="fa fa-spin fa-spinner g-mr-5 g-font-size-15" v-if='fun.ing'></i>
+                      <i class="fa fa-cloud-download g-mr-5 g-font-size-15" v-else></i>
+                      {{fun.ing?fun.inginfo:'未部署'}}
+                    </div>
+
+                  </td>
+                  <td class="align-middle">
+
+                    <div v-if="fun.isDeploy">
+
+                      <div class="d-flex justify-content-center g-mb-2">
+
+                        <a class="btn d-block ss_main_color g-pa-0 mr-3 g-font-size-13" href="#!"
+                          @click="updateCode(fun)">
+                          更新代码
+                        </a>
+                        <!-- <a class="btn d-block g-color-red g-pa-0 mr-3 g-font-size-13" href="#!" @click="addSet" v-if="!fun.isYml">
+                        添加配置
+                      </a> -->
+                        <a class="btn d-block ss_main_color g-pa-0 g-font-size-13"
+                          :href="'invoke.html?fun='+fun.FunctionName+'&ns='+chknamespace">
+                          云端调试
+                        </a>
+
+                      </div>
+
+                      <div class="d-flex justify-content-center">
+                        <a class="btn d-block ss_main_color g-pa-0 mr-3 g-font-size-13" href="#!"
+                          @click="seditConf(fun.Namespace, fun.FunctionName)">
+                          环境配置
+                        </a>
+                        <a class="btn d-block ss_main_color g-pa-0 g-font-size-13" href="#!" @click="sdkRemove(fun)">
+                          移除部署
+                        </a>
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-center" v-else>
+                      <a class="btn d-block g-mr-10 g-color-red g-pa-0 mr-3  g-font-size-13" href="#!" @click="ai(fun)">
+                        一键部署
+                      </a>
+
+                      <a class="btn d-block g-mr-10 g-color-red g-pa-0 mr-3 g-font-size-13" href="#!"
+                        @click="delfun(fun.FunctionName)">
+                        删除配置
+                      </a>
+
+                      <!-- <a class="btn d-block g-color-red g-pa-0 g-font-size-13" href="#!" @click="ai(fun)">
+                      智能处理
+                    </a> -->
+
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="g-mb-20 text-left">
+            <div>批量操作:</div>
+            <div class="d-flex ">
+              <div class="form-group btn g-mb-0">
+                <label class="form-check-inline u-check g-pl-25">
+                  <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
+                  <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                    <i class="fa" data-check-icon=""></i>
+                  </div>
+                  全选
+                </label>
+              </div>
+
+              <button class="btn g-brd-around ss_main_bg_color g-color-white g-font-size-13 rounded g-px-18 g-py-9"
+                type="button" :disabled="checkList.length==0" @click="showBatchUpdateCode">
+                <i class="align-middle g-font-size-16 mr-2 et-icon-upload"></i>
+                批量更新代码
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- Pagination Large -->
+          <div class="text-right">
+            <div class="form-group g-mb-20 w-25">
+              <div class="js-quantity input-group u-quantity-v1 w-100 g-brd-gray-light-v3 g-brd-primary--focus">
+                <div @click="firstPage"
+                  class="js-minus input-group-addon d-flex align-items-center g-width-40 g-font-size-16 g-color-gray g-bg-white rounded-0">
+                  <i class="fa fa-angle-double-left"></i>
+                </div>
+                <div @click="prePage"
+                  class="js-minus input-group-addon d-flex align-items-center g-width-40 g-font-size-16 g-color-gray g-bg-white rounded-0">
+                  <i class="fa fa-angle-left"></i>
+                </div>
+                <!-- <input class="js-result form-control text-center g-font-size-16 rounded-0 g-pa-10-16" type="text" value="0" readonly=""> -->
+                <select class="text-center g-px-50 u-select-v1 g-color-black custom-select rounded-0 form-control-lg"
+                  v-model="page">
+                  <option :value="inx" v-for="inx in cloudFunctionPage">{{inx}}</option>
+                </select>
+
+                <div @click="nextPage"
+                  class="js-plus input-group-addon d-flex align-items-center g-width-40 g-font-size-16 g-color-gray g-bg-white rounded-0 g-brd-left-none">
+                  <i class="fa fa-angle-right"></i>
+                </div>
+                <div @click="endPage"
+                  class="js-plus input-group-addon d-flex align-items-center g-width-40 g-font-size-16 g-color-gray g-bg-white rounded-0">
+                  <i class="fa fa-angle-double-right"></i>
+                </div>
+
+              </div>
+            </div>
+            <!-- End Quantity -->
+          </div>
+        </div>
+
+
+        <div class="g-bg-white g-pa-20 g-pos-rel" v-show="showConf">
+          <a href="#!" class="text-no-link" @click="closeConf">
+            <i class="fa fa-close g-font-size-20 g-pos-abs g-right-20 g-top-20 g-z-index-9999"></i>
+          </a>
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">函数名</div>
+            <div class="col-10">
+              <div>{{funConf.FunctionName}}</div>
+            </div>
+          </div>
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">描述</div>
+            <div class="col-10">
+              <input id="inputGroup1_1" class="form-control form-control-md rounded-0 w-50"
+                v-model="funConf.Description">
+            </div>
+          </div>
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">内存</div>
+            <div class="col-10">
+              <select class="custom-select rounded-0 form-control-lg g-font-size-14" v-model="funConf.MemorySize">
+                <option value="64">64M</option>
+                <option value="128">128M</option>
+                <option value="256">256M</option>
+                <option value="384">384M</option>
+                <option value="512">512M</option>
+                <option value="640">640M</option>
+                <option value="768">768M</option>
+                <option value="896">896M</option>
+                <option value="1024">1,024M</option>
+                <option value="1152">1,152M</option>
+                <option value="1280">1,280M</option>
+                <option value="1408">1,408M</option>
+                <option value="1536">1,536M</option>
+                <option value="1664">1,664M</option>
+                <option value="1792">1,792M</option>
+                <option value="1920">1,920M</option>
+                <option value="2048">2,048M</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">执行超时时间</div>
+            <div class="col-10">
+              <div class="input-group g-brd-primary--focus w-25">
+                <input class="form-control form-control-md rounded-0" type="number" v-model="funConf.Timeout">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">秒
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">初始超时时间</div>
+            <div class="col-10">
+              <div class="input-group g-brd-primary--focus w-25">
+                <input class="form-control form-control-md rounded-0" type="number" v-model="funConf.InitTimeout">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  秒
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">环境变量</div>
+            <div class="col-10">
+
+              <table class="table table-bordered w-50 table-hover">
+                <tr>
+                  <td>key</td>
+                  <td>value</td>
+                  <td></td>
+                </tr>
+                <tr v-for="(env,inx) in funConf.Environment.Variables">
+                  <td><input type="text" class="form-control form-control-warning rounded-0"
+                      v-model="funConf.Environment.Variables[inx].Key"></td>
+                  <td><input type="text" class="form-control form-control-warning rounded-0"
+                      v-model="funConf.Environment.Variables[inx].Value" @input="editEnv(inx)"></td>
+                  <td><i class="fa fa-trash-o" @click="removeEnv(inx)" v-show="inx!=0"></i></td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">网络配置</div>
+            <div class="col-10">
+              <select class="custom-select rounded-0 g-font-size-14  g-width-150 mr-2"
+                v-model="funConf.PublicNetConfig.PublicNetStatus">
+                <option value="DISABLE">关闭公网</option>
+                <option value="ENABLE">开启公网</option>
+              </select>
+
+              <select class="custom-select rounded-0 g-font-size-14 g-width-150 mr-2"
+                v-model="funConf.PublicNetConfig.EipConfig.EipStatus">
+                <option value="DISABLE">关闭固定IP</option>
+                <option value="ENABLE">开启固定IP</option>
+              </select>
+
+              <select class="custom-select rounded-0 g-font-size-14 g-width-150 mr-2">
+                <option :selected="funConf.VpcConfig.VpcId==''">关闭内网</option>
+                <option :selected="funConf.VpcConfig.VpcId!=''">开启内网</option>
+              </select>
+
+              <div>{{funConf.PublicNetConfig.EipConfig.EipStatus=='ENABLE'?funConf.PublicNetConfig.EipConfig.EipAddress[0]:''}}</div>
+
+            </div>
+          </div>
+
+
+          <div class="form-group row g-mb-25">
+            <div for="example-email-input" class="col-2 col-form-label">层配置</div>
+            <div class="col-10">
+              <table class="table  table-bordered">
+                <tr>
+                  <td>优先级</td>
+                  <td>层名称</td>
+                  <td>版本</td>
+                  <td>描述</td>
+                  <td>操作</td>
+                </tr>
+                <tr v-if="funConf.Layers.length==0">
+                  <td colspan="5" class="text-center">无层信息</td>
+                </tr>
+                <tr v-for="(lay,inx) in funConf.Layers">
+                  <td>
+                    {{lay.Status=='Publishing'?'层发布中':''}}
+                    {{lay.Status=='PublishFailed'?'层发布失败':''}}
+                    {{lay.Status=='Active'?'层可用':''}}
+                    {{lay.Status=='Deleting'?'层删除中':''}}
+                    {{lay.Status=='DeleteFailed'?'层删除失败':''}}
+                    {{lay.Status=='Deleted'?'层已删除':''}}</td>
+                  <td>{{lay.LayerName}}</td>
+                  <td>{{lay.LayerVersion}}</td>
+                  <td>{{lay.Description}}</td>
+                  <td class="ss_main_color">
+                    <a href="#!" class="btn"  @click="delLayer(inx)">解绑</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td colspan="4">
+                    <div class="d-flex">
+                      <select class="custom-select rounded-0 g-font-size-14  g-width-150 mr-2" ref="layname"
+                        @change="uiChangeLayer">
+                        <option :value="lay.LayerName" v-for="lay in layers">{{lay.LayerName}}</option>
+                      </select>
+                      <select class="custom-select rounded-0 g-font-size-14  g-width-150 mr-2" ref="layver">
+                        <option :value="ver.LayerVersion" v-for="ver in layerVers">{{ver.LayerVersion}}</option>
+                      </select>
+                      <a href="#!" class="btn btn-block ss_main_color g-color-white g-width-100 rounded-0"
+                        @click="addLayer">新增绑定层</a>
+                    </div>
+                  </td>
+
+                </tr>
+                <!-- <tr>
+                  <td colspan="5" class="text-center">
+                    <span class="u-label u-label-success g-color-white">增加绑定</span>
+                  </td>
+                </tr> -->
+              </table>
+            </div>
+          </div>
+
+          <div class="g-mb-15">
+            <a href="#!" class="btn btn-md u-btn-outline-darkgray g-mr-10" @click="closeConf">关闭</a>
+            <button href="#!" class="btn btn-md ss_main_bg_color g-color-white" @click="submitConf" :disabled="isConfEdit">
+              <i class="fa fa-spinner fa-spin" v-show="isConfEdit"></i>保存</button>
+          </div>
+
+
+        </div>
+
+
+
+
+
+
+
+      </section>
+
+
+
+    </div>
+
+    <!-- <div class="dlginfo">
+      <div class="dlginfo_main">
+        <div class="dlginfo_title">标题</div>
+        <div class="dlginfo_content">内容</div>
+        <div class="dlginfo_btns">
+          <a href="#!" class="btn btn-md u-btn-blue  g-mb-10 w-100">Blue</a>
+          <a href="#!" class="btn btn-md u-btn-bluegray w-100">Blue Gray</a>
+        </div>
+      </div>
+    </div> -->
+
+
+  </main>
+
+
+  <script>
+    const { shell } = require('electron')
+    // window.nodeRequire = require;
+    // delete window.require;
+    // delete window.exports;
+    // delete window.module;
+  </script>
+  <!-- <script>window.$ = window.jQuery = require('../assets/vendor/jquery/jquery.min.js');</script> -->
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="../assets/vendor/bootstrap/offcanvas.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="../assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="../assets/js/hs.core.js"></script>
+  <script src="../assets/js/components/hs.header.js"></script>
+  <script src="../assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="../assets/js/components/hs.dropdown.js"></script>
+  <script src="../assets/js/components/hs.scrollbar.js"></script>
+  <script src="../assets/js/components/hs.popup.js"></script>
+  <script src="../assets/js/components/hs.carousel.js"></script>
+  <script src="../assets/js/components/hs.go-to.js"></script>
+  <script src="../assets/vendor/custombox/custombox.min.js"></script>
+  <script src="../assets/js/components/hs.modal-window.js"></script>
+  <script src="../vue.js"></script>
+  <script src="../assets/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+  <script src="../assets/js/components/hs.cubeportfolio.js"></script>
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <script src="../assets/js/hs.core.js"></script>
+
+
+  <script src="../assets/js/components/hs.header-side.js"></script>
+
+
+  <script src="../assets/jquery/jquery-ui.js"></script>
+
+  <script src="../assets/js/components/hs.count-qty.js"></script>
+
+
+  <script src="./js/listfunction.js"></script>
+
+  <script>
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+    $(window).on('load', function () {
+
+
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+
+
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- <link rel="stylesheet" href="./css/zzsc.css"> -->
+
+  <style>
+    @keyframes changeright {
+
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      50% {
+        -webkit-transform: rotate(180deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    /*自定义动画类----逆时针旋转（使用这个动画的时候才设置动画执行时间）*/
+    @keyframes changeleft {
+
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      50% {
+        -webkit-transform: rotate(-180deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(-360deg);
+      }
+    }
+
+
+
+    /*-------------------------*/
+    .run1 {
+      animation: changeright 12s linear infinite;
+    }
+
+    /*-------------------------*/
+    .run2 {
+      animation: changeleft 12s linear infinite;
+    }
+
+
+
+    /*---------自定义普通旋转类（就是引用刚才自定义changeright的动画）------*/
+    .imgrotate_common {
+      animation: changeright 6s linear infinite;
+    }
+
+    /*---------自定义快速旋转（就是引用刚才自定义changeright的动画）------*/
+    .imgrotate_rotate {
+      animation: changeright 3s linear infinite;
+    }
+
+    .g-state-focus .fa {
+      color: #006eff !important;
+    }
+  </style>
+
+</head>
+
+<body id="bbody" class="g-bg-gray-light-v4">
+  <main id="main">
+
+    <div v-show="showlogin" style="display: none;">
+      <!-- <div class="g-width-485 g-bg-white g-mt-100" :style="'margin-left:'+left+'px'">
+        <div class="w-100">
+
+          <div class="text-center">
+            <img src="./img/logoblue.png" alt="" class="g-width-150 run2" style="margin-top: -50px;">
+          </div>
+
+          <div class="g-pa-40">
+            <div class="d-flex justify-content-between">
+              <h2 class="h5 g-color-black mb-4 ">账号登陆</h2>
+              <div class=" text-right">
+                <a href="#!" class="ss_main_color" @click="uiSwitchShow('reg')">注册账号</a>
+              </div>
+            </div>
+
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-10" for="inputGroup1_1">您的邮箱</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-envelope-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="text" placeholder=""
+                  v-model="account.accountmail">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-10" for="inputGroup1_1">密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 ">
+                  <i class="fa fa-lock g-font-size-20"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder=""
+                  v-model="account.accountpw" @keyup.enter="uiLogin">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+
+              <div class="form-group">
+                <label class="d-flex align-items-center justify-content-between">
+
+                  <div class="u-check g-mr-10">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" checked type="checkbox">
+                    <div class="u-check-icon-radio-v8">
+                      <i class="fa" data-check-icon=""></i>
+                    </div>
+                  </div>
+                  <span>保持登陆</span>
+                </label>
+              </div>
+
+
+              <div>忘记密码</div>
+            </div>
+
+            <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color w-100 g-mt-20" @click="uiLogin"
+              :disabled="state.islogin">
+              <i class="fa fa-spin fa-spinner g-mr-10" v-show="state.islogin"></i>
+              {{state.isjump?'登陆成功,正在跳转':'登陆'}}
+            </button>
+
+            <div class="g-color-black text-center"><i class="fa fa-lock"></i>采用RSA算法加密您的项目敏感数据</div>
+
+          </div>
+        </div>
+      </div> -->
+
+      <div class="g-width-780 g-bg-white d-flex g-mt-100" :style="'margin-left:'+regleft+'px'">
+
+        <div class="w-50  text-center ss_main_bg_color"
+          style="background-image: url('./img/footer-lodyas.png');background-size: 100%;">
+
+          <div class="text-center  g-color-white">
+            
+            <div class="text-left g-pa-40">
+              <h2 class="h5 g-font-weight-600 text-center">注册账号</h2>
+
+              <div class="d-flex g-mt-20">
+                <div class="d-flex mr-4">
+                  <span
+                    class="u-icon-v3 g-width-50 g-height-50 g-color-bluegray g-bg-white-0_1 g-font-size-20 rounded-circle">
+                    <i class="fa fa-lock"></i>
+                  </span>
+                </div>
+                <div>
+                  <div>安全</div>
+                  <div class="g-font-size-12">敏感信息RSA加密,密钥自己持有,支持部署私有服务器</div>
+                </div>
+              </div>
+
+              <div class="d-flex g-mt-10">
+                <div class="d-flex mr-4">
+                  <span
+                    class="u-icon-v3 g-width-50 g-height-50 g-color-bluegray g-bg-white-0_1 g-font-size-20 rounded-circle">
+                    <i class="fa fa-mixcloud"></i>
+                  </span>
+                </div>
+                <div>
+                  <div>云同步</div>
+                  <div>项目信息和各函数配置信息,自动云同步,随时随地可用</div>
+                </div>
+              </div>
+
+              <div class="d-flex g-mt-10">
+                <div class="d-flex mr-4">
+                  <span
+                    class="u-icon-v3 g-width-50 g-height-50 g-color-bluegray g-bg-white-0_1 g-font-size-20 rounded-circle">
+                    <i class="fa fa-rocket"></i>
+                  </span>
+                </div>
+                <div>
+                  <div>简单</div>
+                  <div>各项操作和配置提供GUI操作,简单易用不出错</div>
+                </div>
+              </div>
+
+              <div class="d-flex g-mt-10">
+                <div class="d-flex mr-4">
+                  <span
+                    class="u-icon-v3 g-width-50 g-height-50 g-color-bluegray g-bg-white-0_1 g-font-size-20 rounded-circle">
+                    <i class="fa fa-cogs"></i>
+                  </span>
+                </div>
+                <div>
+                  <div>SLS定制</div>
+                  <div>对Serverless Framework二次开发,强化密钥保密,支持函数级权限管理</div>
+                </div>
+              </div>
+
+              <div class="d-flex g-mt-10">
+                <div class="d-flex mr-4">
+                  <span
+                    class="u-icon-v3 g-width-50 g-height-50 g-color-bluegray g-bg-white-0_1 g-font-size-20 rounded-circle">
+                    <i class="fa fa-bullhorn"></i>
+                  </span>
+                </div>
+                <div>
+                  <div>透明</div>
+                  <div>SCFGUI工具的客户端和服务器代码开源,无黑盒</div>
+                </div>
+              </div>
+
+              <div class="d-flex g-mt-10">
+                <div class="d-flex mr-4">
+                  <span
+                    class="u-icon-v3 g-width-50 g-height-50 g-color-bluegray g-bg-white-0_1 g-font-size-20 rounded-circle">
+                    <i class="fa fa-users"></i>
+                  </span>
+                </div>
+                <div>
+                  <div>团队功能</div>
+                  <div>多人协作自动同步部署配置,管理员配置成员直接使用</div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="w-50">
+          <div class="text-center">
+            <img src="./img/logoblue.png" alt="" class="g-width-150 run2" style="margin-top: -50px;">
+          </div>
+          <div class="g-pa-40">
+            <div class="d-flex justify-content-between">
+              <h2 class="h5 g-color-black mb-4 ">账号登陆</h2>
+              <div class=" text-right">
+                <a href="#!" class="ss_main_color" @click="uiSwitchShow('reg')">注册账号</a>
+              </div>
+            </div>
+
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-10" for="inputGroup1_1">您的邮箱</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-envelope-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="text" placeholder=""
+                  v-model="account.accountmail">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-10" for="inputGroup1_1">密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 ">
+                  <i class="fa fa-lock g-font-size-20"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder=""
+                  v-model="account.accountpw" @keyup.enter="uiLogin">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+
+              <!-- <div class="form-group">
+                <label class="d-flex align-items-center justify-content-between">
+
+                  <div class="u-check g-mr-10">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" disabled type="checkbox">
+                    <div class="u-check-icon-radio-v8">
+                      <i class="fa" data-check-icon=""></i>
+                    </div>
+                  </div>
+                  <span>保持登陆</span>
+                </label>
+              </div> -->
+
+
+              <div class=" g-mt-20">忘记密码</div>
+            </div>
+
+            <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color w-100 g-mt-20" @click="uiLogin"
+              :disabled="state.islogin">
+              <i class="fa fa-spin fa-spinner g-mr-10" v-show="state.islogin"></i>
+              {{state.isjump?'登陆成功,正在跳转':'登陆'}}
+            </button>
+
+            <div class="g-color-black text-center"><i class="fa fa-lock"></i>采用RSA算法加密您的项目敏感数据</div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div v-show="showreg" style="display: none;">
+      <div class="g-width-780 g-bg-white d-flex g-mt-100" :style="'margin-left:'+regleft+'px'">
+        <div class="w-50  text-center" style="background-image: url('./img/bg.png');background-size: 100%;">
+          <div class="d-flex">
+            <!-- <img src="./img/logowhite.png" class="g-width-50 g-height-50" alt=""> -->
+            <!-- <h2 class="h5 g-color-black mb-4">SCFGUI</h2> -->
+          </div>
+          <!-- <div class="text-center">
+            <h2 class="h5 g-color-black mb-4 g-color-white g-font-weight-600">注册账号</h2>
+            <div class="text-left g-px-40">
+              <ul>
+                <li>基于腾讯云SCF</li>
+                <li>图形化SCF一键自动化配置部署,更新代码,轻松调试,便捷图形运维</li>
+                <li>SCF函数图形化分析解读,便捷直观</li>
+                <li>云存储项目信息,随时随地使用,轻松跨设备</li>
+                <li>在您的私有COS存储代码随时可用又不泄露</li>
+                <li>敏感数据RAS非对称加密,只有你自己可用解密,安全可靠</li>
+                <li>以上功能全免费</li>
+              </ul>
+            </div>
+
+            <h2 class="h5 g-color-black mb-4 g-color-white g-font-weight-600">团队功能</h2>
+            <div class="text-left g-px-40">
+              <ul>
+                <li>多人协作自动同步部署配置</li>
+                <li>管理员管理成员配置,项目敏感信息保密</li>
+              </ul>
+            </div>
+          </div> -->
+        </div>
+        <div class="w-50">
+
+          <div class="g-pa-40">
+
+            <div class="d-flex justify-content-between">
+              <DIV class="mb-4">
+                <h2 class="h5 g-color-black mb-0 ">创建您的SCFGUI云账号</h2>
+                <small class="g-font-size-13">自动云同步配置信息,敏感信息RSA加密</small>
+              </DIV>
+
+              <div class=" text-right">
+                <a href="#!" class="ss_main_color" @click="uiSwitchShow('login')">登陆</a>
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">您的邮箱<small>--同时用于团队项目邀请</small></label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-envelope-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="email" placeholder=""
+                  v-model="account.accountmail">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">您的昵称 <small>--团队项目中显示的您的称呼</small></label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-user-o g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="text" placeholder=""
+                  v-model="account.accountname">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">您的密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-lock g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder=""
+                  v-model="account.accountpw">
+              </div>
+            </div>
+
+            <div class="form-group g-mb-20">
+              <label class="g-mb-5" for="inputGroup1_1">确认密码</label>
+              <div class="input-group g-brd-primary--focus">
+                <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i class="fa fa-lock g-font-size-15"></i>
+                </div>
+                <input class="form-control form-control-md rounded-0" type="password" placeholder=""
+                  v-model="account.repw">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="d-flex align-items-center">
+
+                <div class="u-check g-mr-10">
+                  <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" type="checkbox">
+                  <div class="u-check-icon-radio-v8">
+                    <i class="fa" data-check-icon=""></i>
+                  </div>
+                </div>
+                <span>发布版本,更新功能EMAIL通知我</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <!-- <label class="d-flex align-items-center">
+
+                <div class="u-check g-mr-10">
+                  <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" checked type="checkbox">
+                  <div class="u-check-icon-radio-v8">
+                    <i class="fa" data-check-icon=""></i>
+                  </div>
+                </div>
+                <span>保持登陆</span>
+              </label> -->
+            </div>
+
+            <button class="btn btn-md u-btn-primary g-mr-10 g-mb-15 ss_main_bg_color w-100 g-mt-20" @click="uiReg"
+              :disabled="state.isreging">
+              <i class="fa fa-spin fa-spinner" v-if="state.isreging"></i>注册
+            </button>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center g-mt-100" v-if="refreshTeam">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        style="margin:auto;display:block;" width="200px" height="200px" viewBox="0 0 100 100"
+        preserveAspectRatio="xMidYMid">
+        <g transform="translate(50 50)">
+          <g transform="scale(0.8)">
+            <g transform="translate(-50 -50)">
+              <g>
+                <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" times="0;1"
+                  dur="2s" repeatCount="indefinite"></animateTransform>
+                <path fill="#e15b64"
+                  d="M44.711 10.952c10.24-5.964 23.181-4.614 32.071 3.151l4.839 4.276l-6.414-1.238 c-8.102-1.688-16.88-0.113-24.532 4.276S37.284 32.67 34.696 40.547l-2.026 6.189l-1.238-6.414 C29.069 28.732 34.471 16.916 44.711 10.952z">
+                  <animate attributeName="fill" repeatCount="indefinite" dur="2s"
+                    values="#e15b64;#f8b26a;#abbd81;#849b87;#e15b64" keyTimes="0;0.25;0.5;0.75;1" begin="-1.5s">
+                  </animate>
+                </path>
+                <path fill="#f8b26a"
+                  d="M32.333 61.253l6.189 2.138l-4.276-4.839c-5.514-6.189-8.552-14.517-8.552-23.406s3.038-17.217 8.552-23.406 l4.276-4.839l-6.189 2.138C21.079 12.865 13.54 23.33 13.54 35.258C13.54 46.849 21.079 57.427 32.333 61.253z">
+                  <animate attributeName="fill" repeatCount="indefinite" dur="2s"
+                    values="#e15b64;#f8b26a;#abbd81;#849b87;#e15b64" keyTimes="0;0.25;0.5;0.75;1" begin="-1s"></animate>
+                </path>
+                <path fill="#abbd81"
+                  d="M32.67 77.795c6.527 0 13.054-2.363 18.23-6.864l4.839-4.276l-6.414 1.238 c-8.102 1.688-16.88 0.113-24.532-4.276c-7.652-4.389-13.391-11.253-15.979-19.13l-2.026-6.189L5.55 44.711 C3.187 56.302 8.588 68.118 18.829 74.082C23.105 76.557 27.944 77.795 32.67 77.795z">
+                  <animate attributeName="fill" repeatCount="indefinite" dur="2s"
+                    values="#e15b64;#f8b26a;#abbd81;#849b87;#e15b64" keyTimes="0;0.25;0.5;0.75;1" begin="-0.5s">
+                  </animate>
+                </path>
+                <path fill="#e15b64"
+                  d="M68.568 59.678l-1.238-6.414l-2.026 6.189c-2.588 7.877-8.327 14.629-15.979 19.13 c-7.652 4.389-16.43 5.964-24.532 4.276l-6.414-1.238l4.839 4.276c5.176 4.501 11.703 6.864 18.23 6.864 c4.726 0 9.565-1.238 13.841-3.714C65.529 83.084 70.931 71.268 68.568 59.678z">
+                  <animate attributeName="fill" repeatCount="indefinite" dur="2s"
+                    values="#e15b64;#f8b26a;#abbd81;#849b87;#e15b64" keyTimes="0;0.25;0.5;0.75;1" begin="-1.5s">
+                  </animate>
+                </path>
+                <path fill="#f8b26a"
+                  d="M67.667 38.747l-6.189-2.138l4.276 4.839c5.514 6.189 8.552 14.517 8.552 23.406s-3.038 17.217-8.552 23.406 l-4.276 4.839l6.189-2.138C78.921 87.135 86.46 76.67 86.46 64.742C86.46 53.151 78.921 42.573 67.667 38.747z">
+                  <animate attributeName="fill" repeatCount="indefinite" dur="2s"
+                    values="#e15b64;#f8b26a;#abbd81;#849b87;#e15b64" keyTimes="0;0.25;0.5;0.75;1" begin="-1s"></animate>
+                </path>
+                <path fill="#abbd81"
+                  d="M81.171 25.918c-10.24-5.964-23.181-4.614-32.071 3.151l-4.839 4.276l6.414-1.238 c8.102-1.688 16.88-0.113 24.532 4.276c7.652 4.389 13.391 11.253 15.979 19.13l2.026 6.189l1.238-6.414 C96.813 43.698 91.412 31.882 81.171 25.918z">
+                  <animate attributeName="fill" repeatCount="indefinite" dur="2s"
+                    values="#e15b64;#f8b26a;#abbd81;#849b87;#e15b64" keyTimes="0;0.25;0.5;0.75;1" begin="-0.5s">
+                  </animate>
+                </path>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <div>拼命加载和解码您的项目信息</div>
+    </div>
+
+
+
+  </main>
+
+
+  <script>
+
+    // const Vue = require("../vue");
+
+  </script>
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <!--  -->
+  <script src="../assets/js/hs.core.js"></script>
+  <script src="../vue.js"></script>
+
+  <script src="../assets/js/helpers/hs.focus-state.js"></script>
+  <script src="./js/login.js"></script>
+
+  <script>
+
+    $(window).on('load', function () {
+      // initialization of header
+      $.HSCore.helpers.HSFocusState.init();
+
+    });
+  </script>
+
+</body>
+
+</html>

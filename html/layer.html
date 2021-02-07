@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>层管理</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  <link rel="stylesheet" href="../assets/css/styles.op-app.css">
+
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="../assets/vendor/animate.css">
+  <link rel="stylesheet" href="../assets/vendor/custombox/custombox.min.css">
+
+  <link rel="stylesheet" href="../assets/vendor/hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" href="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../assets/vendor/slick-carousel/slick/slick.css">
+
+  <link rel="stylesheet" href="../assets/css/unify-globals.css">
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+
+
+  <link rel="stylesheet" href="../assets/vendor/multiselect/css/multi-select.css">
+
+  <link rel="stylesheet" href="../assets/css/unify-admin.css">
+
+  <link rel="stylesheet" href="../assets/jquery/jquery-ui.css">
+  <link rel="stylesheet" href="../assets/jquery/style.css">
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/loadline.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+
+    .ms-elem-selectable span {
+      width: 100%;
+      text-align: center;
+    }
+
+    .ms-elem-selection span {
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body id="bbody" class="g-bg-secondary u-body--header-side-static-left">
+
+  <main id="main" class="g-color-black g-height-100x g-pos-rel">
+
+    <div class="w-100 text-center" v-if="loading">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+
+    <div style="display: none;" v-show="!loading" class="g-pos-rel g-height-100x">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5  g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-abs g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">基于腾讯云SCF产品</p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <section id="appScreens" class=" g-px-30 g-pos-rel g-height-100x">
+        <div class="row g-height-100x">
+
+
+
+
+          <div class="col-4  g-brd-right g-brd-gray-light-v1 g-py-20">
+
+            <div class="w-100 d-flex">
+
+              <div class="w-100 mr-2">
+                <div class="g-color-gray-dark-v1">项目类型</div>
+                <select
+                  class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus  rounded-0 w-100"
+                  :disabled="refreshTeam||loadPros" @change="uiChangeCate" v-model="projectCate">
+                  <option value="">选择类型</option>
+                  <option value="persion">个人项目</option>
+                  <option value="team">团队项目</option>
+                </select>
+              </div>
+
+              <div class="w-100 mr-2">
+                <div class="g-color-gray-dark-v2">项目列表
+                  <i v-if="loadPros" class="fa fa-spinner fa-spin"></i>
+                </div>
+                <select
+                  class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0 w-100"
+                  :disabled="refreshTeam||loadPros" v-model="chkTeamId" @change="uiChangeTeam">
+                  <option value="" v-if="projectCate==''">先选左侧类型</option>
+                  <option :value="team._id" v-for="(team,inx) in teams">{{team.teamname}}</option>
+                </select>
+              </div>
+
+              <div>
+                <div class="ss_color_trans">1</div>
+                <button href="#!" :disabled="refreshTeam"
+                  class="g-bg-transparent btn btn-md g-color-gray-dark-v3 g-px-0" @click="uiRefreshTeam">
+                  <i class="fa fa-refresh" :class="{'fa-spin':refreshTeam}"></i>
+                </button>
+              </div>
+
+            </div>
+
+
+            <div class="g-mb-10 g-mt-20">现有层信息管理</div>
+
+            <div class="g-min-height-200 g-brd-around g-brd-gray-light-v1 w-100 g-rounded-5 g-bg-white g-pos-rel">
+
+              <div class=" g-min-height-200 text-center" style="line-height: 200px;" v-if="!loadLayer&&layers.length==0">尚未创建层</div>
+              <div class=" g-min-height-200 text-center" style="line-height: 200px;" v-if="loadLayer">
+                <i class="fa fa-spin fa-spinner"></i>
+              </div>
+
+
+              <a href="#!" class="btn w-100 d-flex text-left g-color-black g-bg-gray-light-v5--hover g-pa-10 g-px-20"
+                :class="{'g-bg-gray-light-v5':layer.chk}" v-for="layer in layers"
+                @click="uiListVersion(layer.LayerName)">
+                <div class="g-pos-rel">
+                  <i class="fa fa-spin fa-spinner g-mr-5" v-if="layer.isloading"></i>
+                  <i class="fa fa-folder-open g-mr-5" v-if="!layer.islistver&&!layer.chk"></i>
+                  <i class="fa fa-trash g-color-red g-mr-5 g-font-size-20" v-if="layer.chk"
+                    @click.stop="uiDelLayer(layer.LayerName)"></i>
+
+                  <span class="g-mr-20"> {{layer.LayerName}}</span>
+                  <img src="./img/php.svg" class="g-width-30 g-mr-5" v-if='layer.isphp' />
+                  <img src="./img/python.svg" class="g-width-30 g-mr-5" v-if='layer.ispython' />
+                  <img src="./img/Nodejs.svg" class="g-width-30" v-if='layer.isnodejs' />
+                  <img src="./img/java.svg" class="g-width-20" v-if='layer.isjava' />
+                  <img src="./img/go.svg" class="g-width-30" v-if='layer.isgo' />
+                </div>
+              </a>
+
+            </div>
+
+            <div class="g-mt-20 text-center">
+
+              <div class="row g-mb-10">
+                <div class="col-12 g-mb-5 g-flex-middle-item text-left">新增层名称</div>
+                <div class="col-12">
+                  <input id="inputGroup1_1" v-model="addLayer.layerName"
+                    class="form-control form-control-md rounded-0 g-brd-primary--focus" type="text" placeholder="请输入层名称"
+                    :disabled="!canEdit">
+                </div>
+              </div>
+
+              <div class="row g-mb-10">
+                <div class="col-12 g-mb-5 g-flex-middle-item text-left">新增层描述</div>
+                <div class="col-12">
+                  <textarea id="inputGroup2_1" v-model="addLayer.description"
+                    class="form-control form-control-md g-resize-none rounded-0" rows="3" placeholder="请输入层描述"
+                    :disabled="!canEdit"></textarea>
+                </div>
+              </div>
+
+              <div class="w-100 g-mb-5 text-left">新增层运行环境(同时最多支持5个语言)</div>
+
+              <div class="d-flex g-bg-white g-py-10  g-brd-around g-brd-gray-light-v2">
+
+                <div class="col-md-4 text-left">
+                  <div class="form-group g-mb-10">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Python3.6"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0 ">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Python3.6
+                    </label>
+                  </div>
+
+                  <div class="form-group g-mb-10">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Python2.7"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Python2.7
+                    </label>
+                  </div>
+
+                  <div class="form-group g-mb-10">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Php7"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Php7
+                    </label>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Php5"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Php5
+                    </label>
+                  </div>
+
+
+                </div>
+
+                <div class="col-md-4 text-left">
+                  <div class="form-group g-mb-10 ">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs12.16"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Nodejs12.16
+                    </label>
+                  </div>
+
+
+                  <div class="form-group g-mb-10 ">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs10.15"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Nodejs10.15
+                    </label>
+                  </div>
+
+                  <div class="form-group g-mb-10 ">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs8.9"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Nodejs8.9
+                    </label>
+                  </div>
+
+
+                  <div class="form-group">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs6.10"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Nodejs6.10
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 text-left">
+
+
+                  <div class="form-group g-mb-10 ">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Java8"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Java8
+                    </label>
+                  </div>
+
+                  <div class="form-group g-mb-10 ">
+                    <label class="u-check g-pl-25">
+                      <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Go1"
+                        v-model="addLayer.runtimes">
+                      <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                        <i class="fa" data-check-icon=""></i>
+                      </div>
+                      Go1
+                    </label>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="w-100 g-mb-5 text-left g-mt-10">发布为层的文件夹</div>
+              <a href="#!" class="g-pos-rel btn  w-100 g-pa-0" @click="uiAddLayerDir('layer')">
+                <div class="g-pos-rel mb-0 g-bg-white g-py-10 g-brd-around g-brd-gray-light-v2 w-100">
+
+                  <label class="u-file-attach-v2 g-color-gray-dark-v1 mb-0 w-100" v-if="addLayer.dir==''">
+                    <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                    <span class="js-value">请选择文件夹</span>
+                  </label>
+                  <div v-else class="text-left g-pl-10  w-100 g-color-black">{{addLayer.dir}}</div>
+                </div>
+                <div class="g-color-black g-font-size-12" v-if="upLayerprogs.iszip">
+                  <i class="fa fa-spin fa-spinner"></i>正在压缩层文件夹
+                </div>
+
+                <div class="g-color-black g-font-size-12" v-if="upLayerprogs.cosshow">
+                  <span v-if="upLayerprogs.cosisfin">上传完毕</span>
+                  <span v-if="!upLayerprogs.cosisfin">已上传{{upLayerprogs.loaded}}M, 上传速度{{upLayerprogs.speed}}M</span>
+                </div>
+
+              </a>
+
+
+
+              <button href="#!" class="btn btn-md u-btn-blue g-mr-10 g-mb-15 g-mt-15 w-100 ss_main_bg_color"
+                :disabled="addLayer.isadding||!canEdit" @click='uiBeginSubmit("layer")'>
+                <i class="fa fa-plus" v-if="!addLayer.isadding"></i>
+                <i class="fa fa-spin fa-spinner" v-if="addLayer.isadding"></i>
+                新增层</button>
+
+
+            </div>
+
+          </div>
+          <div class="col-8 g-py-20">
+
+            <div class="g-mt-20 g-ml-20" v-if="!showver">
+              <div class="g-font-size-16 g-font-weight-600">一句话介绍层管理</div>
+              <div class="g-font-size-14">
+                <div>各SCF函数共享的文件夹,可通过/opt路径直接访问</div>
+
+              </div>
+
+
+              <div class="row g-mt-40">
+
+                <div class="col-4  g-py-30">
+                  <div class="g-font-size-15 g-font-weight-600 g-mb-30">功能介绍</div>
+                  <div class="g-mb-20"><a href="https://cloud.tencent.com/document/product/583/40159"
+                      class="g-font-size-14 g-color-gray-dark-v2"><i class="fa fa-connectdevelop g-mr-5"></i>层管理概述</a>
+                  </div>
+                  <div class="g-mb-20"><a href="https://cloud.tencent.com/document/product/583/45760"
+                      class="g-font-size-14 g-color-gray-dark-v2"><i class="fa fa-qq g-mr-5"></i>层管理腾讯云后台操作说明</a></div>
+                </div>
+
+                <div class="col-8 g-brd-around g-brd-gray-light-v2 g-py-30">
+                  <div class="g-font-size-15 g-font-weight-600 g-mb-30">使用注意事项</div>
+                  <div class="g-mb-30">层在SCF函数中并非必须,适当使用对开发效率提升非常有帮助,不合理使用反而降低效率,甚至出现意料之外的BUG</div>
+
+                  <div class="d-flex g-mt-10">
+                    <div style="background-color: rgb(255, 249, 179);"
+                      class="g-height-40 g-width-40 g-rounded-50x text-center g-mr-10">
+                      <img src="./img/file.svg" class="g-width-20 g-height-20 g-mt-10"></img>
+                    </div>
+                    <div style="line-height: 20px;" class="g-pos-rel g-flex-middle-item">
+                      <div class="">层支持放置文件或文件夹</div>
+                    </div>
+                  </div>
+
+
+                  <div class="d-flex g-mt-10">
+                    <div style="background-color: rgb(255, 249, 179);"
+                      class="g-height-40 g-width-40 g-rounded-50x text-center g-mr-10">
+                      <img src="./img/lock.svg" class="g-width-20 g-height-20 g-mt-10"></img>
+                    </div>
+                    <div style="line-height: 20px;" class="g-pos-rel g-flex-middle-item">
+                      <div class="">适合内容固定或较小变化,如第三方开发依赖包,素材包等</div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex g-mt-10">
+                    <div style="background-color: rgb(255, 249, 179);"
+                      class="g-height-40 g-width-40 g-rounded-50x text-center g-mr-10">
+                      <img src="./img/hard.svg" class="g-width-30 g-height-30 g-mt-5"></img>
+                    </div>
+                    <div style="line-height: 20px;" class="g-pos-rel g-flex-middle-item">
+                      <div class="">适合某文件或文件夹内容大,超过20M</div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex g-mt-10">
+                    <div style="background-color: rgb(255, 249, 179);"
+                      class="g-height-40 g-width-40 g-rounded-50x text-center g-mr-10">
+                      <img src="./img/up.svg" class="g-width-40 g-height-40"></img>
+                    </div>
+                    <div style="line-height: 20px;" class="g-pos-rel g-flex-middle-item">
+                      <div class="">更新层内容直接影响到绑定的全部函数</div>
+                    </div>
+                  </div>
+
+
+
+
+                </div>
+              </div>
+
+            </div>
+
+            <div v-if="showver">
+
+              <div class="g-mt-40 g-font-size-15 g-font-weight-600 g-mb-10">层名称:{{chkLayer.LayerName}}</div>
+              <div class="g-font-size-15 g-font-weight-600 g-mb-10">层描述:{{chkLayer.Description}}</div>
+              <div class="g-bg-white g-pa-20 u-shadow-v1-3 g-rounded-5">
+                <div class="">已发布版本</div>
+                <table class="table table-striped w-100">
+                  <thead>
+                    <tr>
+                      <th>版本</th>
+                      <th>状态</th>
+                      <th class="hidden-sm">描述</th>
+                      <th>运行环境</th>
+                      <th>创建时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr v-for="ver in layerversions">
+                      <td class="align-middle">{{ver.LayerVersion}}</td>
+                      <td class="align-middle">{{ver.Status}}</td>
+                      <td class="hidden-sm align-middle">
+                        <div v-for="desc in ver.Description">{{desc}}</div>
+                      </td>
+                      <td class="align-middle">
+                        <div v-for="run in ver.CompatibleRuntimes">{{run}}</div>
+                      </td>
+                      <td class="align-middle">{{ver.AddTime}}</td>
+                      <td class="align-middle">
+                        <a href="#!" class="btn g-color-red" @click="uiDelLayerVer(ver.LayerName, ver.LayerVersion)">
+                          <i class="fa fa-trash-o" v-if="!ver.isloading"></i>
+                          <i class="fa fa-spin fa-spinner" v-if="ver.isloading"></i>
+                        </a>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+                <div class=" g-pos-rel d-flex g-mt-10">
+                  <div class="col-10"></div>
+                  <button class="btn btn-block g-color-white g-rounded-50 g-py-5 col-2 ss_sec_bg_color" href="#!"
+                    @click="uiShowAddVer">
+                    <i class="fa fa-plus g-mr-5"></i>
+                    添加版本
+                  </button>
+                </div>
+
+              </div>
+
+              <div class="g-bg-white g-pa-20 g-mt-20 u-shadow-v1-3 g-rounded-5" v-show="showaddver">
+
+                <div class="g-mb-5 g-flex-middle-item text-left">新增版本的描述</div>
+                <div class="">
+                  <textarea class="form-control form-control-md g-resize-none rounded-0" rows="3" placeholder="请输入层描述"
+                    v-model="addVersion.description"></textarea>
+                </div>
+
+                <div class="g-mt-10 g-flex-middle-item text-left">新增版本运行环境(同时最多支持5个语言)</div>
+
+                <div class="d-flex g-bg-white g-py-10">
+                  <div class="col-md-4 text-left">
+                    <div class="form-group g-mb-10">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Python3.6"
+                          v-model="addVersion.runtimes">
+                        <div
+                          class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0 ss_check_main">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Python3.6
+                      </label>
+                    </div>
+
+                    <div class="form-group g-mb-10">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Python2.7"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Python2.7
+                      </label>
+                    </div>
+
+                    <div class="form-group g-mb-10">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Php7"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Php7
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Php5"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Php5
+                      </label>
+                    </div>
+
+
+                  </div>
+
+                  <div class="col-md-4 text-left">
+                    <div class="form-group g-mb-10 ">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs12.16"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Nodejs12.16
+                      </label>
+                    </div>
+
+
+                    <div class="form-group g-mb-10 ">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs10.15"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Nodejs10.15
+                      </label>
+                    </div>
+
+                    <div class="form-group g-mb-10 ">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs8.9"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Nodejs8.9
+                      </label>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs6.10"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Nodejs6.10
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 text-left">
+
+
+                    <div class="form-group g-mb-10 ">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Java8"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Java8
+                      </label>
+                    </div>
+
+                    <div class="form-group g-mb-10 ">
+                      <label class="u-check g-pl-25">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Go1"
+                          v-model="addVersion.runtimes">
+                        <div class="u-check-icon-checkbox-v4 ss_check_main g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon=""></i>
+                        </div>
+                        Go1
+                      </label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="g-mt-10 g-flex-middle-item text-left">新增版本文件夹</div>
+                <a href="#!" class="g-pos-rel btn  w-100 g-pa-0" @click="uiAddLayerDir('ver')">
+                  <div class="g-pos-rel mb-0 g-bg-white g-py-10 g-brd-around g-brd-gray-light-v2 w-100">
+
+                    <label class="u-file-attach-v2 g-color-gray-dark-v1 mb-0 w-100" v-if="addVersion.dir==''">
+                      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                      <span class="js-value">请选择文件夹</span>
+                    </label>
+                    <div v-else class="text-left g-pl-10  w-100 g-color-black">{{addVersion.dir}}</div>
+
+                  </div>
+                  <div class="g-color-black g-font-size-12" v-if="upVerProgs.iszip">
+                    <i class="fa fa-spin fa-spinner"></i>正在压缩层文件夹
+                  </div>
+                  <div class="g-color-black g-font-size-12" v-if="upVerProgs.cosshow">
+                    <span v-if="upVerProgs.cosisfin">上传完毕</span>
+                    <span v-if="!upVerProgs.cosisfin">已上传{{upVerProgs.loaded}}M, 上传速度{{upVerProgs.speed}}M</span>
+                  </div>
+                </a>
+
+
+                <div class="w-100 text-right">
+                  <button class="btn btn-md  g-mb-15 g-mt-15 ss_main_bg_color g-color-white g-rounded-50"
+                    :disabled="addVersion.isadding" @click='uiBeginSubmit("ver")'>
+                    <i class="fa fa-plus" v-if="!addVersion.isadding"></i>
+                    <i class="fa fa-spin fa-spinner" v-if="addVersion.isadding"></i>新增版本
+                  </button>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+
+
+    </div>
+
+    <!-- <div class="dlginfo">
+      <div class="dlginfo_main">
+        <div class="dlginfo_title">标题</div>
+        <div class="dlginfo_content">内容</div>
+        <div class="dlginfo_btns">
+          <a href="#!" class="btn btn-md u-btn-blue  g-mb-10 w-100">Blue</a>
+          <a href="#!" class="btn btn-md u-btn-bluegray w-100">Blue Gray</a>
+        </div>
+      </div>
+    </div> -->
+
+
+  </main>
+
+
+  <script>
+    const { shell } = require('electron')
+    // window.nodeRequire = require;
+    // delete window.require;
+    // delete window.exports;
+    // delete window.module;
+  </script>
+
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="../assets/vendor/bootstrap/offcanvas.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+  <script src="../assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="../assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="../assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="../assets/js/hs.core.js"></script>
+
+  <script src="../assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="../assets/js/components/hs.dropdown.js"></script>
+  <script src="../assets/js/components/hs.scrollbar.js"></script>
+  <script src="../assets/js/components/hs.popup.js"></script>
+  <script src="../assets/js/components/hs.carousel.js"></script>
+  <script src="../assets/js/components/hs.go-to.js"></script>
+  <script src="../assets/vendor/custombox/custombox.min.js"></script>
+  <script src="../assets/js/components/hs.modal-window.js"></script>
+  <script src="../vue.js"></script>
+  <script src="../assets/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+  <script src="../assets/js/components/hs.cubeportfolio.js"></script>
+
+  <script src="../assets/jquery/jquery-ui.js"></script>
+
+
+  <script src="../assets/js/hs.core.js"></script>
+
+
+
+
+  <script src="../assets/js/components/hs.header-side.js"></script>
+
+  <script src="../assets/vendor/multiselect/js/jquery.multi-select.js"></script>
+  <script src="../assets/js/components/hs.multi-select.js"></script>
+
+  <script src="./js/layer.js"></script>
+
+  <script>
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+    $(window).on('load', function () {
+
+
+    });
+  </script>
+
+</body>
+
+</html>

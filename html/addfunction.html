@@ -123,8 +123,6 @@
             </li>
           </ul>
 
-          <div></div>
-
         </div>
 
 
@@ -149,7 +147,7 @@
                 <div class="input-group g-brd-primary--focus">
                   <select
                     class="w-100 u-select-v1 g-color-black custom-select rounded-0 form-control-lg g-brd-gray-light-v1"
-                    v-model="fun.inputs.runtime" :disabled="!canEdit">
+                    v-model="fun.inputs.runtime" :disabled="!canEdit" @change="listapifile">
                     <option :value="run" v-for="run in chkTeam.project.runtime">{{run}}</option>
                   </select>
                 </div>

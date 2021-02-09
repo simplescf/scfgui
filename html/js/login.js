@@ -60,7 +60,7 @@ let app = new Vue({
                 'components/src/cli/utils.js',
             ]
             //判断是否已经更新代码
-            let cc = fs.readFileSync(__dirname + '/../node_modules/@serverless/' + paths[0])
+            let cc = fs.readFileSync(__dirname + '/../node_modules/@serverless/' + paths[0], 'utf8')
             if((new RegExp('electron')).test(cc)){
                 console.error('updateFile ok');
                 return
@@ -76,7 +76,7 @@ let app = new Vue({
                 try {
                     fs.accessSync(__dirname + '/../sls/' + path, fs.constants.W_OK)
                     fs.writeFileSync(__dirname + '/../node_modules/@serverless/' + path,
-                        fs.readFileSync(__dirname + '/../sls/' + path))
+                        fs.readFileSync(__dirname + '/../sls/' + path, 'utf8'))
                 } catch (err) {
                     console.error(path);
                 }

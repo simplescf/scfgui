@@ -12,7 +12,7 @@ const ApigatewayClient = tencentcloud.apigateway.v20180808.Client;
 
 
 let Apigateway = {
-    getSDKClient: function (id, key, region) {
+    getSDKClient (id, key, region) {
         const clientConfig = {
             credential: {
                 secretId: id,
@@ -28,7 +28,7 @@ let Apigateway = {
         return new ApigatewayClient(clientConfig);
     },
 
-    listServices: function (id, key, region, calback) {
+    listServices(id, key, region, calback){
         let that = this
         const client = this.getSDKClient(id, key, region)
         client.DescribeServicesStatus({}).then(

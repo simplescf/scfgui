@@ -105,7 +105,66 @@ let app = new Vue({
             fix: false,
             intres: false,
             cos: false
-        }
+        },
+
+        jsKeys: [
+            'break',
+            'case',
+            'catch',
+            'continue',
+            'default',
+            'delete',
+            'do',
+            'else',
+            'finally',
+            'for',
+            'function',
+            'if',
+            'in',
+            'instanceof',
+            'new',
+            'return',
+            'switch',
+            'this',
+            'throw',
+            'try',
+            'typeof',
+            'var',
+            'void',
+            'while',
+            'with',
+            'abstract',
+            'boolean',
+            'byte',
+            'char',
+            'class',
+            'const',
+            'debugger',
+            'double',
+            'enum',
+            'export',
+            'extends',
+            'final',
+            'float',
+            'goto',
+            'implements',
+            'import',
+            'int',
+            'interface',
+            'long',
+            'native',
+            'package',
+            'private',
+            'protected',
+            'public',
+            'short',
+            'static',
+            'super',
+            'synchronized',
+            'throws',
+            'transient',
+            'volatile'
+        ],
     },
     mounted: function () {
         this.istotalload = false
@@ -117,19 +176,19 @@ let app = new Vue({
         this.init()
     },
     watch: {
-        'fun.runtime': function (nv, ov) {
-            console.info(nv, ov)
-            //首次初始化的时候不更新
-            if (ov == undefined) {
-                return;
-            }
-            var word = /php.*/i
-            console.debug(word.test(nv))
-            if (word.test(nv)) {
-                this.listapifile()
-            }
+        // 'fun.runtime': function (nv, ov) {
+        //     console.info(nv, ov)
+        //     //首次初始化的时候不更新
+        //     if (ov == undefined) {
+        //         return;
+        //     }
+        //     // var word = /php.*/i
+        //     // console.debug(word.test(nv))
+        //     // if (word.test(nv)) {
+        //         this.listapifile()
+        //     // }
 
-        },
+        // },
         'fun.codeUri': function (nv, ov) {
             console.info(nv, ov)
             var word = /php.*/i
@@ -175,10 +234,10 @@ let app = new Vue({
         init() {
             let that = this
             setTimeout(() => {
-                let tmp =  that.getTeamProject().getChkTeam()
-                if(tmp===false){
+                let tmp = that.getTeamProject().getChkTeam()
+                if (tmp === false) {
                     that.chkTeam = that.getInitChkTeam()
-                }else{
+                } else {
                     that.projectCate = tmp.cate
                     that.chkTeam = that.initChkTeam(tmp.team)
                 }
@@ -275,7 +334,7 @@ let app = new Vue({
         },
 
         valTeam(team) {
-            if (!team.hasOwnProperty('project')||!team.project.hasOwnProperty('secretId')) {
+            if (!team.hasOwnProperty('project') || !team.project.hasOwnProperty('secretId')) {
                 model.showModel('项目未配置', '您尚未对该项目进行配置<br>请先去"云配置信息"配置', {
                     confirm: { text: '去配置', funname: 'toSet' },
                     cancel: { text: '取消', funname: 'hidDlg' }
@@ -561,11 +620,11 @@ let app = new Vue({
             this.changechkproject(this.chkTeam._id)
         },
 
-        initChkTeam(team){
-            if(!team.project){
-                team.project = {tags:[]}
+        initChkTeam(team) {
+            if (!team.project) {
+                team.project = { tags: [] }
             }
-            if(team.project&&!team.project.tags){
+            if (team.project && !team.project.tags) {
                 team.project.tags = []
             }
             return team
@@ -574,9 +633,9 @@ let app = new Vue({
 
         //切换当前选中项目
         changechkproject(teamid) {
-            
 
-            if(!this.teams.some((ele)=>ele._id==teamid)){
+
+            if (!this.teams.some((ele) => ele._id == teamid)) {
                 this.refreshTeam = false
                 model.showModel('您已无法查看该项目', '', {
                     confirm: { text: '确定', funname: 'hidDlg' }
@@ -586,14 +645,14 @@ let app = new Vue({
             }
 
             if (this.chkTeam._id != teamid) {
-                for(let team of this.teams){
-                    if(team._id==teamid){
+                for (let team of this.teams) {
+                    if (team._id == teamid) {
                         this.chkTeam = this.initChkTeam(team)
                         break
                     }
                 }
             }
-            
+
             this.canEdit = this.valTeam(this.chkTeam)
             if (this.canEdit) {
                 this.flushUISet()
@@ -601,18 +660,18 @@ let app = new Vue({
                 let that = this
                 //防延迟
                 setTimeout(() => {
-                    that.listLayers()    
+                    that.listLayers()
                 }, 500);
                 this.getTeamProject().saveChkTeam(this.projectCate, this.chkTeam._id)
                 this.refreshTeam = false
-            }else{
+            } else {
                 console.info('aaaaaaaaaaaaaaa')
                 this.fun = this.getInitFun()
             }
             this.$forceUpdate()
         },
 
-        
+
 
         //查询cos列表
         initCos(res) {
@@ -992,48 +1051,136 @@ let app = new Vue({
          * 检索接口文件和接口函数
          */
         listapifile: function () {
+            console.info('listapifile')
+            this.apifiles = []
             //Java8 Golang1 不自动解析
             if (this.fun.inputs.runtime == "Golang1" || this.fun.inputs.runtime == "Java8") {
                 return
             }
             this.apifiles = []
             let path = this.fun.inputs.src.src
-            console.info(path)
             const dir = fs.readdirSync(path);
-            console.info(dir)
-            var word = /php.*/i
-            console.info(word)
-            if (word.test(this.fun.inputs.runtime)) {
-                for (filename of dir) {
-                    let myRe = /(.*)(\.php)/;
-                    let myArray = myRe.exec(filename);
-                    if (myArray != null) {
-                        let tmp = filename
-                        fs.readFile(path + "/" + tmp, 'utf8', (err, data) => {
-                            this.getphpfunctions(tmp, data, myArray[1])
-                        });
+            // var word = /php.*/i
+            if (/php.*/i.test(this.fun.inputs.runtime)) {
+                console.info('php')
+                this.getphpfunctions(dir)
+            }else if (/nodejs.*/i.test(this.fun.inputs.runtime)) {
+                console.info('nodejs')
+                this.getNodeFunctions(dir)
+            }else if (/python.*/i.test(this.fun.inputs.runtime)) {
+                this.getPyFunctions(dir)
+            }else{
+                model.showModel('暂不支持的语言', '当前仅支持PHP、NODEJS和PYTHON', {
+                    confirm: { text: '确定', funname: 'hidDlg' }
+                })
+            }
+            
+             // for (filename of dir) {
+                //     let myRe = /(.*)(\.php)/;
+                //     let myArray = myRe.exec(filename);
+                //     if (myArray != null) {
+                //         let tmp = filename
+                //         fs.readFile(path + "/" + tmp, 'utf8', (err, data) => {
+                //             this.getphpfunctions(tmp, data, myArray[1])
+                //         });
+                //     }
+                // }
+        },
+
+        parseJsFun(line) {
+            let mts = [...line.matchAll(/([\w$]+).+\)\s*{/g)]
+            let funs = []
+            for (let mt of mts) {
+                let tmp = mt[1].toLowerCase()
+                if (!this.jsKeys.includes(tmp)) {
+                    funs.push(tmp)
+                }
+            }
+            return funs
+        },
+
+        parsePhpFun(line) {
+            let mts = [...line.matchAll(/\s+function\s+(\w+)\s*\(.*|\s*\)\s*{/g)]
+            let funs = []
+            console.info(mts)
+            for (let mt of mts) {
+                if(mt[1]==undefined){
+                    continue;
+                }
+                let tmp = mt[1].toLowerCase()
+                if (!this.jsKeys.includes(tmp)) {
+                    funs.push(tmp)
+                }
+            }
+            return funs
+        },
+
+        parsePyFun(line) {
+            let mts = [...line.matchAll(/def\s+(\w+)\(/g)]
+            let funs = []
+            for (let mt of mts) {
+                if(mt[1]==undefined){
+                    continue;
+                }
+                let tmp = mt[1].toLowerCase()
+                if (!this.jsKeys.includes(tmp)) {
+                    funs.push(tmp)
+                }
+            }
+            return funs
+        },
+
+        getNodeFunctions(dir) {
+            for (filename of dir) {
+                let myRe = /(.*)(\.js$)/i;
+                let myArray = myRe.exec(filename);
+                if (myArray != null) {
+                    try {
+                        fs.accessSync(this.fun.inputs.src.src+'/'+filename, fs.constants.R_OK)
+                        let ffs = this.parseJsFun(fs.readFileSync(this.fun.inputs.src.src+'/'+filename, 'utf8'))
+                        this.apifiles.push({ file: filename, name: myArray[1], function: ffs })
+                    } catch (err) {
+                        console.error(err);
                     }
                 }
             }
         },
 
-        /**
-         * php文件中解析出函数名
-         * @param {php} ds 
-         */
-        getphpfunctions: function (fn, ds, onlyname) {
-            let arr = ds.split("\n")
-            var myRe = /function\s+(\S*)\s*\(/g
-            let ffs = []
-            for (line of arr) {
-                var apis = myRe.exec(line);
-                if (apis != null) {
-                    ffs.push(apis[1])
+        getphpfunctions: function (dir) {
+            for (filename of dir) {
+                let myRe = /(.*)(\.php$)/i;
+                let myArray = myRe.exec(filename);
+                if (myArray != null) {
+                    try {
+                        let path = this.fun.inputs.src.src+'/'+filename
+                        fs.accessSync(path, fs.constants.R_OK)
+                        let ffs = this.parsePhpFun(fs.readFileSync(path, 'utf8'))
+                        this.apifiles.push({ file: filename, name: myArray[1], function: ffs })
+                    } catch (err) {
+                        console.error(err);
+                    }
                 }
             }
-            this.apifiles.push({ file: fn, name: onlyname, function: ffs })
         },
 
+        getPyFunctions: function (dir) {
+            for (filename of dir) {
+                let myRe = /(.*)(\.py$)/i;
+                let myArray = myRe.exec(filename);
+                if (myArray != null) {
+                    try {
+                        let path = this.fun.inputs.src.src+'/'+filename
+                        fs.accessSync(path, fs.constants.R_OK)
+                        let ffs = this.parsePyFun(fs.readFileSync(path, 'utf8'))
+                        this.apifiles.push({ file: filename, name: myArray[1], function: ffs })
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+            }
+        },
+
+       
 
         addexclude: function () {
             let that = this

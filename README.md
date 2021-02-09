@@ -1,4 +1,4 @@
-<div align=center><img src="https://github.com/simplescf/scfgui/blob/main/html/img/logotop.png" width="150" height="150" /></div>
+<div align=center><img src="https://github.com/simplescf/scfgui/raw/main/html/img/logotop.png" width="150" height="150" /></div>
 
 ### 工具概述
 -------
@@ -14,13 +14,19 @@ SCFGUI工具以图形化界面方式集成了以上功能，取代了晦涩文�
 ### 框架主要技术
 为便于开发者理解和掌握SCFGUI的使用和再修改，现列出所采用的重要第三方包。
 开发语言：Nodejs。
-<pre>GUI：采用[electron](https://www.electronjs.org/)框架，以支持mac和Windows跨平台使用。
-tencentcloud-sdk-nodejs：[腾讯云开发者工具套件](https://cloud.tencent.com/document/sdk/Node.js)，用以实现云函数的配置管理、代码更新管理、云存储和API网关管理等。
-@serverless：此为SLS工具，负责云函数的部署和删除。
-</pre>
+
+GUI：采用[electron](https://www.electronjs.org/)框架，以支持mac和Windows跨平台使用。
+
+Tencentcloud-sdk-nodejs：[腾讯云开发者工具套件](https://cloud.tencent.com/document/sdk/Node.js)，用以实现云函数的配置管理、代码更新管理、云存储和API网关管理等。
+
+@serverless：此为SLS工具，负责云函数的部署和删除,我们对此进行了二次开发。
+
 ###Serverless Framework二次开发
-默认的SLS工具，部署云函数需要读取本地serverless.yml函数配置文件及.env密钥文件。serverless.yml仅能配置一个函数，因此多函数部署配置的时候开发不方便，且明文将密钥保存在.env文件容易泄露密钥。
-本工具对SLS工具进行二次开发，取消了serverless.yml和.env文件，不但更便捷了开发部署，更提高了密钥的安全性。
+默认的SLS工具，部署云函数需要读取本地serverless.yml函数配置文件及.env密钥文件。
+serverless.yml仅能配置一个函数，因此多函数部署配置的时候需要重复修改此文件，影响开发效率。
+本工具对SLS工具进行二次开发：
+1. 取消了serverless.yml增加了函数级的权限控制，提升了SLS工具在开发和部署上的便捷性；
+2. 取消了.env密钥文件，不再直接保存密钥到文件，提高了密钥的安全性。
 ###安全性
 本软件对项目敏感配置使用RSA加密（如密钥、api网关id等），RSA密钥对仅在客户端直接生成和保存，与服务器隔离。
 团队项目中，腾讯云密钥即便解密也仅管理员可查看，对普通成员不可见。
@@ -57,10 +63,12 @@ node install.js
 #### 2. 云配置信息
 本工具需要首先创建项目，项目分为“个人项目”和“团队项目”两种类型，团队项目支持多人协作。
 团队项目：权限分为超级管理员、项目管理员和普通成员。管理员对项目配置后，全部成员共享配置，各成员配置的函数信息自动在全部成员之间同步。
-|-|项目管理|项目配置|成员管理|函数配置|
-|超级管理员|✔︎|✔︎|✔︎|✔︎|
-|项目管理员|✕|✔︎|✔︎|✔︎|
-|普通成员|✕|✕|✕|✔︎|
+
+角色 | 项目管理 | 项目配置 | 成员管理 | 函数配置
+:-----:|:-----:|:-----:|:----------:|:----:|:-----:|
+超级管理员|✔︎|✔︎|✔︎|✔︎
+项目管理员|✕|✔︎|✔︎|✔︎
+普通成员|✕|✕|✕|✔︎
 
 #### 3. 新增云函数
 使用SLS工具进行函数部署必须手动生成[serverless.yml](https://github.com/serverless-components/tencent-scf/blob/master/docs/configure.md)配置文件，SCFGUI直接以图形化配置方式取代手动配置，达到0学习成本、简单、不易出错的目的。

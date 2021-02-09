@@ -17,11 +17,11 @@ SCFGUI工具以图形化界面方式集成了以上功能，取代了晦涩文�
 
 GUI：采用[electron](https://www.electronjs.org/)框架，以支持mac和Windows跨平台使用。
 
-Tencentcloud-sdk-nodejs：[腾讯云开发者工具套件](https://cloud.tencent.com/document/sdk/Node.js)，用以实现云函数的配置管理、代码更新管理、云存储和API网关管理等。
+Tencentcloud-sdk-nodejs：[腾讯云开发者工具套件](https://cloud.tencent.com/document/sdk/Node.js)用以实现云函数的配置管理、代码更新管理、云存储和API网关管理等。
 
 @serverless：此为SLS工具，负责云函数的部署和删除,我们对此进行了二次开发。
 
-###Serverless Framework二次开发
+### Serverless Framework二次开发
 默认的SLS工具，部署云函数需要读取本地serverless.yml函数配置文件及.env密钥文件。
 serverless.yml仅能配置一个函数，因此多函数部署配置的时候需要重复修改此文件，影响开发效率。
 本工具对SLS工具进行二次开发：

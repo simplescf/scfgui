@@ -1,15 +1,19 @@
 <div align=center><img src="https://github.com/simplescf/scfgui/raw/main/html/img/logotop.png" width="150" height="150" /></div>
 
-### 工具概述
+## 工具概述
+
 SCFGUI工具专为[腾讯云SCF](https://cloud.tencent.com/product/scf)提供的图形化开发工具。
 
 本工具整合了腾讯云SCF、Serverless Framework、API网关和对象存储等功能，以图形化方式提供项目配置和管理，实现云开发0学习成本。
 针对云函数提供了团队协作功能，助你在实际项目中高效、便捷的使用云函数。
-### 工具价值
-直接使用腾讯云云函数不仅需要了解SCF、serverless framework（简称SLS）和API网关的各项知识及几十近百种配置文件参数，更要频繁的使用sls命令和手动去配置参数才能顺利开发。
 
+## 工具定位
+
+直接使用腾讯云云函数不仅需要了解SCF、serverless framework（简称SLS）和API网关的各项知识及几十近百种配置文件参数，更要频繁的使用sls命令和手动去配置参数才能顺利开发。
 SCFGUI工具以图形化界面方式集成了以上功能，取代了晦涩文档、易出错的文本配置方法和不够便捷的部署命令，将学习难度降到最低，即便是小白也可以迅速使用云函数。
+
 ### 框架主要技术
+
 为便于开发者理解和掌握SCFGUI的使用和再修改，现列出所采用的重要第三方包。
 开发语言：Nodejs。
 
@@ -34,6 +38,7 @@ serverless.yml仅能配置一个函数，因此多函数部署配置的时候需
 ```
 
 ## 快速入门
+
 #### 前提条件
 1. 已安装npm
 2. 已安装nodejs
@@ -61,11 +66,12 @@ node install.js
 本工具需要首先创建项目，项目分为“个人项目”和“团队项目”两种类型，团队项目支持多人协作。
 团队项目：权限分为超级管理员、项目管理员和普通成员。管理员对项目配置后，全部成员共享配置，各成员配置的函数信息自动在全部成员之间同步。
 
-角色 | 项目管理 | 项目配置 | 成员管理 | 函数配置
-:-----:|:-----:|:-----:|:----------:|:----:|:-----:|
-超级管理员|✔︎|✔︎|✔︎|✔︎
-项目管理员|✕|✔︎|✔︎|✔︎
-普通成员|✕|✕|✕|✔︎
+<table>
+    <tr><td>角色</td><td>项目管理</td><td>项目配置</td><td>成员管理</td><td>函数配置</td></tr>
+    <tr><td>超级管理员</td><td>✔︎</td><td>✔︎</td><td>✔︎</td><td>✔︎</td></tr>
+    <tr><td>项目管理员</td><td>✕</td><td>✔︎</td><td>✔︎</td><td>✔︎</td></tr>
+    <tr><td>普通成员</td><td>✕</td><td>✕</td><td>✕</td><td>✔︎</td></tr>
+</table>
 
 #### 3. 新增云函数
 使用SLS工具进行函数部署必须手动生成[serverless.yml](https://github.com/serverless-components/tencent-scf/blob/master/docs/configure.md)配置文件，SCFGUI直接以图形化配置方式取代手动配置，达到0学习成本、简单、不易出错的目的。

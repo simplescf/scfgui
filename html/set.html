@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="./css/common.css">
 </head>
 
-<body id="bbody">
+<body id="bbody" class=" u-body--header-side-static-left">
   <main id="main">
 
     <div class="w-100 text-center" v-if="isload">
@@ -50,6 +50,60 @@
     </div>
 
     <div style="display: none;" v-show="!isload">
+      <div class="g-pos-fix g-left-0 g-top-0 w-100 h-100 g-z-index-9999 g-bg-black-opacity-0_5" v-if="guid!=10"
+        @click="uiNextGuid">
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left g-width-auto"
+          v-if="guid==0">
+          <div style="margin-top: 3rem;width: fit-content; margin-left: 21rem !important"
+            class=" g-brd-top g-brd-white g-mx-20 g-brd-2 g-pt-1">
+            <i class="fa fa-arrow-up g-mr-5"></i>第一步:添加个人或团队项目
+          </div>
+        </div>
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left g-width-auto"
+          v-if="guid==1">
+          <div style="margin-top: 3rem;width: fit-content;" class="g-brd-top g-brd-white g-mx-20  g-brd-2 g-pt-1">
+            <i class="fa fa-arrow-up g-mr-5"></i>第二步:查看并配置上步创建的项目
+          </div>
+        </div>
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left" style="margin-top: 15rem;"
+          v-if="guid==2">
+          <i class="fa fa-arrow-left g-mr-5"></i>第三步:新增您的云函数
+        </div>
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left" style="margin-top: 18rem;"
+          v-if="guid==3">
+          <i class="fa fa-arrow-left g-mr-5"></i>第四步:部署云函数到腾讯云
+        </div>
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left"
+          style="margin-top: 21.5rem;" v-if="guid==4">
+          <i class="fa fa-arrow-left g-mr-5"></i>直接/POST/GET形式调用调试函数
+        </div>
+
+
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left" style="margin-top: 25rem;"
+          v-if="guid==5">
+          <i class="fa fa-arrow-left g-mr-5"></i>查看函数历史执行日志
+        </div>
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left"
+          style="margin-top: 28.5rem;" v-if="guid==6">
+          <i class="fa fa-arrow-left g-mr-5"></i>管理云函数层
+        </div>
+
+        <div class="g-pt-20 g-color-white g-font-weight-600 u-body--header-side-static-left" style="margin-top: 34rem;"
+          v-if="guid==7">
+          <i class="fa fa-arrow-left g-mr-5"></i>云函数各项数据图表
+        </div>
+
+
+
+      </div>
+
 
       <div id="js-header" class="u-header u-header--side" data-header-position="left">
         <div
@@ -70,7 +124,7 @@
           </div>
 
           <div
-            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-99 g-brd-top g-brd-white g-py-10">
             <ul class="list-inline g-mb-0">
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
                 data-original-title="Facebook">
@@ -91,7 +145,7 @@
           style="background-image: url(../assets/img/bg/pattern5.png);">
 
           <ul
-            class="g-z-index-9999 list-inline g-brd-bottom--sm g-brd-gray-light-v3 g-px-20 g-pt-20 g-mb-0 g-pos-fix g-top-0 w-100 g-bg-white">
+            class="g-z-index-99 list-inline g-brd-bottom--sm g-brd-gray-light-v3 g-px-20 g-pt-20 g-mb-0 g-pos-fix g-top-0 w-100 g-bg-white">
             <li class="list-inline-item g-py-10 g-pr-10 g-mb-0--sm">
               <a :class="state.navCate=='persion'?'g-font-weight-600 ss_main_brd_color ss_main_color':'g-color-black g-brd-transparent'"
                 class="g-brd-bottom g-brd-2 g-color-primary--hover g-text-underline--none--hover g-px-10 g-pb-13 "
@@ -137,9 +191,13 @@
           </ul>
 
 
-          <div class="row g-bg-secondary" v-show="state.navCate=='desc'"
+          <div class="row g-bg-secondary g-pos-rel" v-show="state.navCate=='desc'"
             style="background-image: url(../assets/include/svg/svg-bg1.svg);">
 
+            <div class="g-width-150 g-pos-abs g-left-40 g-top-10 text-center g-z-index-4">
+              <img src="./img/qq.jpg" class="" alt="" srcset="">
+              <div>QQ群：940928830</div>
+            </div>
             <div class="col-12 text-center g-mt-40 g-font-size-20 g-font-weight-600 g-color-black">SCFGUI入门概述</div>
 
 
@@ -852,7 +910,7 @@
                   <div>超级管理员:拥有全部权限</div>
                   <div>项目管理员:拥有非敏感信息配置之外的全部权限</div>
                   <div>普通成员:只能增删改自己的函数,无法删除或修改其他人创建的函数</div>
-                 
+
                 </div>
 
               </div>
@@ -889,17 +947,26 @@
                     <a href="#!" class="btn ss_main_color">无项目,点击创建</a>
                   </li>
 
-                  <li class="g-brd-top g-brd-gray-light-v1 mb-0" v-for="team in persions"
+                  <li class="g-brd-top g-brd-gray-light-v1 mb-0 " v-for="team in persions"
                     v-if="state.navCate=='persion'" @click="uiChangeTeam(team._id, 'persion')">
-                    <a class="d-flex align-items-center u-link-v5 g-parent g-color-black g-py-15 g-color-primary--active"
+                    <a class="d-flex justify-content-between u-link-v5 g-parent g-color-black g-py-15 g-color-primary--active"
                       :class="{active:team.chk}" href="#!">
-                      <span
-                        class="g-font-size-18 g-color-gray-light-v6 g-color-primary--parent-hover g-color-primary--active g-mr-15">
-                        <i class="fa fa-th-large" v-if="!team.load"></i>
-                        <i class="fa fa-spin fa-spinner" v-if="team.load"></i>
+                      <span>
+                        <span
+                          class="g-font-size-18 g-color-gray-light-v6 g-color-primary--parent-hover g-color-primary--active">
+                          <i class="fa fa-th-large" v-if="!team.load"></i>
+                          <i class="fa fa-spin fa-spinner" v-if="team.load"></i>
+                        </span>
+                        <span class="g-color-primary--parent-hover">{{team.teamname}}</span>
                       </span>
-                      <span class="g-color-primary--parent-hover ">{{team.teamname}}</span>
+
+                      <span class="g-font-size-18 g-color-gray-light-v6 g-color-primary-hover g-color-primary--active"
+                        @click.capture.stop="uiDelTeam(team)">
+                        <i class="fa " :class="team.loadDel?'fa-spin fa-spinner':'fa-trash'"></i>
+                      </span>
+
                     </a>
+
                   </li>
 
                   <li class="g-brd-top g-brd-gray-light-v1 mb-0 text-center g-py-20"
@@ -909,15 +976,23 @@
 
                   <li class="g-brd-top g-brd-gray-light-v1 mb-0" v-for="team in teams" v-if="state.navCate=='team'"
                     @click="uiChangeTeam(team._id, 'persion')">
-                    <a class="d-flex align-items-center u-link-v5 g-parent g-color-black g-py-15 g-color-primary--active"
+                    <a class="d-flex justify-content-between u-link-v5 g-parent g-color-black g-py-15 g-color-primary--active"
                       :class="{active:team.chk}" href="#!">
-                      <span
-                        class="g-font-size-18 g-color-gray-light-v6 g-color-primary--parent-hover g-color-primary--active g-mr-15">
-                        <i class="fa fa-pied-piper-pp" v-if="!team.load"></i>
-                        <i class="fa fa-spin fa-spinner" v-if="team.load"></i>
+                      <span href="#!">
+                        <span
+                          class="g-font-size-18 g-color-gray-light-v6 g-color-primary--parent-hover g-color-primary--active g-mr-15">
+                          <i class="fa fa-pied-piper-pp" v-if="!team.load"></i>
+                          <i class="fa fa-spin fa-spinner" v-if="team.load"></i>
+                        </span>
+                        <span class="g-color-primary--parent-hover ">{{team.teamname}}</span>
                       </span>
-                      <span class="g-color-primary--parent-hover ">{{team.teamname}}</span>
+
+                      <span class="g-font-size-18 g-color-gray-light-v6 g-color-primary-hover g-color-primary--active"
+                        @click.capture.stop="uiDelTeam(team)">
+                        <i class="fa" :class="team.loadDel?'fa-spin fa-spinner':'fa-trash'"></i></span>
+
                     </a>
+
                   </li>
 
 
@@ -1129,7 +1204,8 @@
                                 v-if="!account.scf"></i></td>
                             <td><i class="fa fa-check" v-if="account.sls"></i><i class="fa fa-remove g-color-red"
                                 v-if="!account.sls"></i></td>
-                            <td><i class="fa fa-check" v-if="account.slsrole"></i><i class="fa fa-remove g-color-red" v-if="!account.slsrole"></i></td>
+                            <td><i class="fa fa-check" v-if="account.slsrole"></i><i class="fa fa-remove g-color-red"
+                                v-if="!account.slsrole"></i></td>
                             <td>
                               <i class="fa fa-check" v-if="account.cos"></i>
                               <i class="fa fa-remove g-color-red" v-if="!account.cos"></i>
@@ -1618,9 +1694,11 @@
                               </thead>
 
                               <tbody>
-                                <tr v-for="ns in project.namespaces">
+                                <tr v-for="(ns,inx) in project.namespaces">
                                   <td>{{ns}}</td>
-                                  <td><i class="fa fa-trash-o g-color-red"></i></td>
+                                  <td>
+                                    <a href="#!" @click="uiDelNameSpace(inx)"><i class="fa fa-trash-o g-color-red"></i></a>
+                                  </td>
                                 </tr>
                                 <tr v-if="project.namespaces.length==0">
                                   <td colspan="2">尚未配置命名空间</td>
@@ -2133,10 +2211,16 @@
                                     placeholder="请填写英文或数字" v-model="adminSet.tag.code">
                                 </div>
 
-                                <button @click="uiAddTag" class="btn rounded-0 ss_main_bg_color g-color-white"
+                                <div>
+                                  <div class="g-color-white">
+                                    1
+                                  </div>
+                                  <button @click="uiAddTag" class="btn btn-md rounded-0 ss_main_bg_color g-color-white"
                                   :disabled="adminSet.tag.name==''||adminSet.tag.code==''">
                                   <i class="fa fa-plus g-mr-3"></i>添加模块
                                 </button>
+                                </div>
+                                
 
                               </div>
 
@@ -2201,7 +2285,7 @@
                     </div>
 
 
-                    <div class="g-pos-fix g-right-40 g-bottom-20 g-z-index-9999">
+                    <div class="g-pos-fix g-right-40 g-bottom-20 g-z-index-99">
                       <button href="#!" class="btn btn-md u-btn-red g-mb-20 g-width-150 ss_main_bg_color "
                         @click="uiSubmitProject" :disabled="state.submitadd||!project.isOwn">
                         <i class="fa fa-spin fa-spinner" v-if="state.submitadd"></i>
@@ -2254,7 +2338,7 @@
 
   <script src="../assets/js/helpers/hs.hamburgers.js"></script>
   <script src="../assets/js/components/hs.dropdown.js"></script>
-  
+
   <script src="../assets/js/components/hs.popup.js"></script>
   <script src="../assets/js/components/hs.carousel.js"></script>
   <script src="../assets/js/components/hs.go-to.js"></script>

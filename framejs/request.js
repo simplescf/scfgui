@@ -70,6 +70,9 @@ let request = {
             case 'editfunction':
                 req.path = "/release/scfgui/project/editfunction"
                 return req;
+            case 'delteam':
+                req.path = "/release/scfgui/project/delteam"
+                return req;
         }
         return false
     },

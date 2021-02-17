@@ -69,12 +69,10 @@ let teamProject = {
 
     //依次解密,先多人项目, 再个人项目
     decode(pros, teamname) {
-        console.info('decode', teamname)
         let that = this
         ipcRenderer.once('privatepemend', (event, arg) => {
             for (let i = 0; i < pros.teams.length; ++i) {
                 if (pros.teams[i].teamname == teamname) {
-                    console.info('dec team:', teamname)
                     if (pros.teams[i].hasOwnProperty('project')) {
                         pros.teams[i].project = rsa.decryptProject(pros.teams[i].project, arg)
                     }
@@ -189,6 +187,25 @@ let teamProject = {
     saveChkTeam(cate, teamid) {
         return ipcRenderer.sendSync('synchronous-message',
             { type: 'writefile', filetype: 'set', json: { cate: cate, teamid: teamid } });
+    },
+
+    delTeam(teamid){
+        let teams = this.getProjects()
+        
+        for(let i=0;i< teams.persions.length;++i){
+            if(teams.persions[i]._id==teamid){
+                teams.persions.splice(i, 1)
+                break
+            }
+        }
+        for(let i=0;i< teams.teams.length;++i){
+            if(teams.teams[i]._id==teamid){
+                teams.teams.splice(i, 1)
+                break
+            }
+        }
+        console.info('delTeam',teams)
+        this.saveProject(teams)
     },
 
     getChkTeam() {

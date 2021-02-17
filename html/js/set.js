@@ -1,10 +1,10 @@
 // const { dialog, shell } = require('electron').remote
-var qcloudVpc = {}
-var qcloudCam = {}
-var apiGateway = {}
-var scfnet = {}
-var model = {}
-var rsa = {}
+var qcloudVpc = null
+var qcloudCam = null
+var apiGateway = null
+var scfnet = null
+var model = require("./js/model");
+var rsa = null
 var teamProject = require("./js/teamProject");
 const { ipcRenderer } = require('electron')
 
@@ -13,7 +13,7 @@ const { ipcRenderer } = require('electron')
 let app = new Vue({
     el: '#main',
     data: {
-
+        guid: 10,
         addproject: {
             projectname: "",
             projectdesc: "",
@@ -158,12 +158,10 @@ let app = new Vue({
         loginUser: {}
     },
     mounted: function () {
-        model = require("./js/model");
         this.isload = false
         $("#main").on("click", ".dlginfobtn", this.dynamicfun);
         model.initNav('set')
-        $.HSCore.components.HSHeaderSide.init($('#js-header'));
-        this.initLoad()
+        // $.HSCore.components.HSHeaderSide.init($('#js-header'));
         // process.argv = ['/usr/local/bin/node', '/Users/zhangtao/Documents/project/scfgui/scfgui-client/serverless/bin/sls', 'deploy', '--debug']
         // let sls = require("../serverless/bin/serverless.js")
         // sls.deploy()
@@ -178,15 +176,48 @@ let app = new Vue({
     },
 
     methods: {
-        initLoad() {
-            setTimeout(() => {
-                qcloudVpc = require("../qcloud/vpc.js");
-                qcloudCam = require("../qcloud/cam.js");
-                apiGateway = require("../qcloud/apigateway");
-                scfnet = require("../scfnet.js");
-                rsa = require("./js/rsa");
-            }, 1000);
+        uiNextGuid() {
+            if (this.guid == 7) {
+                this.guid = 10
+            } else {
+                this.guid++
+            }
+        },
 
+
+        getRsa() {
+            if (this.rsa == null) {
+                this.rsa = require("./js/rsa");
+            }
+            return this.rsa
+        },
+
+        getScfnet() {
+            if (this.scfnet == null) {
+                this.scfnet = require("../scfnet.js");
+            }
+            return this.scfnet
+        },
+
+        getApiGateway() {
+            if (this.apiGateway == null) {
+                this.apiGateway = require("../qcloud/apigateway");
+            }
+            return this.apiGateway
+        },
+
+        getCam() {
+            if (this.qcloudCam == null) {
+                this.qcloudCam = require("../qcloud/cam.js");
+            }
+            return this.qcloudCam
+        },
+
+        getVpc() {
+            if (this.qcloudVpc == null) {
+                this.qcloudVpc = require("../qcloud/vpc.js");
+            }
+            return this.qcloudVpc;
         },
 
         changeRegion(e) {
@@ -213,7 +244,102 @@ let app = new Vue({
 
         initLogin() {
             this.loginUser = teamProject.getLogin()
+            this.loadGuid()
             // teamProject.flushAllProject()
+        },
+
+        /**
+         * 是否显示引导页
+         * @returns 
+         */
+        loadGuid() {
+            let tmp = teamProject.getProjects()
+            if (tmp.persions.length == 0 && tmp.teams.length == 0) {
+                this.guid = 0
+                return
+            }
+
+            let set = ipcRenderer.sendSync('synchronous-message', { type: 'readfile', filetype: 'set' })
+            let setjson = { guid: false }
+            if (set == false) {
+                this.guid = 0
+            } else {
+                set = JSON.parse(set)
+                if (!set.hasOwnProperty('guid')) {
+                    this.guid = 0
+                }
+                setjson = set
+                setjson.guid = false
+               
+            }
+            ipcRenderer.sendSync('synchronous-message', { type: 'writefile', filetype: 'set', json: setjson })
+
+        },
+
+        uiDelNameSpace(inx){
+            this.project.namespaces.splice(inx, 1)
+        },
+
+        /**
+         * 删除项目
+         */
+        uiDelTeam(team) {
+            console.info(team)
+            let info = '您要删除该项目吗'
+            //非团队项目直接删除,团队项目根据权限,仅超级权限可删除,其他人为退出
+            if (team.isteam && !team.own) {
+                info = '您要退出该项目吗?'
+            }
+            let teamid = team._id
+            let cate = 'persion'
+            if (team.isteam) {
+                cate = 'team'
+            }
+            model.showModel(team.teamname, info, {
+                confirm: { text: '不删除', funname: 'hidDlg' },
+                cancel: { text: '删除项目', funname: 'delTeam("' + teamid + '","' + cate + '")' }
+            })
+        },
+
+        delTeam(teamid, cate) {
+            this.hidDlg()
+            console.info(teamid, cate)
+            let that = this
+            let tmps = this.teams
+            if(cate=='persion'){
+                tmps = this.persions
+            }
+
+            for (let i = 0; i < tmps.length; ++i) {
+                console.info('del',tmps[i]._id, teamid)
+                if (tmps[i]._id == teamid) {
+                    tmps[i].loadDel = true
+                    ipcRenderer.once('delteamend', (event, arg) => {
+                        console.info(arg)
+                        let res = JSON.parse(arg)
+                       
+                        if (res.errorCode == 0) {
+                            if(cate=='persion'){
+                                that.persions.splice(i, 1)
+                            }else{
+                                that.teams.splice(i, 1)
+                            }
+                            teamProject.delTeam(teamid)
+                        } else {
+                            model.showModel('删除失败', res.errorMessage, {
+                                confirm: { text: '确定', funname: 'hidDlg' }
+                            })
+                        }
+                    })
+                    let post = { code: this.loginUser.code, account: this.loginUser.accountmail, teamId:teamid}
+                    ipcRenderer.send('asynchronous-message',
+                        {
+                            post: post,
+                            type: 'net', cate: 'delteam'
+                        })
+                    return
+                }
+            }
         },
 
         uiAddTag() {
@@ -271,7 +397,7 @@ let app = new Vue({
                 }
                 let that = this
                 this.state.loadVpc = true
-                qcloudVpc.listvpc(this.project.secretId, this.project.secretKey,
+                this.getVpc().listvpc(this.project.secretId, this.project.secretKey,
                     this.project.region,
                     (res) => {
                         that.state.loadVpc = false
@@ -390,7 +516,7 @@ let app = new Vue({
             this.state.loadSubnet = true
             this.adminSet.chksubnet = ''
 
-            qcloudVpc.listVpcSubnet(this.project.secretId, this.project.secretKey,
+            this.getVpc().listVpcSubnet(this.project.secretId, this.project.secretKey,
                 this.project.region, vpcid,
                 (res) => {
                     that.state.loadSubnet = false
@@ -412,6 +538,7 @@ let app = new Vue({
                     for (let i = 0; i < tmps.length; ++i) {
                         tmps[i].chk = false
                         tmps[i].load = false
+                        tmps[i].loadDel = false
                     }
                     that.teams = tmps
                 } else {
@@ -440,6 +567,7 @@ let app = new Vue({
                     for (let i = 0; i < tmps.length; ++i) {
                         tmps[i].chk = false
                         tmps[i].load = false
+                        tmps[i].loadDel = false
                     }
                     that.persions = tmps
                 } else {
@@ -693,7 +821,7 @@ let app = new Vue({
             this.addproject.randrsaing = true
             let that = this
             setTimeout(() => {
-                let keys = rsa.randKey()
+                let keys = that.getRsa().randKey()
                 that.addproject.publickey = keys.pub
                 that.addproject.privatekey = keys.pri
                 that.addproject.confirmrsa = true
@@ -771,7 +899,7 @@ let app = new Vue({
             let id = this.adminSet.id
             let key = this.adminSet.key
 
-            qcloudCam.listUsers(id, key, (data) => {
+            this.getCam().listUsers(id, key, (data) => {
 
                 if (typeof (data) == 'string') {
                     that.state.loadVal = false
@@ -787,7 +915,7 @@ let app = new Vue({
                     that.tmpaccounts[i].tcb = false
                     that.tmpaccounts[i].vpc = false
                     that.tmpaccounts[i].scf = false
-                    qcloudCam.listUserPolicies(id, key, that.tmpaccounts[i].Uin, that.flushPolicy)
+                    this.getCam().listUserPolicies(id, key, that.tmpaccounts[i].Uin, that.flushPolicy)
                 }
             })
         },
@@ -839,7 +967,7 @@ let app = new Vue({
             }
             for (let acc of this.accounts) {
                 if (acc.Uin == this.adminSet.chkuin) {
-                    if (!acc.tcb || !acc.vpc || !acc.scf || !acc.sls || !acc.slsrole|| !acc.cos) {
+                    if (!acc.tcb || !acc.vpc || !acc.scf || !acc.sls || !acc.slsrole || !acc.cos) {
                         model.showModel('子账户权限不符合', '需要权限均授权的子账户', {
                             confirm: { text: '确定', funname: 'hidDlg' }
                         })
@@ -860,7 +988,7 @@ let app = new Vue({
             this.adminSet.subKeys = []
             this.state.loadKey = true
             //查看子账户下的密钥状态
-            qcloudCam.listAccessKeys(id, key, this.adminSet.chkAccount.Uin, (keys) => {
+            this.getCam().listAccessKeys(id, key, this.adminSet.chkAccount.Uin, (keys) => {
                 console.info('listAccessKeys', keys)
                 that.state.loadKey = false
                 if (typeof (keys) == 'string') {
@@ -899,6 +1027,7 @@ let app = new Vue({
                 this.state.setStep = 2
             } else if (cate == 'detail') {
                 this.state.setStep = 3
+                $('html,body').animate({ scrollTop: 0 }, 200);
                 // this.valRsa()
                 setTimeout(() => {
                     $.HSCore.helpers.HSFocusState.init();
@@ -918,7 +1047,7 @@ let app = new Vue({
             let that = this
             this.state.addUser = true
             this.state.addUserInfo = ''
-            qcloudCam.addScfUser(this.adminSet.id, this.adminSet.key, this.listUsers, (res) => {
+            this.getCam().addScfUser(this.adminSet.id, this.adminSet.key, this.listUsers, (res) => {
                 that.state.addUser = false
                 that.state.addUserInfo = res
             })
@@ -1088,7 +1217,7 @@ let app = new Vue({
                     return false
                 }
                 //老项目
-                tmpname = rsa.decrypt(this.project.pwName, this.project.pem.private)
+                tmpname = this.getRsa().decrypt(this.project.pwName, this.project.pem.private)
                 if (tmpname != teamname) {
                     model.showModel('密钥验证', '您的私钥不匹配,无法解密验证字符串', {
                         confirm: { text: '确定', funname: 'hidDlg' }
@@ -1110,7 +1239,7 @@ let app = new Vue({
                 }
             }
 
-            pwname = rsa.encrypt(teamname, this.project.pem.public)
+            pwname = this.getRsa().encrypt(teamname, this.project.pem.public)
             if (pwname === false) {
                 model.showModel('公钥非法', '公钥无法加密,请确认格式', {
                     confirm: { text: '确定', funname: 'hidDlg' }
@@ -1119,7 +1248,7 @@ let app = new Vue({
             }
 
             //新项目,未配置公钥, 无法验证私钥
-            let dec = rsa.decrypt(pwname, this.project.pem.private)
+            let dec = this.getRsa().decrypt(pwname, this.project.pem.private)
             console.info(dec)
             if (dec != teamname) {
                 model.showModel('密钥验证', '您的公钥和私钥不匹配', {
@@ -1164,7 +1293,7 @@ let app = new Vue({
             }
             this.state.candec = true
 
-            let tmpproject = rsa.decryptProject(this.project, privatepem)
+            let tmpproject = this.getRsa().decryptProject(this.project, privatepem)
             let api = []
             for (let i = 0; i < tmpproject.apiGateways.length; ++i) {
                 api.push(tmpproject.apiGateways[i].ServiceId)
@@ -1263,7 +1392,7 @@ let app = new Vue({
 
             ipcRenderer.send('asynchronous-message',
                 {
-                    post: rsa.encryptProject(form, publicpem, this.getChkTeam().teamname),
+                    post: this.getRsa().encryptProject(form, publicpem, this.getChkTeam().teamname),
                     type: 'net', cate: 'setproject'
                 })
         },
@@ -1487,10 +1616,10 @@ let app = new Vue({
                     tmppro.joins = project.joins
                 }
                 //兼容新项目"设置RSA密钥且验证"的情况下 不跳转密钥设置页码
-                if(this.state.setStep!=3){
+                if (this.state.setStep != 3) {
                     this.navdetail('adminid')
                 }
-                
+
             } else {
                 //老项目
                 this.navdetail('detail')
@@ -1602,7 +1731,7 @@ let app = new Vue({
         flushNameSpace() {
             console.info('flushNameSpace')
             let that = this
-            scfnet.listNameSpace(this.project.secretId, this.project.secretKey, this.project.region, function (res) {
+            this.getScfnet().listNameSpace(this.project.secretId, this.project.secretKey, this.project.region, function (res) {
                 console.info(res)
                 if (typeof (res) == 'string') {
                     model.showModel('查询命名空间信息失败', res, {
@@ -1626,7 +1755,7 @@ let app = new Vue({
                 console.info(this.adminSet.addns)
                 this.state.submitns = true
                 let that = this
-                scfnet.addNameSpace(this.getSCFSet(), this.adminSet.addns.trim(), function (res) {
+                this.getScfnet().addNameSpace(this.getSCFSet(), this.adminSet.addns.trim(), function (res) {
                     that.state.submitns = false
                     if (typeof (res) == 'string') {
                         model.showModel('发布到腾讯云失败', res, {
@@ -1660,7 +1789,7 @@ let app = new Vue({
             this.state.loadApiGateWay = true
             this.state.apiWarnInfo = ''
             this.adminSet.apiGateways = []
-            apiGateway.listServices(this.project.secretId, this.project.secretKey, this.project.region, (res) => {
+            this.getApiGateway().listServices(this.project.secretId, this.project.secretKey, this.project.region, (res) => {
                 that.state.loadApiGateWay = false
                 if (typeof (res) == 'string') {
                     that.state.apiWarnInfo = '查询API网关失败:' + res
@@ -1713,7 +1842,12 @@ let app = new Vue({
 
 
         dynamicfun(e) {
-            eval('this.' + e.currentTarget.dataset.click + '()')
+            if (e.currentTarget.dataset.click.indexOf('(') == -1) {
+                eval('this.' + e.currentTarget.dataset.click + '()')
+            } else {
+                eval('this.' + e.currentTarget.dataset.click)
+            }
+
         },
 
         hidDlg() {

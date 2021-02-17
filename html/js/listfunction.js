@@ -1333,11 +1333,6 @@ let app = new Vue({
             this.getModel().hiddenModel()
         },
 
-        aa() {
-            console.info('aa')
-        },
-
-
 
         closedeployui() {
             console.info("close")

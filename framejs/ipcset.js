@@ -241,6 +241,27 @@ let ipcSet = {
         }
     },
 
+    saveSet(set){
+        console.info('save set', set)
+        try {
+            fs.accessSync(app.getPath('userData') + '/set.json', fs.constants.R_OK);
+            let tmp = JSON.parse(fs.readFileSync(app.getPath('userData') + '/set.json', 'utf8'));
+            if(set.hasOwnProperty('cate')){
+                tmp.cate = set.cate
+            }
+            if(set.hasOwnProperty('teamid')){
+                tmp.teamid = set.teamid
+            }
+            if(set.hasOwnProperty('guid')){
+                tmp.guid = set.guid
+            }
+            fs.writeFileSync(app.getPath('userData') + '/set.json', JSON.stringify(tmp), "utf-8")
+        } catch (err) {
+            fs.writeFileSync(app.getPath('userData') + '/set.json', JSON.stringify(set), "utf-8")
+            console.error('no access!', err);
+        }
+    },
+
     syn: function (event, arg) {
         let retv = ''
         if (arg.type == 'dialog') {
@@ -267,13 +288,12 @@ let ipcSet = {
             }
         } else if (arg.type == 'writefile') {
             if (arg.filetype == 'set') {
-                fs.writeFileSync(app.getPath('userData') + '/set.json', JSON.stringify(arg.json), "utf-8")
+                this.saveSet(arg.json)
             } else if (arg.filetype == 'yml') {
                 this.saveYml(event, arg)
             }
             return ''
         } else if (arg.type == 'setglobalteam') {
-            console.info('setglobalteam', arg)
             teams = arg.data;
             return ''
         } else if (arg.type == 'getglobalteam') {

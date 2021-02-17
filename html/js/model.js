@@ -89,17 +89,19 @@ let Model = {
         </a>
       </li>
 
+      <li class="nav-item g-my-5 g-pl-10 g-bg-white-opacity-0_7--hover ${listfunctionchk}">
+        <a href="listfunction.html" class="btn nav-link text-left">
+          <i class="fa fa-list-ul g-font-size-18 g-valign-middle g-mr-10 g-mt-minus-2"></i>云函数管理
+        </a>
+      </li>
+
       <li class="nav-item g-my-5 g-pl-10 g-bg-white-opacity-0_7--hover ${invokechk}">
         <a href="invoke.html" class="btn nav-link text-left">
           <i class="fa fa-bug g-font-size-18 g-valign-middle g-mr-10 g-mt-minus-2"></i>云函数调试
         </a>
       </li>
 
-      <li class="nav-item g-my-5 g-pl-10 g-bg-white-opacity-0_7--hover ${listfunctionchk}">
-        <a href="listfunction.html" class="btn nav-link text-left">
-          <i class="fa fa-list-ul g-font-size-18 g-valign-middle g-mr-10 g-mt-minus-2"></i>函数列表
-        </a>
-      </li>
+      
 
       <li class="nav-item g-my-5 g-pl-10 g-bg-white-opacity-0_7--hover ${listlogchk}">
         <a href="listlog.html" class="btn nav-link text-left">

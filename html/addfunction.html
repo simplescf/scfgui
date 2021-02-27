@@ -115,11 +115,11 @@
           <ul class="nav justify-content-center u-nav-v1-1 u-nav-dark g-pt-20" role="tablist"
             data-target="nav-1-1-dark-hor-right" data-tabs-mobile-type="slide-up-down"
             data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-darkgray">
-            <li class="nav-item g-bg-black-opacity-0_1" @click="isSimpleMode(true)">
-              <a class="nav-link active" data-toggle="tab" href="#nav-1-1-dark-hor-right--1" role="tab">精简配置模式</a>
+            <li class="nav-item g-bg-black-opacity-0_1" @click="simpleMode=true">
+              <a class="nav-link " :class="{'active':simpleMode}" data-toggle="tab" href="#!" role="tab">精简配置模式</a>
             </li>
-            <li class="nav-item g-bg-black-opacity-0_1" @click="isSimpleMode(false)">
-              <a class="nav-link" data-toggle="tab" href="#nav-1-1-dark-hor-right--2" role="tab">完整配置模式</a>
+            <li class="nav-item g-bg-black-opacity-0_1" @click="simpleMode=false">
+              <a class="nav-link"  :class="{'active':!simpleMode}" data-toggle="tab" href="#!" role="tab">完整配置模式</a>
             </li>
           </ul>
 
@@ -196,6 +196,16 @@
                   v-model="fun.inputs.description" @input="changeDesc" placeholder="请输入函数描述" :disabled="!canEdit">
               </div>
 
+              <div class="col-12" v-if="simpleMode">
+                <div for="example-text-input" class="col-form-label">请选择命名空间<i class="fa fa-spinner fa-spin"
+                    v-if="loadnamespace"></i></div>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="fun.inputs.namespace" :disabled="!canEdit">
+                  <option :value="ns" v-for="ns in chkTeam.project.namespaces">{{ns}}</option>
+                </select>
+              </div>
+
               <div class="col-12">
                 <label for="example-text-input" class="col-form-label">打包排除目录</label>
                 <div class="input-group ">
@@ -203,8 +213,6 @@
                     class="btn input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0 g-py-12">
                     <i class="fa fa-plus"></i>
                   </a>
-                  <!-- <textarea class="form-control form-control-md g-resize-none rounded-0" rows="4"
-                  placeholder="点击左侧按钮可以添加不被上传到SCF的目录"></textarea> -->
                   <div class="w-100 g-brd-gray-light-v2 g-brd-top">
                     <div class="input-group" v-for="(dir, inx) in fun.inputs.src.exclude">
                       <div disabled class="form-control form-control-md rounded-0 g-brd-top-none" type="text"
@@ -231,13 +239,18 @@
                 </div>
                 <small>上传到SCF服务器的代码将排除上述目录,如GIT node_model目录</small>
               </div>
+
+
+              
+              
+
             </div>
           </div>
 
 
 
 
-          <div class="col-6 u-shadow-v1-3 g-pos-rel">
+          <div class="col-6 u-shadow-v1-3 g-pos-rel" v-if="!simpleMode">
 
             <div class="w-100 g-brd-bottom g-brd-gray-light-v3  g-py-15 g-pl-20 g-bg-gray-light-v5">云执行配置</div>
             <div class="row g-px-25 g-py-10 g-pb-20">
@@ -359,7 +372,7 @@
             </div>
           </div>
 
-          <div class="col-6 g-brd-right g-brd-gray-light-v4 u-shadow-v1-3 g-pos-rel">
+          <div class="col-6 g-brd-right g-brd-gray-light-v4 u-shadow-v1-3 g-pos-rel" v-if="!simpleMode">
 
             <!-- <div v-if="simpleMode" class="g-z-index-99 g-pos-abs g-left-0 g-top-0 w-100 h-100 g-bg-black-opacity-0_8">
               <div class="text-center g-mt-50 g-color-white ">
@@ -998,7 +1011,7 @@
                 <div class="col-6">
                   <span class="d-block g-font-size-20 g-font-weight-500 ss_main_color g-mb-10">03.</span>
                   <div class="g-mb-10 g-font-weight-500 g-color-black">COS触发触发器</div>
-                  <p class="mb-0">腾讯云COS的特定时间触发函数,使函数可以作为文件自动处理功能使用.</p>
+                  <p class="mb-0">腾讯云COS的特定时间触发函数,使函数可以作为文件自动处理功能使用(暂未开放).</p>
                 </div>
 
               </div>

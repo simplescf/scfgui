@@ -437,7 +437,11 @@
                     <div v-for="t in fun.ModTime">{{t}}</div>
                   </td>
                   <td class="align-middle text-center">
-                    <div v-for="lay in fun.Layers">{{lay.LayerName}} {{lay.LayerVersion}}</div>
+                    <i class="fa fa-spin fa-spinner" v-if="!fun.isLoadLayer"></i>
+                    <div v-for="lay in fun.Layers" v-if="fun.isLoadLayer">
+                      <div> {{lay.LayerName}} </div>
+                      <div>{{lay.LayerVersion}}</div>
+                     </div>
                   </td>
 
                   <td class="align-middle text-center">
@@ -454,6 +458,7 @@
                     </div>
 
                   </td>
+
                   <td class="align-middle">
 
                     <div v-if="fun.isDeploy">
@@ -651,7 +656,15 @@
                       v-model="funConf.Environment.Variables[inx].Key"></td>
                   <td><input type="text" class="form-control form-control-warning rounded-0"
                       v-model="funConf.Environment.Variables[inx].Value" @input="editEnv(inx)"></td>
-                  <td><i class="fa fa-trash-o" @click="removeEnv(inx)" v-show="inx!=0"></i></td>
+                  <td class="d-flex">
+                    <a href="#!" class="btn g-pa-0" @click="removeEnv(inx)" v-show="inx!=0">
+                      <i class="fa fa-trash-o" ></i>
+                    </a>
+                    <a href="#!" class="btn g-pa-0 g-ml-5" @click="addEnv" v-show="inx==funConf.Environment.Variables.length-1">
+                      <i class="fa fa-plus" ></i>
+                    </a>
+                    
+                    </td>
                 </tr>
               </table>
 

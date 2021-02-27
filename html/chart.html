@@ -160,7 +160,7 @@
             <select class="custom-select form-control-lg rounded-0 g-font-size-15 w-100" v-model="queryCon.namespace"
               @change="changeNamespace" :disabled="queryCon.functionRequestId!=''">
               <option value="">全部</option>
-              <option :value="ns.Name" v-for="ns in namespaces">{{ns.Name}}</option>
+              <option :value="ns" v-for="ns in namespaces">{{ns}}</option>
             </select>
           </div>
 

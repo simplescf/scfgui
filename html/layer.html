@@ -167,7 +167,8 @@
 
             <div class="g-min-height-200 g-brd-around g-brd-gray-light-v1 w-100 g-rounded-5 g-bg-white g-pos-rel">
 
-              <div class=" g-min-height-200 text-center" style="line-height: 200px;" v-if="!loadLayer&&layers.length==0">尚未创建层</div>
+              <div class=" g-min-height-200 text-center" style="line-height: 200px;"
+                v-if="!loadLayer&&layers.length==0">尚未创建层</div>
               <div class=" g-min-height-200 text-center" style="line-height: 200px;" v-if="loadLayer">
                 <i class="fa fa-spin fa-spinner"></i>
               </div>
@@ -208,7 +209,7 @@
                 <div class="col-12 g-mb-5 g-flex-middle-item text-left">新增层描述</div>
                 <div class="col-12">
                   <textarea id="inputGroup2_1" v-model="addLayer.description"
-                    class="form-control form-control-md g-resize-none rounded-0" rows="3" placeholder="请输入层描述"
+                    class="form-control form-control-md g-resize-none rounded-0" rows="2" placeholder="请输入层描述"
                     :disabled="!canEdit"></textarea>
                 </div>
               </div>
@@ -218,7 +219,7 @@
               <div class="d-flex g-bg-white g-py-10  g-brd-around g-brd-gray-light-v2">
 
                 <div class="col-md-4 text-left">
-                  <div class="form-group g-mb-10">
+                  <div class="form-group ">
                     <label class="u-check g-pl-25">
                       <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Python3.6"
                         v-model="addLayer.runtimes">
@@ -229,7 +230,7 @@
                     </label>
                   </div>
 
-                  <div class="form-group g-mb-10">
+                  <div class="form-group ">
                     <label class="u-check g-pl-25">
                       <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Python2.7"
                         v-model="addLayer.runtimes">
@@ -240,7 +241,7 @@
                     </label>
                   </div>
 
-                  <div class="form-group g-mb-10">
+                  <div class="form-group ">
                     <label class="u-check g-pl-25">
                       <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Php7"
                         v-model="addLayer.runtimes">
@@ -251,7 +252,7 @@
                     </label>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group g-mb-0">
                     <label class="u-check g-pl-25">
                       <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Php5"
                         v-model="addLayer.runtimes">
@@ -301,7 +302,7 @@
                   </div>
 
 
-                  <div class="form-group">
+                  <div class="form-group g-mb-0">
                     <label class="u-check g-pl-25">
                       <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" value="Nodejs6.10"
                         v-model="addLayer.runtimes">
@@ -344,7 +345,7 @@
 
               <div class="w-100 g-mb-5 text-left g-mt-10">发布为层的文件夹</div>
               <a href="#!" class="g-pos-rel btn  w-100 g-pa-0" @click="uiAddLayerDir('layer')">
-                <div class="g-pos-rel mb-0 g-bg-white g-py-10 g-brd-around g-brd-gray-light-v2 w-100">
+                <div class="g-pos-rel mb-0 g-bg-white g-py-5 g-brd-around g-brd-gray-light-v2 w-100">
 
                   <label class="u-file-attach-v2 g-color-gray-dark-v1 mb-0 w-100" v-if="addLayer.dir==''">
                     <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
@@ -365,7 +366,7 @@
 
 
 
-              <button href="#!" class="btn btn-md u-btn-blue g-mr-10 g-mb-15 g-mt-15 w-100 ss_main_bg_color"
+              <button href="#!" class="btn btn-md u-btn-blue g-mr-10 g-mt-5 w-100 ss_main_bg_color"
                 :disabled="addLayer.isadding||!canEdit" @click='uiBeginSubmit("layer")'>
                 <i class="fa fa-plus" v-if="!addLayer.isadding"></i>
                 <i class="fa fa-spin fa-spinner" v-if="addLayer.isadding"></i>
@@ -468,22 +469,47 @@
                   </thead>
 
                   <tbody>
-                    <tr v-for="ver in layerversions">
-                      <td class="align-middle">{{ver.LayerVersion}}</td>
-                      <td class="align-middle">{{ver.Status}}</td>
-                      <td class="hidden-sm align-middle">
+                    <tr v-for="(ver,inx) in layerversions">
+                      <td class="align-middle" v-if="!ver.isAdd">{{ver.LayerVersion}}</td>
+                      <td class="align-middle" v-if="!ver.isAdd">{{ver.Status}}</td>
+                      <td class="hidden-sm align-middle" v-if="!ver.isAdd">
                         <div v-for="desc in ver.Description">{{desc}}</div>
                       </td>
-                      <td class="align-middle">
+                      <td class="align-middle" v-if="!ver.isAdd">
                         <div v-for="run in ver.CompatibleRuntimes">{{run}}</div>
                       </td>
-                      <td class="align-middle">{{ver.AddTime}}</td>
-                      <td class="align-middle">
+                      <td class="align-middle" v-if="!ver.isAdd">{{ver.AddTime}}</td>
+                      <td class="align-middle" v-if="!ver.isAdd">
+
+                        <!-- <a href="#!" class="btn g-color-red" @click="layerversions[inx+1].isShow = true">
+                          <i class="fa fa-chain-broken"></i>
+                        </a> -->
+
                         <a href="#!" class="btn g-color-red" @click="uiDelLayerVer(ver.LayerName, ver.LayerVersion)">
                           <i class="fa fa-trash-o" v-if="!ver.isloading"></i>
                           <i class="fa fa-spin fa-spinner" v-if="ver.isloading"></i>
                         </a>
                       </td>
+
+                      <!-- <td v-if="ver.isAdd&&ver.isShow" colspan="6">
+                        <div class="">
+                          <div>将绑定该版本的函数重新绑定到新层</div>
+                          <div class="d-flex">
+                            <select
+                              class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0 g-mr-1" @change="uiChangeLayer" v-model="chklayername">
+                              <option v-for="tmp in layers" :value="tmp.LayerName">{{tmp.LayerName}}</option>
+                            </select>
+                            <select
+                              class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus rounded-0 g-ml-1" v-model="chklayerver">
+                              <option v-for="tmp in chklayerversions" :value="tmp.LayerVersion">{{tmp.LayerVersion}}</option>
+                            </select>
+                            <button href="#!" class="btn btn-md u-btn-primary" @click="uiChangeBind(ver)">修改</button>
+
+                          </div>
+                        </div>
+
+                      </td> -->
+
                     </tr>
 
                   </tbody>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>部署网站</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+
+  <link rel="stylesheet" href="../assets/css/styles.op-app.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+
+
+
+  <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="../assets/css/unify-core.css">
+  <link rel="stylesheet" href="../assets/css/unify-components.css">
+
+  <link rel="stylesheet" href="../assets/css/bootstrap-tagsinput.css">
+
+  <link rel="stylesheet" href="./css/load.css">
+  <link rel="stylesheet" href="./css/common.css">
+
+
+  <style>
+    input {
+      color: black !important;
+      font-weight: bold;
+    }
+
+    select {
+      color: black !important;
+      font-weight: bold;
+    }
+
+    /* .u-check-icon-checkbox-v7, .u-check-icon-radio-v7{
+      border: solid 1px #000;
+    }
+
+    .u-check-icon-checkbox-v7 i::after, .u-check-icon-radio-v7 i::after {
+      background-color: #000 !important;
+    } */
+
+    /* .u-tagsinput--v2--blue .bootstrap-tagsinput .tag {
+      background-color: #1cc9e4;
+      color: #fff;
+      border-color: #1cc9e4;
+      padding: 10px;
+    } */
+  </style>
+</head>
+
+<body id="bbody" class="u-body--header-side-static-left">
+  <main id="main" class="g-color-black g-height-100x g-pos-rel">
+
+    <div class="w-100 text-center" v-if="istotalload">
+      <div class="lds-roller g-mt-140">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div style="display: none;" v-show="!istotalload">
+
+      <div id="js-header" class="u-header u-header--side" data-header-position="left">
+        <div
+          class="u-header__sections-container g-bg-gray-light-v4 g-brd-right--lg g-brd-gray-light-v5 g-px-14--lg g-overflow-y-auto">
+          <div class="u-header__section u-header__section--light">
+            <nav class="navbar navbar-expand-lg">
+              <div class="js-mega-menu container">
+
+                <div class="navbar-collapse align-items-center flex-sm-row w-100 g-mt-20 g-mt-0--lg g-mb-40"
+                  id="navBar">
+
+                </div>
+
+
+              </div>
+            </nav>
+
+          </div>
+
+          <div
+            class="g-color-black text-center g-hidden-lg-down g-pos-fixed g-bottom-0 w-100 text-center g-left-0 g-bg-gray-light-v4 g-z-index-9999 g-brd-top g-brd-white g-py-10">
+            <ul class="list-inline g-mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Facebook">
+                <a href="#!" class="g-color-main g-color-primary--hover">
+                  <i class="fa fa-qq"></i>
+                </a>
+              </li>
+            </ul>
+            <p class="mb-0">遵循MIT软件协议</p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <section id="appScreens" class="g-py-30 g-px-30">
+
+        <div class="text-center g-pos-rel">
+            <div class="text-left">切换项目</div>
+            <div class="d-flex w-50">
+              <select
+                class="form-control  form-control-lg  g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus g-mr-10 g-width-200"
+                v-model="projectCate" @change="uiCleanAndChangeProjectCate" :disabled="refreshTeam">
+                <option value="persion">个人项目</option>
+                <option value="team">团队项目</option>
+              </select>
+
+              <select
+                class="form-control form-control-lg g-font-size-14 g-px-10 g-py-0  g-brd-gray-dark-light-v1--focus"
+                @change="uiChangeTeam" ref="chkteam" :disabled="refreshTeam">
+                <option :value="team._id" v-for="(team,inx) in teams" :selected="team._id==chkTeam._id">
+                  {{team.teamname}}</option>
+              </select>
+
+              <a href="#!" class="btn btn-md g-mr-10 g-mb-15 g-color-gray-dark-v3" @click="uiRefreshTeam">
+                <i class="fa fa-refresh" :class="{'fa-spin':refreshTeam}"></i>
+              </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="row no-gutters g-brd-around g-brd-gray-light-v4 u-shadow-v1-5">
+
+          <div class="col-12 g-brd-right g-brd-gray-light-v4 u-shadow-v1-3">
+            <div class="w-100 g-brd-bottom g-brd-gray-light-v3  g-py-15 g-pl-20 g-bg-gray-light-v5">网站代码参数</div>
+            <div class="row g-px-25 g-py-10 g-pb-20">
+
+              <div class="form-group g-mb-15 col-6">
+                <label for="example-text-input" class="col-form-label">代码目录 <span class="g-color-red">*</span> </label>
+                <div class="input-group g-brd-primary--focus">
+                  <a href="#!"
+                    class="btn input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0"
+                    @click="uiAddsrc">
+                    <i class="fa fa-folder-open-o"></i>
+                  </a>
+                  <input class="form-control form-control-md rounded-0 g-brd-gray-light-v1" type="text"
+                    placeholder="点击左侧加号选择项目根目录" v-model="inputs.src.src" readonly>
+                </div>
+              </div>
+
+              <div class="col-2 g-mb-20">
+                <label class="">请选择网站index页面</label>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="inputs.src.index" :disabled="!state.file">
+                  <option value="">请选择文件</option>
+                  <option :value="file" v-for="file in apifiles">{{file}}</option>
+                </select>
+              </div>
+
+              <div class="col-2">
+                <label class="">请选择网站error页面</label>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="inputs.src.error" :disabled="!state.file">
+                  <option value="">请选择文件</option>
+                  <option :value="fun" v-for="fun in apifiles">{{fun}}</option>
+                </select>
+              </div>
+
+              <div class="col-2 g-mb-10">
+                <div class="">网站代码部署区域</div>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="inputs.region">
+                  <option value="ap-guangzhou">广州</option>
+                  <option value="ap-shanghai">上海</option>
+                  <option value="ap-beijing">北京</option>
+                  <option value="ap-chengdu">成都</option>
+                </select>
+              </div>
+
+
+
+              <div class="col-2">
+                <div class="">替换式部署</div>
+                <select
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1"
+                  v-model="inputs.replace">
+                  <option :value="true">是,清理式部署</option>
+                  <option :value="false">否,更新式部署</option>
+                </select>
+              </div>
+
+
+              <div class="col-2 g-mb-10">
+                <div class="">网站请求协议</div>
+                <select v-model="inputs.protocol"
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1">
+                  <option value="http">HTTP</option>
+                  <option value="https">HTTPS</option>
+                </select>
+              </div>
+
+              <div class="col-2">
+                <div class="">开启404错误</div>
+                <select v-model="inputs.disableErrorStatus"
+                  class="u-select-v1 g-color-black custom-select rounded-0 form-control-lg w-100 g-brd-gray-light-v1">
+                  <option :value="false">开启</option>
+                  <option :value="true">关闭</option>
+                </select>
+              </div>
+
+              <div class="form-group col-3">
+                <div>钩子脚本代码:如 npm run build</div>
+                <input type="text" v-model="inputs.dist"
+                  class="form-control rounded-0 form-control rounded-0 g-font-size-13 form-control-md g-brd-gray-light-v1">
+              </div>
+
+              <div class="form-group col-3">
+                <div>钩子脚本输出目录:如./dist</div>
+                <input type="text"
+                  class="form-control rounded-0 form-control rounded-0 g-font-size-13 form-control-md g-brd-gray-light-v1"
+                  v-model="inputs.hook" @input="changeDesc" placeholder="">
+              </div>
+
+              <!-- <div class="col-12  g-brd-top g-brd-gray-light-v1 g-my-5"></div> -->
+
+              <div class="col-6 g-mt-10">
+                <div class=""></div>
+
+                <div class="card g-brd-gray-light-v4 rounded-0">
+                  <h3 class="card-header g-bg-gray-light-v5 g-font-size-14 rounded-0 mb-0">
+                    <i class="fa fa-edit g-mr-5"></i>
+                    环境变量参数文件
+                  </h3>
+
+                  <table class="table table-striped u-table--v1 mb-0">
+                    <thead>
+                      <tr>
+                        <th class="g-font-weight-300 g-color-black">KEY</th>
+                        <th class="g-font-weight-300 g-color-black g-min-width-200">VALUE</th>
+                        <th>#</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(tmp, inx) in  inputs.env">
+                        <td>
+                          <input type="text"
+                          class="form-control rounded-0 form-control rounded-0 g-font-size-13 form-control-md g-brd-gray-light-v1"
+                          v-model="inputs.env[inx].key">
+                        </td>
+                        <td>
+                          <input type="text"
+                          class="form-control rounded-0 form-control rounded-0 g-font-size-13 form-control-md g-brd-gray-light-v1"
+                          v-model="inputs.env[inx].value">
+                        </td>
+                        <td class="align-middle">
+                          <a href="#!" class="btn g-pa-0 g-color-black"><i class="fa fa-trash-o" @click="removeEnv(inx)"></i></a>
+                          <a href="#!" class="btn g-pa-0 g-ml-5 g-color-black" v-if="inx==inputs.env.length-1"><i class="fa fa-plus"  @click="uiAddEnv"></i></a>
+                          
+                        </td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                
+                  <small>环境变量参数文件。会将 env 下配置的参数写入 env.js 文件中，将该文件打包上传到你的代码里。</small>
+                    <small><a href="https://github.com/serverless-components/tencent-website/blob/master/docs/configure.md#Env">详细介绍点击查看</a></small>
+                  
+              </div>
+              <div class="col-6"></div>
+              
+
+              <div class="col-6 g-mt-10">
+                <div class="g-brd-bottom g-brd-gray-light-v3 g-pb-4 g-mb-4">绑定的CDN域名</div>
+                <div v-if="inputs.hosts.length==0" class="g-color-gray-light-v2">未配置CDN</div>
+                <div class="input-group g-brd-primary--focus g-mb-5" v-for="(host,inx) in inputs.hosts">
+                  <input class="form-control form-control-md rounded-0" type="text" v-model="host.host">
+                  <a href="#!" class="btn input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0" @click="removeHost(inx)">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="col-12 g-mt-20 justify-content-between">
+                <button href="#!" class="btn btn-md u-btn-3d u-btn-brown g-mr-10 g-mb-15"
+                  @click="showadd=true">开启CND加速域名配置</button>
+                <!-- <a href="#!" class="btn btn-md u-btn-3d u-btn-bluegray g-mr-10 g-mb-15">开启跨域访问配置</a>
+                <a href="#!" class="btn btn-md u-btn-3d u-btn-darkgray g-mr-10 g-mb-15">开启环境变量参数配置</a> -->
+              </div>
+
+              <div class="col-12 text-right g-brd-top g-brd-gray-light-v3">
+                <!-- <input class="form-control rounded-0 form-control rounded-0 g-font-size-13 form-control-md g-brd-gray-light-v1"
+                  v-model="secid">
+                  <input class="form-control rounded-0 form-control rounded-0 g-font-size-13 form-control-md g-brd-gray-light-v1"
+                  v-model="seckey"> -->
+
+                  <button href="#!" class="btn btn-md u-btn-primary g-mt-10" @click="deploy" :disabled="isdeploy">
+                    <i class="fa  g-mr-5" :class="isdeploy?'fa-spin fa-spinner':'fa-internet-explorer'"></i> 发布网站</button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="g-pos-abs g-z-index-9999 g-left-0 g-top-0 g-mx-20" v-show="showadd">
+
+            <div class="row g-bg-white g-mx-0 g-py-50" style="margin-top:7rem">
+              <div class="col-6 ">
+
+                <div class="row g-brd-around g-brd-gray-light-v3 g-mx-0 g-pb-15">
+                  <div class="w-100 g-py-10 g-bg-gray-light-v5 g-font-weight-600 g-pl-10">CDN主设置</div>
+
+                  <div class="col-4 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">CDN更新</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13" v-model="hosts.async">
+                      <option :value="true">异步操作</option>
+                      <option :value="false">同步操作</option>
+                    </select>
+                  </div>
+
+                  <div class="col-4 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">域名加速区域</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13" v-model="hosts.area">
+                      <option value="mainland">中国境内加速</option>
+                      <option value="overseas">中国境外加速</option>
+                      <option value="global">全球加速</option>
+                    </select>
+                  </div>
+
+                  <div class="col-4">
+                    <div for="example-text-input" class="col-form-label">自动刷新CDN</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.autoRefresh">
+                      <option :value="true">开启</option>
+                      <option :value="false">关闭</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12 g-mb-10">
+                    <label for="example-text-input" class="col-form-label">需要接入的 CDN 域名<span
+                        class="g-color-red">*</span> </label>
+                    <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                      v-model="hosts.host">
+                  </div>
+
+                  <div class="col-12">异步操作不会等待CDN创建或更新成功再返回</div>
+
+                </div>
+
+                <div class="row g-brd-around g-brd-gray-light-v3 g-mx-0 g-pb-15 g-mt-10">
+                  <div
+                    class="w-100 g-py-10 g-bg-gray-light-v5 g-font-weight-600 g-px-20 justify-content-between d-flex">
+                    <div>缓存配置</div>
+                    <div>
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="on"
+                          v-model="state.cacheSwitch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        开启
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="off"
+                          v-model="state.cacheSwitch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        关闭
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-6 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">全路径缓存</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.cacheKey.fullUrlCache" :disabled='state.cacheSwitch=="off"'>
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">遵循源站Cache-Control:max-age配置</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.cache.simpleCache.followOrigin" :disabled='state.cacheSwitch=="off"'>
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">强制缓存</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.cache.simpleCache.ignoreCacheControl" :disabled='state.cacheSwitch=="off"'>
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">忽略源站的Set-Cookie头部</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.cache.simpleCache.ignoreSetCookie" :disabled='state.cacheSwitch=="off"'>
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 g-mb-10">
+                    <div for="example-text-input" class="col-form-label">源站max-age与CacheRules的过期时间取最小值缓存</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.cache.simpleCache.compareMaxAge" :disabled='state.cacheSwitch=="off"'>
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+
+                  <table class="table u-table--v1 col-12">
+                    <thead>
+                      <tr>
+                        <th class="g-font-weight-100">缓存类型</th>
+                        <th class="g-font-weight-100">缓存时间(秒)</th>
+                        <th class="g-font-weight-100">缓存内容列表(","间隔)</th>
+                        <th class="g-font-weight-100">#</th>
+                      </tr>
+                    </thead>
+
+
+
+                    <tbody>
+                      <tr v-for="(rule,inx) in hosts.cache.simpleCache.cacheRules">
+                        <td class="hidden-sm">
+                          <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                            v-model="hosts.cache.simpleCache.cacheRules[inx].cacheType"
+                            :disabled='state.cacheSwitch=="off"'>
+                            <option value="all">全部文件</option>
+                            <option value="file">后缀类型</option>
+                            <option value="directory">目录</option>
+                            <option value="path">完整路径</option>
+                            <option value="index">首页</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                            v-model="hosts.cache.simpleCache.cacheRules[inx].cacheTime"
+                            :disabled='state.cacheSwitch=="off"'>
+                        </td>
+
+                        <td>
+                          <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                            v-model="hosts.cache.simpleCache.cacheRules[inx].cacheContents"
+                            :disabled='state.cacheSwitch=="off"'>
+                        </td>
+                        <td class="align-middle">
+                          <a href="#!" class="btn g-pa-0 g-color-black" @click="removeCache(inx)"><i
+                              class="fa fa-trash-o"></i></a>
+                          <a href="#!" class="btn g-pa-0 g-color-black" @click="addCache"
+                            v-if="inx==hosts.cache.simpleCache.cacheRules.length-1"><i
+                              class="fa fa-plus g-ml-5"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+
+              <div class="col-6 ">
+                <div class="row g-brd-around g-brd-gray-light-v3 g-mx-0 g-pb-15">
+
+                  <div
+                    class="w-100 g-py-10 g-bg-gray-light-v5 g-font-weight-600 g-px-20 justify-content-between d-flex">
+                    <div>HTTPS加速</div>
+                    <div>
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="on"
+                          v-model="hosts.https.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        开启
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="off"
+                          v-model="hosts.https.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        关闭
+                      </label>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-4">
+                    <div for="example-text-input" class="col-form-label">OCSP配置</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.https.ocspStapling" :disabled="hosts.https.switch=='off'">
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+                  <div class="col-4">
+                    <div for="example-text-input" class="col-form-label">Spdy 配置开关</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.https.spdy" :disabled="hosts.https.switch=='off'">
+                      <option value="on">开启</option>
+                      <option value="off">关闭</option>
+                    </select>
+                  </div>
+
+
+                  <div class="col-4">
+                    <label for="example-text-input" class="col-form-label">SSL证书id</label>
+                    <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                      v-model="hosts.https.certInfo.certId" :disabled="hosts.https.switch=='off'">
+                    <small>点击查看ID</small>
+                  </div>
+
+                </div>
+
+                <div class="row g-brd-around g-brd-gray-light-v3 g-mx-0 g-pb-15 g-mt-10">
+                  <div
+                    class="w-100 g-py-10 g-bg-gray-light-v5 g-font-weight-600 g-px-20 justify-content-between d-flex">
+                    <div>强制跳转</div>
+                    <div>
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="on"
+                          v-model="hosts.forceRedirect.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        开启
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="off"
+                          v-model="hosts.forceRedirect.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        关闭
+                      </label>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-4 ">
+                    <div class="">访问强制跳转类型</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      :disabled="hosts.forceRedirect.switch=='off'" v-model="hosts.forceRedirect.redirectType">
+                      <option value="">不跳转</option>
+                      <option value="http">强制 http 跳转</option>
+                      <option value="https">强制 https 跳转</option>
+                    </select>
+                  </div>
+
+                  <div class="col-4 ">
+                    <div>强制跳转时返回状态码</div>
+                    <input type="number"
+                      class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                      :disabled="hosts.forceRedirect.switch=='off'" v-model="hosts.forceRedirect.redirectStatusCode">
+                  </div>
+                </div>
+
+
+                <div class="row g-brd-around g-brd-gray-light-v3 g-mx-0 g-pb-15 g-mt-10">
+
+                  <div
+                    class="w-100 g-py-10 g-bg-gray-light-v5 g-font-weight-600 g-px-20 justify-content-between d-flex">
+                    <div>IP 黑白名单配置</div>
+                    <div>
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="on"
+                          v-model="hosts.ipFilter.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        开启
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="off"
+                          v-model="hosts.ipFilter.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        关闭
+                      </label>
+                    </div>
+                  </div>
+
+
+                  <div class="col-6">
+                    <div class="">IP黑白名单配置</div>
+                    <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                      v-model="hosts.ipFilter.filterType" :disabled="hosts.ipFilter.switch=='off'">
+                      <option value="whitelist">白名单</option>
+                      <option value="blacklist">黑名单</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6">
+                    <div>IP列表</div>
+                    <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                      v-model="hosts.ipFilter.filters" :disabled="hosts.ipFilter.switch=='off'">
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-12 g-mt-10">
+                <div class="row g-brd-around g-brd-gray-light-v3 g-mx-0 g-pb-15">
+                  <div class="w-100 g-py-10 g-bg-gray-light-v5 g-font-weight-600 g-px-20 d-flex">
+                    <div class="g-mr-50">防盗链功能</div>
+                    <div>
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="on"
+                          v-model="hosts.referer.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        开启
+                      </label>
+
+                      <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-mb-0">
+                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="radio" value="off"
+                          v-model="hosts.referer.switch">
+                        <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                          <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                        </div>
+                        关闭
+                      </label>
+                    </div>
+                  </div>
+
+
+                  <table class="table table-striped u-table--v1 mb-0 col-12">
+                    <thead>
+                      <tr class="g-font-weight-100">
+                        <th class="g-font-weight-100">#</th>
+                        <th class="g-font-weight-100">规则类型</th>
+                        <th class="g-font-weight-100">规则类型下的匹配内容<span class="g-color-red">*</span> </th>
+                        <th class="g-font-weight-100">referer配置类型</th>
+                        <th class="g-font-weight-100">referer内容列表列表<span class="g-color-red">*</span></th>
+                        <th class="g-font-weight-100">referer是否允许空</th>
+                        <th class="g-font-weight-100">操作</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr v-for="(rule,inx) in hosts.referer.refererRules">
+                        <th scope="row">{{inx+1}}</th>
+                        <td class="hidden-sm">
+                          <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                            v-model="hosts.referer.refererRules[inx].ruleType" :disabled="hosts.referer.switch=='off'">
+                            <option value="all">所有文件生效</option>
+                            <option value="file">指定文件后缀生效</option>
+                            <option value="directory">指定路径生效</option>
+                            <option value="path">指定绝对路径生效</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                            v-model="hosts.referer.refererRules[inx].rulePaths" :disabled="hosts.referer.switch=='off'">
+                        </td>
+
+                        <td>
+                          <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                            v-model="hosts.referer.refererRules[inx].refererType"
+                            :disabled="hosts.referer.switch=='off'">
+                            <option value="whitelist">白名单</option>
+                            <option value="blacklist">黑名单</option>
+                          </select>
+                        </td>
+
+                        <td>
+                          <input class="form-control rounded-0 g-font-size-13 form-control-lg g-brd-gray-light-v1"
+                            v-model="hosts.referer.refererRules[inx].referers" :disabled="hosts.referer.switch=='off'">
+                        </td>
+
+                        <td>
+                          <select class="form-control rounded-0 form-control rounded-0 g-font-size-13"
+                            v-model="hosts.referer.refererRules[inx].allowEmpty"
+                            :disabled="hosts.referer.switch=='off'">
+                            <option :value="true">允许空 referer</option>
+                            <option :value="false">不允许空 referer</option>
+                          </select>
+                        </td>
+
+                        <td class="align-middle">
+                          <a href="#!" class="btn g-pa-0 g-color-black" @click="removeRef(inx)"><i
+                              class="fa fa-trash-o"></i></a>
+                          <a href="#!" class="btn g-pa-0 g-color-black" @click="addRef"
+                            v-if="inx==hosts.referer.refererRules.length-1"><i class="fa fa-plus"></i></a>
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+
+              <div class="col-12 text-right g-mt-20">
+                <button class="btn btn-md u-btn-outline-primary g-mr-10" @click="showadd=false">关闭</button>
+                <button class="btn btn-md u-btn-primary" @click="uiSaveConf">保存</button>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="g-pos-abs g-z-index-9999 g-left-0 g-top-0 g-mx-0 w-100 h-100" v-show="showdeploy">
+            <div class="row g-bg-white g-mx-0 g-py-50 h-100" style="margin-top:7rem">
+              
+              <div class="col-6 text-center" v-if="isdeploy">
+                <div class="lds-roller g-mt-140">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+
+              <div class="col-6"  v-if="!isdeploy">
+                <div v-for="txt in delopyLog.log">{{txt}}</div>
+              </div>
+              <div class="col-6">
+                <div v-for="txt in delopyLog.yml"><span v-html="txt"></span></div>
+              </div>
+              <div class="col-12 g-color-blue">
+                <div>{{delopyLog.fin}}</div>
+              </div>
+              <div class="col-10 text-right">
+                <button class="btn btn-md u-btn-outline-primary g-mr-10" @click="showdeploy=false">关闭</button>
+              </div>
+            </div>
+          </div>
+
+      </section>
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // const tencentcloud = require("tencentcloud-sdk-nodejs");
+    // var fs = require("fs");
+    // var Vpc = require("../qcloud/vpc.js");
+    // window.nodeRequire = require;
+    // delete window.require;
+    // delete window.exports;
+    // delete window.module;
+  </script>
+
+
+  <script>window.jQuery = window.$ = require('jquery')</script>
+
+  <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+
+  <script src="../assets/vendor/popper.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="../assets/js/bootstrap-select.min.js"></script>
+
+  <script src="../assets/js/hs.core.js"></script>
+
+  <script src="../assets/js/components/hs.header-side.js"></script>
+  <script src="../vue.js"></script>
+
+
+  <script src="./js/web.js"></script>
+
+
+
+  <script src="../assets/vendor/jquery-ui/ui/widget.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/version.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/keycode.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/position.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/unique-id.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/safe-active-element.js"></script>
+
+  <script src="../assets/js/bootstrap-tagsinput.min.js"></script>
+
+  <!-- jQuery UI Helpers -->
+  <script src="../assets/vendor/jquery-ui/ui/widgets/menu.js"></script>
+  <script src="../assets/vendor/jquery-ui/ui/widgets/mouse.js"></script>
+  <!-- jQuery UI Widgets -->
+  <script src="../assets/vendor/jquery-ui/ui/widgets/slider.js"></script>
+  <!-- JS Unify -->
+  <script src="../assets/js/components/hs.slider.js"></script>
+
+
+  <script>
+    $(document).on('click', 'a[href^="http"]', function (event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
+
+
+
+    $(window).on('load', function () {
+
+      // initialization of header
+      // $.HSCore.components.HSHeader.init($('#js-header'));
+    });
+  </script>
+
+</body>
+
+</html>

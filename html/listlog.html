@@ -178,7 +178,7 @@
                 v-model="queryCon.namespace" @change="changeNamespace"
                 :disabled="queryCon.functionRequestId!=''||!canEdit||queryCon.loading">
                 <option value="" v-if="loadNS">加载中</option>
-                <option :value="ns.Name" v-for="ns in namespaces">{{ns.Name}}</option>
+                <option :value="ns" v-for="ns in namespaces">{{ns}}</option>
 
               </select>
             </div>

@@ -1,2 +1,16 @@
-
 .DS_Store
+vendor/
+assets/css/bootstrap-select.min.css
+assets/css/bootstrap-tagsinput.css
+assets/css/hs-admin-icons/hs-admin-icons.css
+assets/css/hs-admin-icons/hs-admin-icons.eot
+assets/css/hs-admin-icons/hs-admin-icons.svg
+assets/css/hs-admin-icons/hs-admin-icons.ttf
+assets/css/hs-admin-icons/hs-admin-icons.woff
+assets/css/unify-admin.css
+assets/js/bootstrap-select.min.js
+assets/js/bootstrap-tagsinput.min.js
+assets/js/components/hs.multi-select.js
+assets/vendor/multiselect/css/multi-select.css
+assets/vendor/multiselect/img/switch.png
+assets/vendor/multiselect/js/jquery.multi-select.js
